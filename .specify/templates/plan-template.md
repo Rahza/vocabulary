@@ -35,6 +35,11 @@
 - **II. Maintainability and Extensibility**: Is the design modular? Does it follow established coding standards to simplify future enhancements?
 - **III. User-Centric Design**: Does the feature prioritize a positive user experience? Is it intuitive and responsive?
 - **IV. Performance and Scalability**: Have performance and scalability been considered in the design? Are there clear performance goals?
+- **V. Version Control Discipline**: Does the plan facilitate atomic and descriptive commits?
+- **VI. Pragmatic Testing**: Does the test plan focus on essential coverage and edge cases without redundant overhead?
+- **VII. Strict Linting & Formatting**: Does the plan ensure zero linting violations without using suppression comments?
+- **VIII. Strong Typing Discipline**: Does the design avoid `any`/`unknown` and ensure full type coverage?
+- **IX. Modern Coding Style**: Does the implementation plan use arrow functions for all new components and logic?
 
 ## Project Structure
 

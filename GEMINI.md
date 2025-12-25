@@ -29,10 +29,17 @@ npm test && npm run lint
 
 TypeScript 5.x, Node.js 18+: Follow standard conventions
 
+## Constitution
+- **V. Version Control Discipline**: Atomic, clear, and descriptive commits.
+- **VI. Pragmatic Testing**: High-value tests covering core logic and edge cases only.
+- **VII. Strict Linting & Formatting**: Strict ruleset, no comment suppression.
+- **VIII. Strong Typing Discipline**: No `any` or `unknown`, no comment suppression.
+- **IX. Modern Coding Style**: Mandatory arrow functions for components and logic.
+
 ## Recent Changes
+- 014-fix-generator-empty-state: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS, Framer Motion, Lucide React, Sonner
 - 013-ux-ai-refinements: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, OpenAI SDK (v6+), Tailwind CSS, Framer Motion
 - 012-ui-tag-box-refinement: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS, Framer Motion, Lucide Reac
-- 011-fix-stats-practice-errors: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS, Framer Motion, Lucide Reac
 
 
 <!-- MANUAL ADDITIONS START -->

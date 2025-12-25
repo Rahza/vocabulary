@@ -246,6 +246,10 @@ With multiple developers:
 - [Story] label maps task to specific user story for traceability
 - Each user story should be independently completable and testable
 - Verify tests fail before implementing
-- Commit after each task or logical group
+- Commit after EACH task or logical group (Constitution V)
+- Focus on essential tests and edge cases (Constitution VI)
+- Ensure zero linting violations (Constitution VII)
+- Ensure 100% type safety, avoiding any/unknown (Constitution VIII)
+- Use arrow functions for all components and logic (Constitution IX)
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence

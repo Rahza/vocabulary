@@ -25,6 +25,8 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
   return (
     <motion.form 
       variants={itemReveal}
+      initial="hidden"
+      animate="visible"
       onSubmit={handleSubmit} 
       className="space-y-6 p-6 border-2 border-zinc-100 dark:border-zinc-800 rounded-playful bg-white dark:bg-zinc-900 shadow-xl shadow-zinc-200/50 dark:shadow-none"
     >

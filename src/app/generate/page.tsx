@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { GeneratorForm } from "@/components/generator/GeneratorForm";
 import { GeneratedList } from "@/components/generator/GeneratedList";
 import { OpenAIService } from "@/services/ai/OpenAIService";
@@ -16,14 +17,15 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 export default function GeneratePage() {
   const { settings } = useSettings();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generated, setGenerated] = useState<Omit<VocabularyPair, "id" | "createdAt">[]>([]);
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
   const [view, setView] = useState<"form" | "results">("form");
 
-  const aiService = new OpenAIService();
-  const repository = new LocalStorageRepository();
+  const aiService = useMemo(() => new OpenAIService(), []);
+  const repository = useMemo(() => new LocalStorageRepository(), []);
 
   const handleGenerate = async (theme: string, difficulty: string, count: number) => {
     if (!settings.openaiApiKey) {
@@ -41,9 +43,14 @@ export default function GeneratePage() {
       const existingTerms = allVocab.map(v => v.german);
       
       const result = await aiService.generateVocabulary(theme, difficulty, count, settings.openaiApiKey, existingTerms);
-      setGenerated(result);
-      setView("results");
-      toast.success(`Abrakadabra! ${result.length} Wörter generiert!`);
+      
+      if (result && result.length > 0) {
+        setGenerated(result);
+        setView("results");
+        toast.success(`Abrakadabra! ${result.length} Wörter generiert!`);
+      } else {
+        toast.info("Keine neuen Wörter gefunden. Probiere ein anderes Thema!");
+      }
     } catch (err) {
       console.error(err);
       const msg = "Die Magie hat versagt. Prüfe deinen API-Schlüssel und die Verbindung.";
@@ -57,22 +64,26 @@ export default function GeneratePage() {
   const handleSave = async () => {
     await repository.addVocabulary(generated);
     toast.success("Vokabeln zu deinem Zauberbuch hinzugefügt!");
-    setGenerated([]);
-    setView("form");
+    router.push("/vocabulary");
   };
 
   const handleConfirmDiscard = () => {
-    setGenerated([]);
     setView("form");
+    // Clear data only after exit animation completes
+    setTimeout(() => setGenerated([]), 400);
     toast.info("Generierte Wörter verworfen");
   };
 
   const handleDelete = (index: number) => {
     const newGenerated = [...generated];
     newGenerated.splice(index, 1);
-    setGenerated(newGenerated);
+    
     if (newGenerated.length === 0) {
       setView("form");
+      // Clear data after animation completes
+      setTimeout(() => setGenerated([]), 400);
+    } else {
+      setGenerated(newGenerated);
     }
   };
 
@@ -113,7 +124,7 @@ export default function GeneratePage() {
         <AnimatePresence mode="wait" initial={false}>
           {view === "form" ? (
             <motion.div
-              key="form-container"
+              key="form-view"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
@@ -123,7 +134,7 @@ export default function GeneratePage() {
             </motion.div>
           ) : (
             <motion.div 
-              key="results-container"
+              key="results-view"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}

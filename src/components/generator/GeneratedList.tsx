@@ -13,8 +13,6 @@ interface GeneratedListProps {
 }
 
 export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedListProps) {
-  if (items.length === 0) return null;
-
   return (
     <motion.div 
       variants={containerReveal}
@@ -22,9 +20,11 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
       animate="visible"
       className="space-y-6"
     >
-      <div className="flex justify-between items-center px-1">
-        <h3 className="text-xl font-black">Erfolg! ({items.length})</h3>
-      </div>
+      {items.length > 0 && (
+        <div className="flex justify-between items-center px-1">
+          <h3 className="text-xl font-black">Erfolg! ({items.length})</h3>
+        </div>
+      )}
       
       <div className="space-y-4">
         <AnimatePresence mode="popLayout">
@@ -68,14 +68,16 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
         </AnimatePresence>
       </div>
 
-      <div className="flex gap-4 sticky bottom-24 bg-gray-50/80 dark:bg-zinc-950/80 backdrop-blur-md p-2 rounded-[32px]">
-        <Button variant="outline" onClick={onDiscard} className="flex-1 h-16 rounded-3xl border-4 font-black">
-          Verwerfen
-        </Button>
-        <Button onClick={onSave} variant="playful" className="flex-1 h-16 rounded-3xl border-b-4 font-black">
-          Behalten!
-        </Button>
-      </div>
+      {items.length > 0 && (
+        <div className="flex gap-4 sticky bottom-24 bg-gray-50/80 dark:bg-zinc-950/80 backdrop-blur-md p-2 rounded-[32px]">
+          <Button variant="outline" onClick={onDiscard} className="flex-1 h-16 rounded-3xl border-4 font-black">
+            Verwerfen
+          </Button>
+          <Button onClick={onSave} variant="playful" className="flex-1 h-16 rounded-3xl border-b-4 font-black">
+            Behalten!
+          </Button>
+        </div>
+      )}
     </motion.div>
   );
 }
