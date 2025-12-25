@@ -15,11 +15,11 @@ export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "variant"> 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "playful", size = "md", ...props }, ref) => {
     const variants: Record<ButtonVariant, string> = {
-      primary: "bg-blue-600 text-white hover:bg-blue-700",
+      primary: "bg-playful-indigo text-white hover:brightness-110 shadow-playful",
       secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-700",
-      outline: "border-2 border-zinc-200 bg-transparent hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800",
+      outline: "border-2 border-zinc-300 bg-white hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800",
       ghost: "bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800",
-      destructive: "bg-playful-red text-white hover:bg-red-600",
+      destructive: "bg-playful-red text-white hover:bg-red-600 shadow-lg shadow-playful-red/20",
       playful: "bg-playful-indigo text-white shadow-playful hover:brightness-110",
     };
 
@@ -37,7 +37,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover="hover"
         whileTap="tap"
         className={cn(
-          "inline-flex items-center justify-center rounded-playful font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-playful-indigo disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center rounded-playful font-black uppercase tracking-widest transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-playful-indigo disabled:pointer-events-none disabled:opacity-50",
           variants[variant],
           sizes[size],
           className

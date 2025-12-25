@@ -10,6 +10,7 @@ import { motion, AnimatePresence, TargetAndTransition } from "framer-motion";
 import { slideTransition, juicyCorrect, juicyIncorrect } from "@/lib/animations";
 import { Lightbulb, Eye, EyeOff, FastForward } from "lucide-react";
 import { useEnterKey } from "@/hooks/use-enter-key";
+import { Card } from "@/components/ui/Card";
 
 interface FlashcardProps {
   word: VocabularyPair;
@@ -141,93 +142,99 @@ export function Flashcard({
 
           transition={{ type: "spring", stiffness: 200, damping: 25 }}
 
-          className={cn(
-
-            "p-10 border-4 rounded-[40px] text-center space-y-3 min-h-[180px] flex flex-col justify-center transition-colors duration-500 relative",
-
-            result === "correct" 
-
-              ? "bg-playful-green/10 border-playful-green shadow-xl shadow-playful-green/20" 
-
-              : result === "incorrect"
-
-              ? "bg-playful-red/10 border-playful-red shadow-xl shadow-playful-red/20"
-
-              : result === "typo"
-
-              ? "bg-playful-yellow/10 border-playful-yellow shadow-xl shadow-playful-yellow/20"
-
-              : "bg-white dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 shadow-2xl shadow-zinc-200/50 dark:shadow-none"
-
-          )}
-
         >
 
-          {/* Mnemonic Toggle */}
+          <Card
 
-          {word.mnemonic && (result === null || result === "typo") && !hideAids && (
+            className={cn(
 
-            <button
+              "p-10 border-4 rounded-[40px] text-center space-y-3 min-h-[180px] flex flex-col justify-center transition-colors duration-500 relative",
 
-              onClick={() => setShowMnemonic(!showMnemonic)}
+              result === "correct" 
 
-              className="absolute top-4 right-4 text-zinc-400 hover:text-playful-indigo transition-colors"
+                ? "bg-playful-green/10 border-playful-green shadow-xl shadow-playful-green/20" 
 
-              title="Mnemonic anzeigen"
+                : result === "incorrect"
 
-            >
+                ? "bg-playful-red/10 border-playful-red shadow-xl shadow-playful-red/20"
 
-              {showMnemonic ? <EyeOff size={20} /> : <Eye size={20} />}
+                : result === "typo"
 
-            </button>
+                ? "bg-playful-yellow/10 border-playful-yellow shadow-xl shadow-playful-yellow/20"
 
-          )}
-
-
-
-          <span className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em]">{questionLabel}</span>
-
-          <motion.h2 
-
-            animate={(result === "correct" ? juicyCorrect.animate : result === "incorrect" ? juicyIncorrect.animate : {}) as TargetAndTransition}
-
-            className="text-4xl font-black tracking-tight"
-
-          >
-
-            {questionWord}
-
-          </motion.h2>
-
-          
-
-          <AnimatePresence>
-
-            {(showMnemonic || (result !== null && result !== "typo" && word.mnemonic && !hideAids)) && (
-
-              <motion.div
-
-                initial={{ opacity: 0, height: 0 }}
-
-                animate={{ opacity: 1, height: "auto" }}
-
-                exit={{ opacity: 0, height: 0 }}
-
-                className="pt-4 border-t-2 border-dashed border-zinc-200 dark:border-zinc-700 mt-4 overflow-hidden"
-
-              >
-
-                <p className="text-sm text-zinc-500 font-bold italic">
-
-                  💡 {word.mnemonic}
-
-                </p>
-
-              </motion.div>
+                : ""
 
             )}
 
-          </AnimatePresence>
+          >
+
+            {/* Mnemonic Toggle */}
+
+            {word.mnemonic && (result === null || result === "typo") && !hideAids && (
+
+              <button
+
+                onClick={() => setShowMnemonic(!showMnemonic)}
+
+                className="absolute top-4 right-4 text-zinc-400 hover:text-playful-indigo transition-colors"
+
+                title="Mnemonic anzeigen"
+
+              >
+
+                {showMnemonic ? <EyeOff size={20} /> : <Eye size={20} />}
+
+              </button>
+
+            )}
+
+
+
+            <span className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em]">{questionLabel}</span>
+
+            <motion.h2 
+
+              animate={(result === "correct" ? juicyCorrect.animate : result === "incorrect" ? juicyIncorrect.animate : {}) as TargetAndTransition}
+
+              className="text-4xl font-black tracking-tight"
+
+            >
+
+              {questionWord}
+
+            </motion.h2>
+
+            
+
+            <AnimatePresence>
+
+              {(showMnemonic || (result !== null && result !== "typo" && word.mnemonic && !hideAids)) && (
+
+                <motion.div
+
+                  initial={{ opacity: 0, height: 0 }}
+
+                  animate={{ opacity: 1, height: "auto" }}
+
+                  exit={{ opacity: 0, height: 0 }}
+
+                  className="pt-4 border-t-2 border-dashed border-zinc-200 dark:border-zinc-700 mt-4 overflow-hidden"
+
+                >
+
+                  <p className="text-sm text-zinc-500 font-bold italic">
+
+                    💡 {word.mnemonic}
+
+                  </p>
+
+                </motion.div>
+
+              )}
+
+            </AnimatePresence>
+
+          </Card>
 
         </motion.div>
 

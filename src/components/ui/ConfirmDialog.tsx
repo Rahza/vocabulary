@@ -45,7 +45,7 @@ export function ConfirmDialog({
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-sm bg-white dark:bg-zinc-900 rounded-[40px] border-4 border-zinc-100 dark:border-zinc-800 shadow-2xl p-8 overflow-hidden"
+            className="relative w-full max-w-sm bg-white dark:bg-zinc-900 rounded-[40px] border-4 border-zinc-200 dark:border-zinc-800 shadow-2xl p-8 overflow-hidden"
           >
             <div className="flex flex-col items-center text-center space-y-6">
               <div className={cn(

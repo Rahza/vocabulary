@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
-import { Key, Trash2 } from "lucide-react";
+import { Key, Trash2, Palette } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { ThemeSelector } from "@/components/settings/ThemeSelector";
+import { Heading } from "@/components/ui/Heading";
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
@@ -41,17 +43,35 @@ export default function SettingsPage() {
       className="space-y-10"
     >
       <motion.div variants={itemReveal}>
-        <h1 className="text-3xl font-black tracking-tight">Einstellungen</h1>
-        <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs mt-1">App-Präferenzen</p>
+        <Heading 
+          level={1} 
+          subtitle="App-Präferenzen"
+        >
+          Einstellungen
+        </Heading>
       </motion.div>
 
+      <motion.section variants={itemReveal} className="space-y-4">
+        <Heading 
+          level={2} 
+          icon={Palette} 
+          subtitle="" 
+          className="text-playful-indigo ml-1"
+        >
+          Erscheinungsbild
+        </Heading>
+        <ThemeSelector />
+      </motion.section>
+
       <motion.div variants={itemReveal} className="space-y-4">
-        <div className="flex items-center gap-2 text-playful-indigo ml-1">
-          <Key size={18} />
-          <label htmlFor="apiKey" className="text-sm font-black uppercase tracking-widest">
-            OpenAI API-Schlüssel
-          </label>
-        </div>
+        <Heading 
+          level={2} 
+          icon={Key} 
+          subtitle="" 
+          className="text-playful-indigo ml-1"
+        >
+          OpenAI API-Schlüssel
+        </Heading>
         <Input
           id="apiKey"
           type="password"
@@ -64,17 +84,21 @@ export default function SettingsPage() {
           Dein Schlüssel wird sicher im lokalen Speicher deines Browsers gespeichert.
         </p>
         
-        <Button onClick={handleSave} className="w-full h-16 rounded-3xl border-b-4 bg-playful-indigo border-indigo-800">
+        <Button onClick={handleSave} className="w-full h-16 rounded-3xl border-b-4">
           Einstellungen speichern
         </Button>
       </motion.div>
 
       <motion.div variants={itemReveal} className="pt-10 border-t-2 border-dashed border-zinc-100 dark:border-zinc-800">
-        <div className="flex items-center gap-2 text-playful-red mb-4 ml-1">
-          <Trash2 size={18} />
-          <h2 className="text-sm font-black uppercase tracking-widest">Gefahrenzone</h2>
-        </div>
-        <Button variant="destructive" onClick={() => setShowResetConfirm(true)} className="w-full h-14 rounded-3xl border-b-4 border-red-800 bg-playful-red font-black">
+        <Heading 
+          level={2} 
+          icon={Trash2} 
+          subtitle="" 
+          className="text-playful-red mb-4 ml-1"
+        >
+          Gefahrenzone
+        </Heading>
+        <Button variant="destructive" onClick={() => setShowResetConfirm(true)} className="w-full h-14 rounded-3xl border-b-4 font-black">
           Alle Daten zurücksetzen
         </Button>
       </motion.div>

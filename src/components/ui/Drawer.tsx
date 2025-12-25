@@ -43,11 +43,11 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-950 rounded-t-[40px] border-t-4 border-zinc-100 dark:border-zinc-800 z-[101] max-h-[90vh] overflow-y-auto shadow-2xl"
+            className="fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-950 rounded-t-[40px] border-t-4 border-zinc-200 dark:border-zinc-800 z-[101] max-h-[90vh] overflow-y-auto shadow-2xl"
           >
             {/* Handle for visual feedback */}
             <div className="flex justify-center pt-4">
-              <div className="w-12 h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
+              <div className="w-12 h-1.5 bg-zinc-300 dark:bg-zinc-800 rounded-full" />
             </div>
 
             <div className="p-8">
@@ -57,7 +57,7 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
                 )}
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-2xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  className="p-2 rounded-2xl bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
                 >
                   <X size={20} />
                 </button>

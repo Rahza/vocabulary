@@ -1,39 +1,53 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #f9fafb;
-  --foreground: #111827;
-  
+  --app-background: #f8f7f5;
+  --app-foreground: #18181b;
+
   --playful-indigo: #6366f1;
   --playful-yellow: #fbbf24;
   --playful-green: #34d399;
   --playful-red: #f87171;
+
+  --card-background: #ffffff;
+  --card-border: rgba(161, 161, 170, 0.35);
+  --card-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+
+  --muted-text: #52525b;
+  --subtle-text: #71717a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  
   --color-playful-indigo: var(--playful-indigo);
   --color-playful-yellow: var(--playful-yellow);
   --color-playful-green: var(--playful-green);
   --color-playful-red: var(--playful-red);
-  
+
   --radius-playful: 20px;
-  
+
   --font-sans: var(--font-quicksand), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --app-background: #0a0a0a;
+  --app-foreground: #ededed;
+  --card-background: #18181b;
+  --card-border: #27272a;
+  --card-shadow: none;
+
+  --muted-text: #a1a1aa;
+  --subtle-text: #71717a;
 }
 
 @utility shadow-playful {
   shadow-color: rgba(0, 0, 0, 0.1);
   box-shadow: 0 8px 30px var(--tw-shadow-color);
+}
+
+@utility shadow-soft {
+  box-shadow: var(--card-shadow);
 }
 
 @utility shadow-keycap {
@@ -46,6 +60,7 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: var(--app-background);
+  color: var(--app-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

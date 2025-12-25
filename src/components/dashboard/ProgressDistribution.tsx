@@ -18,7 +18,7 @@ interface ProgressDistributionProps {
 
 export function ProgressDistribution({ distribution }: ProgressDistributionProps) {
   const total = Object.values(distribution).reduce((a, b) => a + b, 0);
-  
+
   const boxes = [1, 2, 3, 4, 5];
   const colors = [
     "bg-zinc-200 dark:bg-zinc-800",
@@ -31,16 +31,16 @@ export function ProgressDistribution({ distribution }: ProgressDistributionProps
   return (
     <motion.div variants={itemReveal} className="space-y-4">
       <div className="flex justify-between items-end mb-2">
-        <h3 className="text-sm font-black uppercase tracking-widest text-zinc-400">Verteilung</h3>
-        <span className="text-xs font-bold text-zinc-500">{total} Vokabeln gesamt</span>
+        <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Verteilung</h3>
+        <span className="text-xs font-bold text-zinc-600 dark:text-zinc-500">{total} Vokabeln gesamt</span>
       </div>
-      
+
       <div className="flex items-end gap-2 h-32">
         {boxes.map((box, i) => {
           const count = distribution[box as keyof typeof distribution];
           const height = total > 0 ? (count / total) * 100 : 0;
           const def = BOX_DEFINITIONS[box];
-          
+
           return (
             <div key={box} className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
               <div className="relative w-full group flex-1 flex flex-col justify-end">

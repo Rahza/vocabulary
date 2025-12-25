@@ -12,6 +12,8 @@ import { smartShuffle } from "@/lib/shuffle";
 import { getLevenshteinDistance } from "@/lib/string";
 import { motion } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { BrainCircuit, PartyPopper, CalendarClock } from "lucide-react";
 
 interface ReviewItem {
   vocab: VocabularyPair;
@@ -121,29 +123,30 @@ export default function TrainerPage() {
   }
 
   if (!currentItem) {
+    if (sessionCount > 0) {
+      return (
+        <EmptyState
+          title="Alles erledigt! 🎉"
+          description={`${sessionCount} Wiederholungen erfolgreich abgeschlossen. Dein Gedächtnis wird immer stärker!`}
+          icon={PartyPopper}
+          action={{
+            label: "Zum Dashboard",
+            onClick: () => window.location.href = "/"
+          }}
+        />
+      );
+    }
+
     return (
-      <motion.div 
-        variants={containerReveal}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col items-center justify-center h-[60vh] text-center space-y-8"
-      >
-        <motion.div variants={itemReveal}>
-          <h2 className="text-4xl font-black tracking-tight">Fertig! 🎉</h2>
-          <p className="text-zinc-400 font-bold mt-2 uppercase tracking-widest text-sm">
-            {sessionCount} Wiederholungen abgeschlossen
-          </p>
-        </motion.div>
-        
-        <motion.div variants={itemReveal} className="flex gap-4">
-          <Link href="/">
-            <Button variant="outline" className="h-14 px-8 rounded-3xl border-4 font-black">Dashboard</Button>
-          </Link>
-          <Link href="/practice">
-            <Button variant="playful" className="h-14 px-8 rounded-3xl border-b-4 font-black">Mehr üben</Button>
-          </Link>
-        </motion.div>
-      </motion.div>
+      <EmptyState
+        title="Keine Vokabeln fällig"
+        description="Für heute bist du fertig! Schau später wieder vorbei oder füge neue Wörter hinzu."
+        icon={CalendarClock}
+        action={{
+          label: "Neue Wörter generieren",
+          onClick: () => window.location.href = "/generate"
+        }}
+      />
     );
   }
 

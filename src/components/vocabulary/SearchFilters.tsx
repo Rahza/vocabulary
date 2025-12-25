@@ -9,6 +9,9 @@ import { motion } from "framer-motion";
 import { itemReveal } from "@/lib/animations";
 import Link from "next/link";
 
+import { Heading } from "@/components/ui/Heading";
+import { Card } from "@/components/ui/Card";
+
 interface SearchFiltersProps {
   query: string;
   onQueryChange: (query: string) => void;
@@ -17,6 +20,7 @@ interface SearchFiltersProps {
   selectedBox: number | null;
   onBoxChange: (box: number | null) => void;
   availableTags: string[];
+  onResetFilters: () => void;
 }
 
 export function SearchFilters({
@@ -27,6 +31,7 @@ export function SearchFilters({
   selectedBox,
   onBoxChange,
   availableTags,
+  onResetFilters,
 }: SearchFiltersProps) {
   const toggleTag = (tag: string) => {
     onTagsChange(
@@ -39,97 +44,109 @@ export function SearchFilters({
   const BOXES = [1, 2, 3, 4, 5];
 
   return (
-    <motion.div variants={itemReveal} className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4">
+    <motion.div variants={itemReveal} className="space-y-4">
+      <div className="flex gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4" />
           <Input
-            placeholder="Suchen nach Begriff oder Übersetzung..."
+            placeholder="Suchen..."
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
-            className="pl-12 h-14 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-lg shadow-zinc-200/50 dark:shadow-none focus-visible:ring-playful-indigo"
+            className="pl-10 focus-visible:ring-playful-indigo"
           />
           {query && (
             <button
               onClick={() => onQueryChange("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
           )}
         </div>
 
         <Link href="/generate">
-          <Button className="h-14 px-6 rounded-2xl bg-playful-yellow text-playful-indigo border-b-4 border-yellow-600 font-black shadow-lg shadow-playful-yellow/20 whitespace-nowrap">
-            <Wand2 size={20} className="mr-2" /> Neu generieren
+          <Button className="h-12 px-4 rounded-xl border-b-4 font-black shadow-lg shadow-playful-yellow/20 whitespace-nowrap text-sm bg-playful-yellow text-playful-indigo border-yellow-600">
+            <Wand2 size={18} className="sm:mr-2" />
+            <span className="hidden sm:inline">Neu generieren</span>
           </Button>
         </Link>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex flex-wrap gap-2 items-center">
-          <div className="flex items-center gap-2 text-zinc-400 mr-2">
-            <Filter size={16} />
-            <span className="text-[10px] font-black uppercase tracking-widest">Tags:</span>
+      <Card className="p-3 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
+                <Filter size={14} />
+                <span className="text-[9px] font-black uppercase tracking-widest">Tags</span>
+              </div>
+              {selectedTags.length > 0 && (
+                <button onClick={() => onTagsChange([])} className="text-[9px] font-black text-playful-red uppercase">Reset</button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-1.5 max-h-20 overflow-y-auto pr-1 custom-scrollbar">
+              {availableTags.map((tag) => {
+                const isSelected = selectedTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={cn(
+                      "px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all border-2",
+                      isSelected
+                        ? "bg-playful-indigo border-playful-indigo text-white"
+                        : "bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-500"
+                    )}
+                  >
+                    #{tag}
+                  </button>
+                );
+              })}
+              {availableTags.length === 0 && <span className="text-[9px] text-zinc-400 italic px-1">Keine Tags</span>}
+            </div>
           </div>
-          
-          {availableTags.map((tag) => {
-            const isSelected = selectedTags.includes(tag);
-            return (
-              <button
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={cn(
-                  "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border-2",
-                  isSelected
-                    ? "bg-playful-indigo border-playful-indigo text-white shadow-lg shadow-playful-indigo/20"
-                    : "bg-white dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-zinc-500 hover:border-zinc-200 dark:hover:border-zinc-700"
-                )}
-              >
-                #{tag}
-              </button>
-            );
-          })}
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
+                <RotateCcw size={14} />
+                <span className="text-[9px] font-black uppercase tracking-widest">Box</span>
+              </div>
+              {selectedBox !== null && (
+                <button onClick={() => onBoxChange(null)} className="text-[9px] font-black text-playful-red uppercase">Reset</button>
+              )}
+            </div>
+            <div className="flex gap-1.5">
+              {BOXES.map((box) => {
+                const isSelected = selectedBox === box;
+                return (
+                  <button
+                    key={box}
+                    onClick={() => onBoxChange(isSelected ? null : box)}
+                    className={cn(
+                      "w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-black transition-all border-2",
+                      isSelected
+                        ? "bg-playful-yellow border-playful-yellow text-playful-indigo"
+                        : "bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-500"
+                    )}
+                  >
+                    {box}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 items-center">
-          <div className="flex items-center gap-2 text-zinc-400 mr-2">
-            <RotateCcw size={16} />
-            <span className="text-[10px] font-black uppercase tracking-widest">Fortschritt:</span>
-          </div>
-          
-          {BOXES.map((box) => {
-            const isSelected = selectedBox === box;
-            return (
-              <button
-                key={box}
-                onClick={() => onBoxChange(isSelected ? null : box)}
-                className={cn(
-                  "w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black transition-all border-2",
-                  isSelected
-                    ? "bg-playful-yellow border-playful-yellow text-playful-indigo shadow-lg shadow-playful-yellow/20"
-                    : "bg-white dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800 text-zinc-500 hover:border-zinc-200 dark:hover:border-zinc-700"
-                )}
-              >
-                {box}
-              </button>
-            );
-          })}
-
-          {(selectedTags.length > 0 || selectedBox !== null || query) && (
-            <button
-              onClick={() => {
-                onTagsChange([]);
-                onBoxChange(null);
-                onQueryChange("");
-              }}
-              className="text-[10px] font-black uppercase tracking-widest text-playful-red hover:underline ml-2"
-            >
-              Filter zurücksetzen
-            </button>
-          )}
-        </div>
-      </div>
+        {(query || selectedTags.length > 0 || selectedBox !== null) && (
+          <button
+            onClick={onResetFilters}
+            className="w-full mt-3 py-2 text-[9px] font-black uppercase tracking-widest text-playful-red bg-playful-red/5 hover:bg-playful-red/10 rounded-xl transition-all border border-dashed border-playful-red/20"
+          >
+            Alle Filter zurücksetzen
+          </button>
+        )}
+      </Card>
     </motion.div>
   );
 }

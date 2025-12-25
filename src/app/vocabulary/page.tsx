@@ -15,6 +15,7 @@ import { containerReveal, itemReveal } from "@/lib/animations";
 import { toast } from "sonner";
 import { Tags } from "lucide-react";
 import Link from "next/link";
+import { Heading } from "@/components/ui/Heading";
 
 export interface VocabularyWithProgress extends VocabularyPair {
   maxBox: number;
@@ -99,19 +100,21 @@ export default function VocabularyManagementPage() {
       variants={containerReveal}
       initial="hidden"
       animate="visible"
-      className="space-y-8 pb-32"
+      className="space-y-6 pb-32"
     >
       <header className="flex justify-between items-start">
         <motion.div variants={itemReveal}>
-          <h1 className="text-3xl font-black tracking-tight">Vokabular verwalten</h1>
-          <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs mt-1">
-            Deine Sammlung bearbeiten und organisieren
-          </p>
+          <Heading 
+            level={1} 
+            subtitle={`${vocabulary.length} Vokabeln insgesamt`}
+          >
+            Sammlung
+          </Heading>
         </motion.div>
         <motion.div variants={itemReveal}>
           <Link href="/tags">
-            <Button variant="outline" size="sm" className="rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 font-black gap-2">
-              <Tags size={16} /> Tags verwalten
+            <Button variant="outline" size="sm" className="rounded-xl border-2 font-black gap-2 h-10 px-4 mt-1">
+              <Tags size={16} /> Tags
             </Button>
           </Link>
         </motion.div>
@@ -125,6 +128,11 @@ export default function VocabularyManagementPage() {
         selectedBox={selectedBox}
         onBoxChange={setSelectedBox}
         availableTags={Array.from(new Set(vocabulary.flatMap(v => v.tags))).sort()}
+        onResetFilters={() => {
+          setSearchQuery("");
+          setSelectedTagFilter([]);
+          setSelectedBox(null);
+        }}
       />
 
       {loading ? (
@@ -136,6 +144,11 @@ export default function VocabularyManagementPage() {
           onToggleSelect={handleToggleSelect}
           onRefresh={loadData}
           onOpenDetail={(item) => setDetailItem(item as VocabularyWithProgress)}
+          onResetFilters={() => {
+            setSearchQuery("");
+            setSelectedTagFilter([]);
+            setSelectedBox(null);
+          }}
         />
       )}
 

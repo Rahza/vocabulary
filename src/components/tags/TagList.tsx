@@ -5,6 +5,10 @@ import { Trash2, Hash, Pencil, Check, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { itemReveal } from "@/lib/animations";
 import { Input } from "@/components/ui/Input";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { Tags } from "lucide-react";
+
+import { Badge } from "@/components/ui/Badge";
 
 interface TagListProps {
   tags: string[];
@@ -18,16 +22,11 @@ export function TagList({ tags, onDelete, onRename }: TagListProps) {
 
   if (tags.length === 0) {
     return (
-      <motion.div
-        variants={itemReveal}
-        className="flex flex-col items-center justify-center py-20 text-center space-y-4"
-      >
-        <div className="text-6xl">🏷️</div>
-        <h3 className="text-xl font-black">Keine Tags vorhanden</h3>
-        <p className="text-zinc-400 font-bold max-w-xs">
-          Erstelle deinen ersten Tag, um deine Vokabeln zu organisieren.
-        </p>
-      </motion.div>
+      <EmptyState
+        title="Keine Tags vorhanden"
+        description="Erstelle deinen ersten Tag, um deine Vokabeln zu organisieren."
+        icon={Tags}
+      />
     );
   }
 
@@ -80,7 +79,9 @@ export function TagList({ tags, onDelete, onRename }: TagListProps) {
                   />
                 </div>
               ) : (
-                <span className="font-black text-sm uppercase truncate min-w-0">{tag}</span>
+                <Badge variant="indigo" className="px-3 py-1.5 text-xs">
+                  #{tag}
+                </Badge>
               )}
             </div>
 

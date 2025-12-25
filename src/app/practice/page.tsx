@@ -10,6 +10,7 @@ import { smartShuffle } from "@/lib/shuffle";
 import { getLevenshteinDistance } from "@/lib/string";
 import { motion, AnimatePresence } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
+import { Heading } from "@/components/ui/Heading";
 
 interface PracticeItem {
   vocab: VocabularyPair;
@@ -117,8 +118,9 @@ export default function PracticePage() {
       className="space-y-8"
     >
       <motion.div variants={itemReveal}>
-        <h1 className="text-3xl font-black tracking-tight">Üben</h1>
-        <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs mt-1">Themen-Training</p>
+        <Heading level={1} subtitle="Themen-Training">
+          Üben
+        </Heading>
       </motion.div>
       
       <AnimatePresence mode="wait">
