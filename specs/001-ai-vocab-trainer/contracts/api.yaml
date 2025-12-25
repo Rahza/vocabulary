@@ -1,0 +1,100 @@
+openapi: 3.0.0
+info:
+  title: AI Vocabulary Trainer API
+  version: 1.0.0
+  description: Future backend API definition for the Vocabulary Trainer
+paths:
+  /vocabulary:
+    get:
+      summary: Get all vocabulary
+      responses:
+        '200':
+          description: List of vocabulary pairs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VocabularyPair'
+    post:
+      summary: Add new vocabulary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/NewVocabularyPair'
+      responses:
+        '201':
+          description: Created
+  /reviews/due:
+    get:
+      summary: Get items due for review
+      responses:
+        '200':
+          description: List of due items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewItem'
+  /ai/generate:
+    post:
+      summary: Generate vocabulary using AI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                theme:
+                  type: string
+                difficulty:
+                  type: string
+                count:
+                  type: integer
+      responses:
+        '200':
+          description: Generated vocabulary
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewVocabularyPair'
+components:
+  schemas:
+    VocabularyPair:
+      type: object
+      properties:
+        id:
+          type: string
+        german:
+          type: string
+        czech:
+          type: string
+        mnemonic:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    NewVocabularyPair:
+      type: object
+      properties:
+        german:
+          type: string
+        czech:
+          type: string
+        mnemonic:
+          type: string
+    ReviewItem:
+      allOf:
+        - $ref: '#/components/schemas/VocabularyPair'
+        - type: object
+          properties:
+            direction:
+              type: string
+              enum: [DE_TO_CZ, CZ_TO_DE]

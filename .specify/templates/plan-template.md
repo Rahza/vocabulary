@@ -31,7 +31,10 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **I. Engineering Excellence**: Does the proposed solution adhere to industry best practices? Is the code plan clear and understandable?
+- **II. Maintainability and Extensibility**: Is the design modular? Does it follow established coding standards to simplify future enhancements?
+- **III. User-Centric Design**: Does the feature prioritize a positive user experience? Is it intuitive and responsive?
+- **IV. Performance and Scalability**: Have performance and scalability been considered in the design? Are there clear performance goals?
 
 ## Project Structure
 
