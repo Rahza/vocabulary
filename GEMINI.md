@@ -17,6 +17,9 @@ Auto-generated from all feature plans. Last updated: 2025-12-25
 - TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide React, `next-themes` (017-theme-component-abstraction)
 - N/A (UI refactor) (017-theme-component-abstraction)
 - N/A (Visual Refactor) (018-restyle-light-mode)
+- TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide React, `sonner` (019-connect-pairs-practice)
+- N/A (Pure Practice - no persistent state update) (019-connect-pairs-practice)
+- LocalStorage (existing repo logic) (020-fix-matching-game-bugs)
 
 - TypeScript 5.x, Node.js 18+ + Next.js 14+ (App Router), React 18, OpenAI SDK, Framer Motion, Lucide React, Tailwind CSS, shadcn/ui (optional components) (001-ai-vocab-trainer)
 
@@ -43,9 +46,9 @@ TypeScript 5.x, Node.js 18+: Follow standard conventions
 - **IX. Modern Coding Style**: Mandatory arrow functions for components and logic.
 
 ## Recent Changes
+- 020-fix-matching-game-bugs: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide Reac
+- 019-connect-pairs-practice: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide React, `sonner`
 - 018-restyle-light-mode: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, `next-themes`, Framer Motion, Lucide Reac
-- 017-theme-component-abstraction: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide React, `next-themes`
-- 016-fix-light-mode: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, `next-themes`, Framer Motion, Lucide React, Sonner
 
 
 <!-- MANUAL ADDITIONS START -->

@@ -55,3 +55,11 @@ export interface GlobalStats {
     5: number;
   };
 }
+
+export type PracticeMode = 'classic' | 'connect-pairs';
+
+export interface MatchingItem {
+  id: string; // The vocabulary ID
+  text: string;
+  language: 'german' | 'czech';
+}
