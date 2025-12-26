@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Add a button to generate vocabulary in the collection. The checkboxes look a bit off. Don't display the mnemonic of each word directly in the overview, only in the \"detail view\" (todo). Try to fit more words on the screen, make them a bit smaller, so that management is a bit easier."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Compact Overview (Priority: P1)
 
@@ -71,7 +71,7 @@ As a user performing bulk actions, I want the selection checkboxes to look integ
 - **Empty mnemonics**: Ensure the detail view handles missing mnemonics without showing ugly empty states.
 - **Mobile responsiveness**: Verify that "compact" doesn't mean "unclickable" on mobile devices (touch targets must remain accessible).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -82,11 +82,11 @@ As a user performing bulk actions, I want the selection checkboxes to look integ
 - **FR-005**: System MUST refine the styling and alignment of checkboxes used for bulk selection.
 - **FR-006**: The "Detail View" MUST provide access to the same actions available in the overview (Reset, Delete, Edit Tags).
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **VocabularyItem**: Use existing entity, no schema changes required.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

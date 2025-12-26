@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Language selector screen: Center 'Welcome' message as well. Localize the languages (right now the languages show in English, despite me using German localization). It's possible to select the same source language as target language that is selected. Rename the DE_TO_CZ and CZ_TO_DE constants to be more generic. In general, make sure that we are using strict types wherever possible. In the language selection screen, use icons with flags for each language, or at least emojis, if icons are not possible."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Localized Onboarding (Priority: P1)
 
@@ -73,7 +73,7 @@ As a developer, I want to use generic constants and strict types for language di
 - **Missing flags**: Fallback to text if an emoji or icon is missing (though emojis are usually reliable).
 - **Unsupported Locales**: Ensure the app defaults to English if the user's browser locale isn't one of the supported ones.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -85,13 +85,13 @@ As a developer, I want to use generic constants and strict types for language di
 - **FR-006**: System MUST use generic identifiers for language directions (e.g., from source to target) instead of specific language codes.
 - **FR-007**: System MUST enforce strict data types for all language-related settings and configurations.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **SupportedLanguage**: Union type of string literals (e.g., 'English', 'German', 'Czech').
 - **LanguageDirection**: Generic union type (`'SOURCE_TO_TARGET' | 'TARGET_TO_SOURCE'`).
 - **UserSettings**: Updated to use strict language types.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

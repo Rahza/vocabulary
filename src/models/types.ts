@@ -1,4 +1,4 @@
-import { SupportedLanguage, LanguageDirection } from "@/constants/languages";
+import { SupportedLanguage, LanguageDirection } from '@/constants/languages';
 
 export type UUID = string;
 
@@ -17,7 +17,7 @@ export interface LeitnerState {
   direction: LanguageDirection;
   box: 1 | 2 | 3 | 4 | 5;
   lastReviewed: string; // ISO Date
-  nextReview: string;   // ISO Date
+  nextReview: string; // ISO Date
   history: ReviewResult[];
 }
 

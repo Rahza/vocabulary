@@ -1,5 +1,5 @@
-import OpenAI from "openai";
-import { VocabularyPair } from "@/models/types";
+import OpenAI from 'openai';
+import { VocabularyPair } from '@/models/types';
 
 export interface IAIService {
   generateVocabulary(
@@ -10,7 +10,7 @@ export interface IAIService {
     sourceLanguage: string,
     targetLanguage: string,
     existingTerms?: string[]
-  ): Promise<Omit<VocabularyPair, "id" | "createdAt">[]>;
+  ): Promise<Omit<VocabularyPair, 'id' | 'createdAt'>[]>;
 
   generateSingleMnemonic(
     sourceWord: string,
@@ -41,12 +41,15 @@ export class OpenAIService implements IAIService {
     `;
 
     const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", content: "You are a helpful language tutor." }, { role: "user", content: prompt }],
-      model: "gpt-4o",
+      messages: [
+        { role: 'system', content: 'You are a helpful language tutor.' },
+        { role: 'user', content: prompt },
+      ],
+      model: 'gpt-4o',
     });
 
     const content = completion.choices[0].message.content;
-    if (!content) throw new Error("No content received from AI");
+    if (!content) throw new Error('No content received from AI');
 
     return content.trim();
   }
@@ -59,7 +62,7 @@ export class OpenAIService implements IAIService {
     sourceLanguage: string,
     targetLanguage: string,
     existingTerms: string[] = []
-  ): Promise<Omit<VocabularyPair, "id" | "createdAt">[]> {
+  ): Promise<Omit<VocabularyPair, 'id' | 'createdAt'>[]> {
     const openai = new OpenAI({
       apiKey: apiKey,
       dangerouslyAllowBrowser: true, // We are calling from client-side as per requirements
@@ -90,28 +93,34 @@ export class OpenAIService implements IAIService {
     `;
 
     const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", content: "You are a helpful language tutor." }, { role: "user", content: prompt }],
-      model: "gpt-4o",
-      response_format: { type: "json_object" },
+      messages: [
+        { role: 'system', content: 'You are a helpful language tutor.' },
+        { role: 'user', content: prompt },
+      ],
+      model: 'gpt-4o',
+      response_format: { type: 'json_object' },
     });
 
     const content = completion.choices[0].message.content;
-    if (!content) throw new Error("No content received from AI");
+    if (!content) throw new Error('No content received from AI');
 
     try {
       const parsed = JSON.parse(content);
-      let pairs: Omit<VocabularyPair, "id" | "createdAt">[] = parsed.pairs;
-      
+      let pairs: Omit<VocabularyPair, 'id' | 'createdAt'>[] = parsed.pairs;
+
       // Filter duplicates
       if (existingTerms.length > 0) {
-        pairs = pairs.filter(p => !existingTerms.some(existing => existing.toLowerCase() === p.source.toLowerCase()));
+        pairs = pairs.filter(
+          (p) =>
+            !existingTerms.some((existing) => existing.toLowerCase() === p.source.toLowerCase())
+        );
       }
-      
+
       // Trim to requested count
       return pairs.slice(0, count);
     } catch {
-      console.error("Failed to parse AI response", content);
-      throw new Error("Failed to parse AI response");
+      console.error('Failed to parse AI response', content);
+      throw new Error('Failed to parse AI response');
     }
   }
 }

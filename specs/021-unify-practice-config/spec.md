@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "In the \"normal\" practice mode config screen, there is no back button and also I would like to be able to select multiple tags as well, like in the matching mode. If possible, abstract the tag selection, so that we can use the same in both places. Also unify the \"number of rounds\" selection. Also, after starting the \"normal\" practice, also add the \"Beenden\" button like in the matching mode."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Unified Session Configuration (Priority: P1)
 
@@ -22,7 +22,6 @@ As a user, I want a consistent experience when configuring any practice session 
 
 ---
 
-
 ### User Story 2 - Navigation & Exit (Priority: P1)
 
 As a user, I want to be able to go back to the mode selection from the configuration screen and end an active session at any time so that I have full control over my navigation.
@@ -38,14 +37,13 @@ As a user, I want to be able to go back to the mode selection from the configura
 
 ---
 
-
 ### Edge Cases
 
 - **Mixed Mode Restrictions**: "Classic" mode uses "Cards" (total questions), while "Connect Pairs" uses "Rounds" (sets of 5 pairs). The UI should clarify this or unify the terminology (e.g., "Session Length").
 - **Empty Selection**: Ensure the "Start" button remains disabled if no tags are selected in either mode.
 - **Back navigation during active session**: Confirm if "Beenden" should require a confirmation dialog to prevent accidental exits.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -56,11 +54,11 @@ As a user, I want to be able to go back to the mode selection from the configura
 - **FR-005**: The session length selection MUST be unified across both modes (e.g., using 3, 5, 10 as standard options).
 - **FR-006**: System MUST update the Classic practice logic to fetch and shuffle vocabulary from multiple selected tags.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **SessionConfig**: Represents the unified configuration (mode, array of tags, length).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

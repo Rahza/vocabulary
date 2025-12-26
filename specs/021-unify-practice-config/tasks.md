@@ -17,8 +17,8 @@
 
 **Purpose**: Create the unified configuration component and prepare for refactoring
 
-- [X] T001 Create `src/components/practice/PracticeConfig.tsx` by refactoring `ConnectPairsConfig.tsx` into a generic component
-- [X] T002 Update `src/components/practice/PracticeConfig.tsx` to use unified terminology ("Sitzungslänge") and standard round options (3, 5, 10)
+- [x] T001 Create `src/components/practice/PracticeConfig.tsx` by refactoring `ConnectPairsConfig.tsx` into a generic component
+- [x] T002 Update `src/components/practice/PracticeConfig.tsx` to use unified terminology ("Sitzungslänge") and standard round options (3, 5, 10)
 
 ---
 
@@ -28,8 +28,8 @@
 
 **⚠️ CRITICAL**: No user story work can begin until the pooling logic is ready
 
-- [X] T003 Refactor `handleConfigSelect` in `src/app/practice/page.tsx` to accept an array of tags (`string[]`) instead of a single tag
-- [X] T004 [P] Update pooling logic in `src/app/practice/page.tsx` to fetch, deduplicate, and shuffle vocabulary from multiple tags
+- [x] T003 Refactor `handleConfigSelect` in `src/app/practice/page.tsx` to accept an array of tags (`string[]`) instead of a single tag
+- [x] T004 [P] Update pooling logic in `src/app/practice/page.tsx` to fetch, deduplicate, and shuffle vocabulary from multiple tags
 
 ---
 
@@ -41,9 +41,9 @@
 
 ### Implementation for User Story 1
 
-- [X] T005 [US1] Replace `TagSelector` and `ConnectPairsConfig` usage in `src/app/practice/page.tsx` with the new `PracticeConfig`
-- [X] T006 [US1] Remove deprecated components `src/components/practice/TagSelector.tsx` and `src/components/practice/ConnectPairsConfig.tsx`
-- [X] T007 [US1] Ensure `PracticeConfig` correctly passes `selectedTags` and `rounds` to the start handlers in `src/app/practice/page.tsx`
+- [x] T005 [US1] Replace `TagSelector` and `ConnectPairsConfig` usage in `src/app/practice/page.tsx` with the new `PracticeConfig`
+- [x] T006 [US1] Remove deprecated components `src/components/practice/TagSelector.tsx` and `src/components/practice/ConnectPairsConfig.tsx`
+- [x] T007 [US1] Ensure `PracticeConfig` correctly passes `selectedTags` and `rounds` to the start handlers in `src/app/practice/page.tsx`
 
 **Checkpoint**: User Story 1 complete - Multi-tag selection is functional for all modes using a single component.
 
@@ -57,9 +57,9 @@
 
 ### Implementation for User Story 2
 
-- [X] T008 [US2] Ensure "Zurück" button in `PracticeConfig.tsx` correctly invokes the `onBack` callback to reset view state in `src/app/practice/page.tsx`
-- [X] T009 [US2] Add "Beenden" button to the top-right of the Classic practice view in `src/app/practice/page.tsx`
-- [X] T010 [US2] Match the styling of the new "Beenden" button with the one in `MatchingGame.tsx`
+- [x] T008 [US2] Ensure "Zurück" button in `PracticeConfig.tsx` correctly invokes the `onBack` callback to reset view state in `src/app/practice/page.tsx`
+- [x] T009 [US2] Add "Beenden" button to the top-right of the Classic practice view in `src/app/practice/page.tsx`
+- [x] T010 [US2] Match the styling of the new "Beenden" button with the one in `MatchingGame.tsx`
 
 ---
 
@@ -67,9 +67,9 @@
 
 **Purpose**: Final UI refinements and build validation
 
-- [X] T011 [P] Ensure "Beenden" button in Classic mode uses consistent `playful-red` styling
-- [X] T012 Run production build verification with `npm run build`
-- [X] T013 Verify that "Play again" logic still works correctly with the new pooled tag state in `src/app/practice/page.tsx`
+- [x] T011 [P] Ensure "Beenden" button in Classic mode uses consistent `playful-red` styling
+- [x] T012 Run production build verification with `npm run build`
+- [x] T013 Verify that "Play again" logic still works correctly with the new pooled tag state in `src/app/practice/page.tsx`
 
 ---
 

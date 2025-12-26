@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Let the user choose the length of the practice session. Make sure that all screens with a single button are navigatable using Enter key. Change the AI model to "gpt-5.2" (it does exist, your knowledge cutoff is just too early). After generating or discarding word suggestions, the generator page just shows the heading and an empty page"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Flexible Practice Length (Priority: P1)
 
@@ -72,7 +72,7 @@ As a user, I want the generator page to always show me the appropriate controls 
 - **Enter key in text inputs**: The "Enter to submit" logic should not conflict with standard input field behavior (e.g., adding a newline if it were a textarea, though here they are mostly single-line).
 - **Network errors during AI generation**: The "empty page" fix must also account for error states to ensure the user can retry.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -87,7 +87,7 @@ As a user, I want the generator page to always show me the appropriate controls 
 - **PracticeSession**: Now includes a `length` attribute.
 - **AIConfig**: Updated `model` parameter.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -1,31 +1,37 @@
-"use client";
+'use client';
 
-import React from "react";
-import { PracticeMode } from "@/models/types";
-import { BrainCircuit, Languages } from "lucide-react";
-import { Card } from "@/components/ui/Card";
-import { useTranslations } from "next-intl";
+import React from 'react';
+import { PracticeMode } from '@/models/types';
+import { BrainCircuit, Languages } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
+import { useTranslations } from 'next-intl';
 
 interface ModeSelectorProps {
   onSelect: (mode: PracticeMode) => void;
 }
 
 export const ModeSelector = ({ onSelect }: ModeSelectorProps) => {
-  const t = useTranslations("practice");
-  const modes: { id: PracticeMode; title: string; description: string; icon: React.ReactNode; color: string }[] = [
+  const t = useTranslations('practice');
+  const modes: {
+    id: PracticeMode;
+    title: string;
+    description: string;
+    icon: React.ReactNode;
+    color: string;
+  }[] = [
     {
-      id: "classic",
-      title: t("classicTitle"),
-      description: t("classicDesc"),
+      id: 'classic',
+      title: t('classicTitle'),
+      description: t('classicDesc'),
       icon: <BrainCircuit size={32} />,
-      color: "text-playful-indigo",
+      color: 'text-playful-indigo',
     },
     {
-      id: "connect-pairs",
-      title: t("matchingTitle"),
-      description: t("matchingDesc"),
+      id: 'connect-pairs',
+      title: t('matchingTitle'),
+      description: t('matchingDesc'),
       icon: <Languages size={32} />,
-      color: "text-playful-green",
+      color: 'text-playful-green',
     },
   ];
 
@@ -39,16 +45,16 @@ export const ModeSelector = ({ onSelect }: ModeSelectorProps) => {
           className="p-8 text-left group"
         >
           <div className="flex items-start gap-6">
-            <div className={`p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800 ${mode.color} transition-transform group-hover:scale-110 duration-300`}>
+            <div
+              className={`p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800 ${mode.color} transition-transform group-hover:scale-110 duration-300`}
+            >
               {mode.icon}
             </div>
             <div>
               <h3 className="text-xl font-black mb-2 group-hover:text-playful-indigo transition-colors">
                 {mode.title}
               </h3>
-              <p className="text-zinc-400 font-bold text-sm leading-relaxed">
-                {mode.description}
-              </p>
+              <p className="text-zinc-400 font-bold text-sm leading-relaxed">{mode.description}</p>
             </div>
           </div>
         </Card>

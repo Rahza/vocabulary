@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "The TagManager is not usable, three tags per row are too many, I can't see all the buttons for each tag. Add a \"typo helper\" - if only one character in a word is wrong, notify the user and let them try again, because it might be unintentional. Re-work the progress overview: More clearly show the progress (overall and per tag/category), to also see how many words are in which stage."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Typo Assistance (Priority: P1)
 
@@ -22,7 +22,6 @@ As a learner, I want the system to recognize when I've made a minor typo (one ch
 
 ---
 
-
 ### User Story 2 - Usable Tag Manager (Priority: P2)
 
 As a user with many tags, I want the Tag Manager to be easy to use on all screen sizes so that I can manage my categories without UI elements overlapping or being hidden.
@@ -36,7 +35,6 @@ As a user with many tags, I want the Tag Manager to be easy to use on all screen
 1. **Given** the Tag Manager, **When** viewed on a mobile screen, **Then** tags are laid out in a way that all action buttons are accessible without horizontal scrolling or overlapping.
 
 ---
-
 
 ### User Story 3 - Detailed Progress Analytics (Priority: P2)
 
@@ -53,7 +51,6 @@ As a motivated learner, I want to see a detailed breakdown of my progress (both 
 
 ---
 
-
 ### Edge Cases
 
 - **Typo helper with very short words**: If a word only has 2-3 characters, a 1-character difference is 33-50% of the word. (Policy: Only enable typo helper for words with length > 2).
@@ -61,7 +58,7 @@ As a motivated learner, I want to see a detailed breakdown of my progress (both 
 - **Tag Manager with 0 tags**: Ensure an appropriate empty state is displayed.
 - **Words with 0 progress data**: Ensure they are counted as "Box 1" or "New" in analytics.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -72,12 +69,12 @@ As a motivated learner, I want to see a detailed breakdown of my progress (both 
 - **FR-005**: The system MUST provide per-tag progress analytics, showing the box distribution for items within that tag.
 - **FR-006**: Users MUST be able to re-submit an answer after a typo warning is triggered.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **ProgressStats**: A data structure representing the count of items in each stage (Box 1-5).
 - **LevenshteinMatch**: Result of the typo check logic.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

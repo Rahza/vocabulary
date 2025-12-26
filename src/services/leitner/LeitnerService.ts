@@ -1,4 +1,4 @@
-import { LeitnerState } from "@/models/types";
+import { LeitnerState } from '@/models/types';
 
 // Intervals in days for boxes 1 to 5
 const BOX_INTERVALS: Record<number, number> = {
@@ -13,12 +13,9 @@ export class LeitnerService {
   processReview(state: LeitnerState, success: boolean): LeitnerState {
     const now = new Date();
     const newState = { ...state };
-    
+
     // Add history
-    newState.history = [
-      ...state.history,
-      { date: now.toISOString(), success },
-    ];
+    newState.history = [...state.history, { date: now.toISOString(), success }];
     newState.lastReviewed = now.toISOString();
 
     if (success) {

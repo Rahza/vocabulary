@@ -1,24 +1,24 @@
 {
-    "name": "AI Vocabulary Trainer",
-    "short_name": "Vocab AI",
-    "description": "Learn vocabulary with AI and Spaced Repetition",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#0a0a0a",
-    "theme_color": "#6366f1",
-    "orientation": "portrait",
-    "icons": [
-        {
-            "src": "/icon.svg",
-            "sizes": "any",
-            "type": "image/svg+xml",
-            "purpose": "any"
-        },
-        {
-            "src": "/icon.svg",
-            "sizes": "any",
-            "type": "image/svg+xml",
-            "purpose": "maskable"
-        }
-    ]
+  "name": "AI Vocabulary Trainer",
+  "short_name": "Vocab AI",
+  "description": "Learn vocabulary with AI and Spaced Repetition",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
 }

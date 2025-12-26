@@ -11,8 +11,8 @@ vi.mock('@/contexts/SettingsContext', () => ({
     settings: {
       sourceLanguage: 'German',
       targetLanguage: 'Czech',
-    }
-  })
+    },
+  }),
 }));
 
 const mockWord: VocabularyPair = {
@@ -22,7 +22,7 @@ const mockWord: VocabularyPair = {
   mnemonic: 'A dog pees',
   tags: ['animals'],
   difficulty: 'Beginner',
-  createdAt: '2023-01-01'
+  createdAt: '2023-01-01',
 };
 
 describe('Flashcard', () => {
@@ -35,12 +35,12 @@ describe('Flashcard', () => {
 
   it('renders correctly', () => {
     render(
-      <Flashcard 
-        word={mockWord} 
-        direction={DIRECTION_FORWARD} 
-        onSubmit={onSubmit} 
-        onNext={onNext} 
-        result={null} 
+      <Flashcard
+        word={mockWord}
+        direction={DIRECTION_FORWARD}
+        onSubmit={onSubmit}
+        onNext={onNext}
+        result={null}
       />
     );
     expect(screen.getByText('Hund')).toBeInTheDocument();
@@ -48,12 +48,12 @@ describe('Flashcard', () => {
 
   it('submits answer', () => {
     render(
-      <Flashcard 
-        word={mockWord} 
-        direction={DIRECTION_FORWARD} 
-        onSubmit={onSubmit} 
-        onNext={onNext} 
-        result={null} 
+      <Flashcard
+        word={mockWord}
+        direction={DIRECTION_FORWARD}
+        onSubmit={onSubmit}
+        onNext={onNext}
+        result={null}
       />
     );
     const input = screen.getByRole('textbox');

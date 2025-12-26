@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Light mode doesn't work. Make sure that both light and dark mode are implemented and the toggle in settings applies it in realtime"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Real-time Theme Switching (Priority: P1)
 
@@ -56,7 +56,7 @@ As a user, I want my theme preference to be remembered so that I don't have to r
 - How does the application handle the initial flash of incorrect theme before the settings are loaded? (Should prefer system or last saved).
 - Ensure high contrast and readability in both modes for all components (Buttons, Inputs, Drawers).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -67,11 +67,11 @@ As a user, I want my theme preference to be remembered so that I don't have to r
 - **FR-005**: All UI components (Cards, Buttons, Inputs, Drawers, Navigation) MUST have defined styles for both light and dark modes.
 - **FR-006**: System MUST prevent "Flash of Unstyled Content" (FOUC) or theme flickering during page load.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **ThemeConfig**: Represents the user's theme preference (`light` | `dark` | `system`).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Implement i18n. Provide translations for English, German and Czech. Use the user's system language as default, but add a app language selector in the settings."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Automatic Language Detection (Priority: P1)
 
@@ -56,7 +56,7 @@ As a user, I want my language choice to be remembered across sessions so that I 
 - Missing translation keys (should display the key or the English equivalent).
 - Switching language during an active practice session or animation.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -68,11 +68,11 @@ As a user, I want my language choice to be remembered across sessions so that I 
 - **FR-006**: UI MUST support dynamic language switching without requiring a full page refresh.
 - **FR-007**: System MUST localize date formats and number formatting (separators and decimal points) according to the selected language (e.g., German uses DD.MM.YYYY and 1.000,00, English uses MM/DD/YYYY and 1,000.00).
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **LanguageConfig**: Represents the active language code and the associated translation bundles.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

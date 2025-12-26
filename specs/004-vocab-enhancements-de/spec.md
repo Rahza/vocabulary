@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Adjust/implement the following features: 1. Make sure that no duplicate vocabulary is generated 2. After generating vocabulary suggestions, let the user delete individual suggestions 3. In practice mode: Let the user skip (show solution), show the mnemonic and get a „tip“ (reveal letter by letter with each button press) 4. Make sure the whole app (also all tags, mnemonics) is in the source language (German)"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - German Localization (Priority: P1)
 
@@ -57,7 +57,7 @@ As a learner in practice mode, I want options to get hints (reveal letters), see
 - What happens if the generator cannot find enough non-duplicate words? (Should notify the user or return fewer results).
 - What happens if a word has no mnemonic? (Button should be disabled or show "No mnemonic available").
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -73,12 +73,12 @@ As a learner in practice mode, I want options to get hints (reveal letters), see
 ### Key Entities
 
 - **VocabularyItem**:
-    - `term`: String (Foreign language word)
-    - `translation`: String (German translation)
-    - `mnemonic`: String (German mnemonic aid)
-    - `tags`: Array<String> (German tags)
+  - `term`: String (Foreign language word)
+  - `translation`: String (German translation)
+  - `mnemonic`: String (German mnemonic aid)
+  - `tags`: Array<String> (German tags)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 
 interface DrawerProps {
   isOpen: boolean;
@@ -15,12 +15,12 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
   // Prevent scrolling when drawer is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     }
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
 
@@ -39,10 +39,10 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
 
           {/* Drawer */}
           <motion.div
-            initial={{ y: "100%" }}
+            initial={{ y: '100%' }}
             animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             className="fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-950 rounded-t-[40px] border-t-4 border-zinc-200 dark:border-zinc-800 z-[101] max-h-[90vh] overflow-y-auto shadow-2xl"
           >
             {/* Handle for visual feedback */}
@@ -52,9 +52,7 @@ export function Drawer({ isOpen, onClose, title, children }: DrawerProps) {
 
             <div className="p-8">
               <div className="flex justify-between items-center mb-6">
-                {title && (
-                  <h2 className="text-2xl font-black tracking-tight">{title}</h2>
-                )}
+                {title && <h2 className="text-2xl font-black tracking-tight">{title}</h2>}
                 <button
                   onClick={onClose}
                   className="p-2 rounded-2xl bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"

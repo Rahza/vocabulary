@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "In the overview, the visualisation of the overall progress in the boxes is not correct, the boxes don't have a height. Practice page is not working: Runtime ReferenceError containerReveal is not defined src/app/practice/page.tsx (104:17) @ PracticePage"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Functional Practice Page (Priority: P1)
 
@@ -42,7 +42,7 @@ As a learner, I want to see a clear visual representation of my word distributio
 - **Progress bars with 100% capacity**: Ensure that if all words are in one box, the bar doesn't exceed its container bounds.
 - **Mobile responsiveness**: Verify the progress visualization is visible and correctly scaled on narrow mobile screens.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -56,7 +56,7 @@ As a learner, I want to see a clear visual representation of my word distributio
 - **ProgressDistribution**: The UI component responsible for rendering the Leitner box histogram.
 - **AnimationVariants**: Shared motion definitions (e.g., `containerReveal`, `itemReveal`).
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

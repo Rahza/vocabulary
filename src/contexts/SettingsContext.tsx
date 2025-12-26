@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { UserSettings } from "@/models/types";
-import { useLocale } from "next-intl";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { UserSettings } from '@/models/types';
+import { useLocale } from 'next-intl';
 
-const STORAGE_KEY = "ai_vocab_user_settings";
+const STORAGE_KEY = 'ai_vocab_user_settings';
 
 interface SettingsContextType {
   settings: UserSettings;
@@ -13,9 +13,9 @@ interface SettingsContextType {
 }
 
 const defaultSettings: UserSettings = {
-  theme: "system",
+  theme: 'system',
   dailyGoal: 20,
-  language: "en",
+  language: 'en',
   languagePairSelected: false,
 };
 
@@ -30,13 +30,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     const initialSettings = { ...defaultSettings, language: locale };
-    
+
     if (saved) {
       try {
         const parsed = JSON.parse(saved) as UserSettings;
         setSettings({ ...initialSettings, ...parsed });
       } catch (e) {
-        console.error("Failed to parse settings", e);
+        console.error('Failed to parse settings', e);
         setSettings(initialSettings);
       }
     } else {
@@ -57,11 +57,11 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
     // Validation: Prevent source == target
     if (
-      nextSettings.sourceLanguage && 
-      nextSettings.targetLanguage && 
+      nextSettings.sourceLanguage &&
+      nextSettings.targetLanguage &&
       nextSettings.sourceLanguage === nextSettings.targetLanguage
     ) {
-      console.warn("Invalid language pair: source and target must be different.");
+      console.warn('Invalid language pair: source and target must be different.');
       return;
     }
 
@@ -81,7 +81,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 export function useSettings() {
   const context = useContext(SettingsContext);
   if (context === undefined) {
-    throw new Error("useSettings must be used within a SettingsProvider");
+    throw new Error('useSettings must be used within a SettingsProvider');
   }
   return context;
 }

@@ -4,9 +4,9 @@
 
 - **Decision**: Use `next-intl` for i18n.
 - **Rationale**: It provides first-class support for Next.js App Router, is highly performant, and offers excellent type safety for translation keys. It aligns with the project's goal of using modern, industry-standard technologies.
-- **Alternatives Considered**: 
-    - **Custom React Context**: Lightweight but lacks advanced features like pluralization, number/date formatting, and community support.
-    - **i18next**: Extremely powerful but significantly more complex to set up correctly with Next.js App Router and server components.
+- **Alternatives Considered**:
+  - **Custom React Context**: Lightweight but lacks advanced features like pluralization, number/date formatting, and community support.
+  - **i18next**: Extremely powerful but significantly more complex to set up correctly with Next.js App Router and server components.
 
 ## Language Detection & Switching
 

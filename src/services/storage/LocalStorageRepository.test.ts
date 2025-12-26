@@ -1,11 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { LocalStorageRepository } from "./LocalStorageRepository";
-import { DIRECTION_FORWARD, DIRECTION_BACKWARD } from "@/constants/languages";
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { LocalStorageRepository } from './LocalStorageRepository';
+import { DIRECTION_FORWARD, DIRECTION_BACKWARD } from '@/constants/languages';
 
-describe("LocalStorageRepository Migration", () => {
+describe('LocalStorageRepository Migration', () => {
   const STORAGE_KEYS = {
-    VOCAB: "ai_vocab_data",
-    LEITNER: "ai_vocab_leitner",
+    VOCAB: 'ai_vocab_data',
+    LEITNER: 'ai_vocab_leitner',
   };
 
   beforeEach(() => {
@@ -13,32 +13,32 @@ describe("LocalStorageRepository Migration", () => {
     vi.clearAllMocks();
   });
 
-  it("should migrate legacy data (german/czech) to generic source/target", () => {
+  it('should migrate legacy data (german/czech) to generic source/target', () => {
     // Setup legacy data
     const legacyVocab = [
       {
-        id: "1",
-        german: "Hund",
-        czech: "Pes",
-        mnemonic: "...",
-        tags: ["Test"],
-        difficulty: "Beginner",
+        id: '1',
+        german: 'Hund',
+        czech: 'Pes',
+        mnemonic: '...',
+        tags: ['Test'],
+        difficulty: 'Beginner',
         createdAt: new Date().toISOString(),
       },
     ];
 
     const legacyLeitner = [
       {
-        vocabId: "1",
-        direction: "DE_TO_CZ",
+        vocabId: '1',
+        direction: 'DE_TO_CZ',
         box: 1,
         lastReviewed: new Date().toISOString(),
         nextReview: new Date().toISOString(),
         history: [],
       },
       {
-        vocabId: "1",
-        direction: "CZ_TO_DE",
+        vocabId: '1',
+        direction: 'CZ_TO_DE',
         box: 1,
         lastReviewed: new Date().toISOString(),
         nextReview: new Date().toISOString(),
@@ -56,10 +56,10 @@ describe("LocalStorageRepository Migration", () => {
     const migratedVocabJson = localStorage.getItem(STORAGE_KEYS.VOCAB);
     const migratedVocab = JSON.parse(migratedVocabJson!);
 
-    expect(migratedVocab[0]).toHaveProperty("source", "Hund");
-    expect(migratedVocab[0]).toHaveProperty("target", "Pes");
-    expect(migratedVocab[0]).not.toHaveProperty("german");
-    expect(migratedVocab[0]).not.toHaveProperty("czech");
+    expect(migratedVocab[0]).toHaveProperty('source', 'Hund');
+    expect(migratedVocab[0]).toHaveProperty('target', 'Pes');
+    expect(migratedVocab[0]).not.toHaveProperty('german');
+    expect(migratedVocab[0]).not.toHaveProperty('czech');
 
     const migratedLeitnerJson = localStorage.getItem(STORAGE_KEYS.LEITNER);
     const migratedLeitner = JSON.parse(migratedLeitnerJson!);
@@ -69,19 +69,19 @@ describe("LocalStorageRepository Migration", () => {
 
     expect(forward).toBeDefined();
     expect(backward).toBeDefined();
-    expect(forward.vocabId).toBe("1");
-    expect(backward.vocabId).toBe("1");
+    expect(forward.vocabId).toBe('1');
+    expect(backward.vocabId).toBe('1');
   });
 
-  it("should not modify already migrated data", () => {
+  it('should not modify already migrated data', () => {
     const modernVocab = [
       {
-        id: "2",
-        source: "Katze",
-        target: "Kocka",
-        mnemonic: "...",
-        tags: ["Test"],
-        difficulty: "Beginner",
+        id: '2',
+        source: 'Katze',
+        target: 'Kocka',
+        mnemonic: '...',
+        tags: ['Test'],
+        difficulty: 'Beginner',
         createdAt: new Date().toISOString(),
       },
     ];
@@ -95,6 +95,6 @@ describe("LocalStorageRepository Migration", () => {
     const result = JSON.parse(resultJson!);
 
     expect(result[0]).toEqual(modernVocab[0]);
-    expect(result[0]).not.toHaveProperty("german");
+    expect(result[0]).not.toHaveProperty('german');
   });
 });

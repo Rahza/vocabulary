@@ -8,6 +8,7 @@
 ## Summary
 
 This feature addresses critical usability issues and bugs:
+
 1.  **Virtual Keyboard**: Fixing the character set to be exclusively Czech (removing German umlauts).
 2.  **Learning Algorithm**: Implementing a "smart shuffle" that prevents immediate repetition of the same word.
 3.  **UX Polish**: Replacing blocking `alert()` calls with non-intrusive Toast notifications using `sonner`.
@@ -31,7 +32,7 @@ This feature addresses critical usability issues and bugs:
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **I. Engineering Excellence**: ✅ Using `sonner` avoids reinventing the wheel. Shuffle logic will be pure function, easily testable.
 - **II. Maintainability and Extensibility**: ✅ Shuffle logic isolated in `src/lib/shuffle.ts`.
@@ -51,6 +52,7 @@ specs/002-fix-vocab-bugs/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -80,5 +82,5 @@ src/
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| None | | |
+| --------- | ---------- | ------------------------------------ |
+| None      |            |                                      |

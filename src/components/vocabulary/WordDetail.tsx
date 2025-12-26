@@ -1,21 +1,31 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { VocabularyWithProgress } from "@/app/[locale]/vocabulary/page";
-import { LocalStorageRepository } from "@/services/storage/LocalStorageRepository";
-import { OpenAIService } from "@/services/ai/OpenAIService";
-import { useSettings } from "@/contexts/SettingsContext";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Plus, X, Sparkles, BrainCircuit, Tag, RotateCcw, Trash2, Wand2, Loader2 } from "lucide-react";
-import { toast } from "sonner";
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
-import { BOX_DEFINITIONS } from "@/constants/box-definitions";
-import { Card } from "@/components/ui/Card";
-import { Heading } from "@/components/ui/Heading";
-import { Badge } from "@/components/ui/Badge";
-import { useTranslations, useFormatter } from "next-intl";
-import { LANG_CODE_MAP } from "@/constants/languages";
+import React, { useState } from 'react';
+import { VocabularyWithProgress } from '@/app/[locale]/vocabulary/page';
+import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { OpenAIService } from '@/services/ai/OpenAIService';
+import { useSettings } from '@/contexts/SettingsContext';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import {
+  Plus,
+  X,
+  Sparkles,
+  BrainCircuit,
+  Tag,
+  RotateCcw,
+  Trash2,
+  Wand2,
+  Loader2,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { BOX_DEFINITIONS } from '@/constants/box-definitions';
+import { Card } from '@/components/ui/Card';
+import { Heading } from '@/components/ui/Heading';
+import { Badge } from '@/components/ui/Badge';
+import { useTranslations, useFormatter } from 'next-intl';
+import { LANG_CODE_MAP } from '@/constants/languages';
 
 interface WordDetailProps {
   item: VocabularyWithProgress;
@@ -24,19 +34,19 @@ interface WordDetailProps {
 }
 
 export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
-  const t = useTranslations("vocabulary");
-  const commonT = useTranslations("common");
-  const boxT = useTranslations("vocabulary.boxes");
-  const tLang = useTranslations("settings.languages");
+  const t = useTranslations('vocabulary');
+  const commonT = useTranslations('common');
+  const boxT = useTranslations('vocabulary.boxes');
+  const tLang = useTranslations('settings.languages');
   const format = useFormatter();
-  
-  const [newTag, setNewTag] = useState("");
+
+  const [newTag, setNewTag] = useState('');
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [mnemonic, setMnemonic] = useState(item.mnemonic);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const { settings } = useSettings();
-  
+
   const repository = new LocalStorageRepository();
   const aiService = new OpenAIService();
 
@@ -49,7 +59,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
 
   const handleRegenerateMnemonic = async () => {
     if (!settings.openaiApiKey) {
-      toast.error("OpenAI API-Schlüssel fehlt. Bitte in den Einstellungen hinzufügen.");
+      toast.error('OpenAI API-Schlüssel fehlt. Bitte in den Einstellungen hinzufügen.');
       return;
     }
 
@@ -59,16 +69,16 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         item.source,
         item.target,
         settings.openaiApiKey,
-        settings.sourceLanguage || "German",
-        settings.targetLanguage || "Czech"
+        settings.sourceLanguage || 'German',
+        settings.targetLanguage || 'Czech'
       );
       await repository.updateVocabulary(item.id, { mnemonic: newMnemonic });
       setMnemonic(newMnemonic); // Update local state immediately
-      toast.success(t("regenerateSuccess"));
+      toast.success(t('regenerateSuccess'));
       onRefresh();
     } catch (error) {
       console.error(error);
-      toast.error(t("regenerateError"));
+      toast.error(t('regenerateError'));
     } finally {
       setIsRegenerating(false);
     }
@@ -76,13 +86,13 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
 
   const handleReset = async () => {
     await repository.resetProgress(item.id);
-    toast.success(t("resetSuccess"));
+    toast.success(t('resetSuccess'));
     onRefresh();
   };
 
   const handleDelete = async () => {
     await repository.deleteVocabulary(item.id);
-    toast.success(t("deleteWordSuccess"));
+    toast.success(t('deleteWordSuccess'));
     onClose();
     onRefresh();
   };
@@ -90,15 +100,15 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
   const handleAddTag = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTag.trim()) return;
-    
+
     if (item.tags.includes(newTag.trim())) {
-      toast.error(t("tagExists"));
+      toast.error(t('tagExists'));
       return;
     }
 
     const updatedTags = [...item.tags, newTag.trim()];
     await repository.updateVocabulary(item.id, { tags: updatedTags });
-    setNewTag("");
+    setNewTag('');
     onRefresh();
   };
 
@@ -108,13 +118,13 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
     onRefresh();
   };
 
-  const sourceLangName = settings.sourceLanguage 
+  const sourceLangName = settings.sourceLanguage
     ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any)
-    : "Source";
+    : 'Source';
 
-  const targetLangName = settings.targetLanguage 
+  const targetLangName = settings.targetLanguage
     ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any)
-    : "Target";
+    : 'Target';
 
   return (
     <div className="space-y-8">
@@ -134,10 +144,11 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
 
       <div className="flex justify-end px-2">
         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-          {t("createdAt")}: {format.dateTime(new Date(item.createdAt), {
+          {t('createdAt')}:{' '}
+          {format.dateTime(new Date(item.createdAt), {
             year: 'numeric',
             month: 'long',
-            day: 'numeric'
+            day: 'numeric',
           })}
         </span>
       </div>
@@ -146,19 +157,15 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
       <div className="space-y-3">
         <div className="flex justify-between items-center ml-1">
           <Heading level={4} icon={Sparkles} subtitle="" className="text-zinc-400">
-            {t("mnemonic")}
+            {t('mnemonic')}
           </Heading>
           <button
             onClick={handleRegenerateMnemonic}
             disabled={isRegenerating}
             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-playful-indigo hover:text-indigo-600 disabled:opacity-50 transition-all"
           >
-            {isRegenerating ? (
-              <Loader2 size={14} className="animate-spin" />
-            ) : (
-              <Wand2 size={14} />
-            )}
-            {t("regenerate")}
+            {isRegenerating ? <Loader2 size={14} className="animate-spin" /> : <Wand2 size={14} />}
+            {t('regenerate')}
           </button>
         </div>
         <Card className="p-6 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800">
@@ -167,7 +174,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
               {mnemonic}
             </p>
           ) : (
-            <p className="text-zinc-400 italic">{t("noMnemonic")}</p>
+            <p className="text-zinc-400 italic">{t('noMnemonic')}</p>
           )}
         </Card>
       </div>
@@ -177,7 +184,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         {/* Progress */}
         <div className="space-y-3">
           <Heading level={4} icon={BrainCircuit} className="text-zinc-400 ml-1">
-            {t("status")}
+            {t('status')}
           </Heading>
           <Card className="flex items-center gap-4 p-4">
             <div className="w-12 h-12 rounded-2xl bg-playful-yellow flex items-center justify-center text-2xl font-black text-playful-indigo shadow-lg shadow-playful-yellow/20">
@@ -195,7 +202,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         {/* Tags */}
         <div className="space-y-3">
           <Heading level={4} icon={Tag} className="text-zinc-400 ml-1">
-            {t("tags")}
+            {t('tags')}
           </Heading>
           <Card className="p-4">
             <div className="flex flex-wrap gap-2 mb-4">
@@ -215,17 +222,21 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
                 </Badge>
               ))}
               {item.tags.length === 0 && (
-                <p className="text-xs text-zinc-400 italic">{t("noTags")}</p>
+                <p className="text-xs text-zinc-400 italic">{t('noTags')}</p>
               )}
             </div>
             <form onSubmit={handleAddTag} className="flex gap-2">
               <Input
-                placeholder={t("newTagPlaceholder")}
+                placeholder={t('newTagPlaceholder')}
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 className="h-10 text-xs rounded-xl"
               />
-              <Button type="submit" size="sm" className="h-10 w-10 p-0 rounded-xl bg-playful-indigo">
+              <Button
+                type="submit"
+                size="sm"
+                className="h-10 w-10 p-0 rounded-xl bg-playful-indigo"
+              >
                 <Plus size={18} />
               </Button>
             </form>
@@ -240,14 +251,14 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
           onClick={() => setShowResetConfirm(true)}
           className="h-14 rounded-[24px] border-2 font-black gap-2"
         >
-          <RotateCcw size={20} /> {commonT("reset")}
+          <RotateCcw size={20} /> {commonT('reset')}
         </Button>
         <Button
           variant="destructive"
           onClick={() => setShowDeleteConfirm(true)}
           className="h-14 rounded-[24px] font-black gap-2 shadow-lg shadow-playful-red/20"
         >
-          <Trash2 size={20} /> {commonT("delete")}
+          <Trash2 size={20} /> {commonT('delete')}
         </Button>
       </div>
 
@@ -255,9 +266,9 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
-        title={t("deleteWord")}
-        description={t("deleteWordDesc", { word: item.source })}
-        confirmText={commonT("delete")}
+        title={t('deleteWord')}
+        description={t('deleteWordDesc', { word: item.source })}
+        confirmText={commonT('delete')}
         variant="destructive"
       />
 
@@ -265,9 +276,9 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         isOpen={showResetConfirm}
         onClose={() => setShowResetConfirm(false)}
         onConfirm={handleReset}
-        title={t("resetProgress")}
-        description={t("resetProgressDesc")}
-        confirmText={commonT("reset")}
+        title={t('resetProgress')}
+        description={t('resetProgressDesc')}
+        confirmText={commonT('reset')}
       />
     </div>
   );

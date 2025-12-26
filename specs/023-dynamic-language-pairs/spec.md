@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Now we want to allow the user to set the SOURCE and TARGET language pair. For now, the user can only learn one language pair at a time. They can only change it by resetting the app in the settings. So let them choose the language pair on first app startup. Make sure the AI generator dynamically uses the language(s) the user is learning. Allow the following languages (all pairs possible, but of course source and target language must be different): English, German, Czech, French, Italian, Spanish. Also make sure to dynamically provide the correct diacritics keyboard for each target language (expect each user in each source language to only have access to the 26 core latin letters)"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Initial Language Pair Setup (Priority: P1)
 
@@ -71,7 +71,7 @@ As a user, I want to be able to reset my language pair by resetting the entire a
 - **Offline Startup**: How does the first-time setup handle no internet? (Local selection is fine, but AI generation will fail later).
 - **Screen Size**: Ensure the language selection grid is readable on small mobile screens.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -82,20 +82,20 @@ As a user, I want to be able to reset my language pair by resetting the entire a
 - **FR-005**: AI Generator prompts MUST dynamically inject the `targetLanguage` and `sourceLanguage`.
 - **FR-006**: Virtual Keyboard MUST dynamically load a character set based on the `targetLanguage`.
 - **FR-007**: System MUST support the following diacritics mapping:
-    - **German**: ä, ö, ü, ß
-    - **Czech**: á, č, ď, é, ě, í, ň, ó, ř, š, ť, ú, ů, ý, ž
-    - **Spanish**: á, é, í, ó, ú, ü, ñ
-    - **French**: à, â, æ, ç, é, è, ê, ë, î, ï, ô, œ, ù, û, ü, ÿ
-    - **Italian**: à, è, é, ì, ò, ó, ù
-    - **English**: (None)
+  - **German**: ä, ö, ü, ß
+  - **Czech**: á, č, ď, é, ě, í, ň, ó, ř, š, ť, ú, ů, ý, ž
+  - **Spanish**: á, é, í, ó, ú, ü, ñ
+  - **French**: à, â, æ, ç, é, è, ê, ë, î, ï, ô, œ, ù, û, ü, ÿ
+  - **Italian**: à, è, é, ì, ò, ó, ù
+  - **English**: (None)
 - **FR-008**: User MUST only be able to change the language pair by performing a full app reset (clearing all data).
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **LanguagePair**: A configuration object containing `source` and `target` language codes.
 - **UserSettings**: Updated to include the `LanguagePair`.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

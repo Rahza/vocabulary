@@ -10,11 +10,11 @@
 
 - **Decision**: Use `class` based dark mode.
 - **Rationale**: Allows toggling via a CSS class on the `html` element. Tailwind v4 supports this out of the box.
-- **Design Strategy**: 
-    - Use `bg-white dark:bg-zinc-900` for cards and components.
-    - Use `bg-gray-50 dark:bg-zinc-950` for page backgrounds.
-    - Ensure all text uses `text-zinc-900 dark:text-zinc-50` or appropriate zinc shades.
-    - Standardize border colors to `border-zinc-100 dark:border-zinc-800`.
+- **Design Strategy**:
+  - Use `bg-white dark:bg-zinc-900` for cards and components.
+  - Use `bg-gray-50 dark:bg-zinc-950` for page backgrounds.
+  - Ensure all text uses `text-zinc-900 dark:text-zinc-50` or appropriate zinc shades.
+  - Standardize border colors to `border-zinc-100 dark:border-zinc-800`.
 
 ## FOUC Prevention
 

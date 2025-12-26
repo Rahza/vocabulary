@@ -21,7 +21,7 @@ This plan addresses a set of critical bug fixes and UI/UX refinements identified
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **I. Engineering Excellence**: [PASSED] This feature directly addresses codebase health (ESLint) and functional correctness (Trainer bugs).
 - **II. Maintainability and Extensibility**: [PASSED] Refactoring prompts and UI sync logic makes the system more robust.
@@ -62,5 +62,5 @@ src/
 ## Complexity Tracking
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| N/A       |            |                                     |
+| --------- | ---------- | ------------------------------------ |
+| N/A       |            |                                      |

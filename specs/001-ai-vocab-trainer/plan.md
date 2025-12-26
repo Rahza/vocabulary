@@ -29,7 +29,7 @@ A mobile-first web application for learning German-Czech vocabulary using AI gen
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **I. Engineering Excellence**: ✅ Repository pattern implemented for data layer to decouple UI from LocalStorage. Strict TypeScript usage.
 - **II. Maintainability and Extensibility**: ✅ Service-based architecture allows swapping `LocalStorageRepository` for `SupabaseRepository` later without code changes in components.
@@ -51,6 +51,7 @@ specs/001-ai-vocab-trainer/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -88,7 +89,7 @@ src/
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| Repository Pattern | Future migration to Backend | Direct LocalStorage calls in components would make migration strictly harder (refactoring hell). |
-| Client-side API Key | User Requirement | Backend proxy is safer but violates "no hosted backend" constraint. |
+| Violation           | Why Needed                  | Simpler Alternative Rejected Because                                                             |
+| ------------------- | --------------------------- | ------------------------------------------------------------------------------------------------ |
+| Repository Pattern  | Future migration to Backend | Direct LocalStorage calls in components would make migration strictly harder (refactoring hell). |
+| Client-side API Key | User Requirement            | Backend proxy is safer but violates "no hosted backend" constraint.                              |

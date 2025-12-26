@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Light mode still looks super ugly and just uses the same components as dark mode in many place. Completely re-style light mode without modifying the dark mode look."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Polished Light Mode Experience (Priority: P1)
 
@@ -42,7 +42,7 @@ As a developer, I want to ensure that restyling the light mode does not break or
 - Handling components that might have hardcoded colors that don't adapt well to the new light palette.
 - Verifying transition animations between light and dark mode remain smooth.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -51,11 +51,11 @@ As a developer, I want to ensure that restyling the light mode does not break or
 - **FR-003**: Restyling MUST be strictly isolated to the light mode theme classes or media queries.
 - **FR-004**: System MUST ensure 100% functional parity between light and dark mode interactions.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **ThemeConfiguration**: The set of CSS variables and Tailwind classes defining the light mode visual state.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

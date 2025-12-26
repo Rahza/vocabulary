@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "In the practice tab, keep the current, classic vocabulary practice mode but add a new mode: connect pairs. Let the user choose a number of questions, one or multiple tags and then for each \"question\", let them connect multiple words (one language per side, left and right) to connect the correct translations"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Mode Selection (Priority: P1)
 
@@ -58,7 +58,7 @@ As a user, I want to match words from two columns by tapping/clicking them so th
 - **Session Interruption**: How is progress handled if the user leaves the tab mid-session? (Default: Progress is not saved for practice mode unless completed).
 - **Small Screens**: How do pairs render on mobile devices? (5 pairs are manageable).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -71,12 +71,12 @@ As a user, I want to match words from two columns by tapping/clicking them so th
 - **FR-007**: A "Connect Pairs" session is for pure practice and MUST NOT update the Leitner progress or mastery of the involved words.
 - **FR-008**: The number of pairs per screen MUST be 5.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **PracticeSession**: Represents the current configuration (mode, tags, length, progress).
 - **MatchingRound**: A single "question" containing a set of word pairs to be matched.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -1,40 +1,40 @@
-import type { Metadata, Viewport } from "next";
-import { Quicksand } from "next/font/google";
-import "../globals.css";
-import { Navigation } from "@/components/layout/Navigation";
-import { SettingsProvider } from "@/contexts/SettingsContext";
-import { Toaster } from "sonner";
-import { ThemeProvider } from "next-themes";
-import { ServiceWorkerRegistration } from "@/components/ServiceWorkerRegistration";
+import type { Metadata, Viewport } from 'next';
+import { Quicksand } from 'next/font/google';
+import '../globals.css';
+import { Navigation } from '@/components/layout/Navigation';
+import { SettingsProvider } from '@/contexts/SettingsContext';
+import { Toaster } from 'sonner';
+import { ThemeProvider } from 'next-themes';
+import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import { LanguageOnboarding } from "@/components/onboarding/LanguageOnboarding";
+import { LanguageOnboarding } from '@/components/onboarding/LanguageOnboarding';
 
 const quicksand = Quicksand({
-  variable: "--font-quicksand",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  variable: '--font-quicksand',
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
-  title: "AI Vocabulary Trainer",
-  description: "Learn vocabulary with AI and Spaced Repetition",
-  manifest: "/manifest.json",
+  title: 'AI Vocabulary Trainer',
+  description: 'Learn vocabulary with AI and Spaced Repetition',
+  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
-    title: "Vocab AI",
+    statusBarStyle: 'default',
+    title: 'Vocab AI',
   },
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
+    icon: '/icon.svg',
+    apple: '/icon.svg',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#6366f1",
+  themeColor: '#6366f1',
 };
 
 export function generateStaticParams() {
@@ -43,7 +43,7 @@ export function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -64,16 +64,17 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body
-        className={`${quicksand.variable} font-sans antialiased`}
-      >
+      <body className={`${quicksand.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="ai_vocab_theme">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            storageKey="ai_vocab_theme"
+          >
             <SettingsProvider>
               <LanguageOnboarding />
-              <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">
-                {children}
-              </main>
+              <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">{children}</main>
               <Navigation />
               <Toaster position="top-center" richColors />
               <ServiceWorkerRegistration />

@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "In the tag management, only show one tag per row. The tag name is not visible right now. The vocabulary \"boxes\" are boring (just numbered), give them proper names/icons/emojis (at least on hover)."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Single-Column Tag Manager (Priority: P1)
 
@@ -42,7 +42,7 @@ As a learner, I want the vocabulary boxes to have descriptive names and icons in
 - **Very long tag names**: Ensure that in the single-row layout, extremely long tag names wrap or truncate gracefully without pushing action buttons off-screen.
 - **Empty box states**: Ensure that boxes with 0 words still show their name and icon in the distribution chart.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -57,11 +57,11 @@ As a learner, I want the vocabulary boxes to have descriptive names and icons in
     - Box 5: 🏆 Meister
 - **FR-004**: Progress charts and distribution displays MUST use these new names and icons.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **LeitnerBoxDefinition**: A mapping of box index (1-5) to its name and icon.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

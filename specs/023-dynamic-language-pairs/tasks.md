@@ -17,9 +17,9 @@
 
 **Purpose**: Update types and configuration context for language pairs
 
-- [X] T001 Update `UserSettings` interface to include `sourceLanguage`, `targetLanguage`, and `languagePairSelected` in `src/models/types.ts`
-- [X] T002 Update `defaultSettings` and `updateSettings` to handle language pairs in `src/contexts/SettingsContext.tsx`
-- [X] T003 [P] Define `SUPPORTED_LANGUAGES` constant in `src/constants/languages.ts`
+- [x] T001 Update `UserSettings` interface to include `sourceLanguage`, `targetLanguage`, and `languagePairSelected` in `src/models/types.ts`
+- [x] T002 Update `defaultSettings` and `updateSettings` to handle language pairs in `src/contexts/SettingsContext.tsx`
+- [x] T003 [P] Define `SUPPORTED_LANGUAGES` constant in `src/constants/languages.ts`
 
 ---
 
@@ -29,9 +29,9 @@
 
 **⚠️ CRITICAL**: Onboarding UI must be ready before blocking the app layout
 
-- [X] T004 Create `LanguageOnboarding` component with source/target selection in `src/components/onboarding/LanguageOnboarding.tsx`
-- [X] T005 [P] Implement validation logic (Source != Target) in `LanguageOnboarding.tsx`
-- [X] T006 [P] Add Framer Motion entrance/exit animations to the onboarding overlay in `LanguageOnboarding.tsx`
+- [x] T004 Create `LanguageOnboarding` component with source/target selection in `src/components/onboarding/LanguageOnboarding.tsx`
+- [x] T005 [P] Implement validation logic (Source != Target) in `LanguageOnboarding.tsx`
+- [x] T006 [P] Add Framer Motion entrance/exit animations to the onboarding overlay in `LanguageOnboarding.tsx`
 
 ---
 
@@ -41,9 +41,9 @@
 
 **Independent Test**: Clear LocalStorage, open the app, and verify the onboarding screen blocks all content until "Start" is clicked with a valid pair.
 
-- [X] T007 Integrate `LanguageOnboarding` overlay into the root layout in `src/app/[locale]/layout.tsx`
-- [X] T008 [P] Ensure `SettingsProvider` correctly exposes `isOnboarded` state to the layout
-- [X] T009 [US1] Implement "Start" handler to save the selection and flip the `languagePairSelected` flag
+- [x] T007 Integrate `LanguageOnboarding` overlay into the root layout in `src/app/[locale]/layout.tsx`
+- [x] T008 [P] Ensure `SettingsProvider` correctly exposes `isOnboarded` state to the layout
+- [x] T009 [US1] Implement "Start" handler to save the selection and flip the `languagePairSelected` flag
 
 **Checkpoint**: MVP Ready - New users can select their languages and enter the app.
 
@@ -55,9 +55,9 @@
 
 **Independent Test**: Generate vocabulary and verify the AI uses the selected pair instead of hardcoded German-Czech.
 
-- [X] T010 [US2] Update `generateVocabulary` to accept and use `sourceLanguage` and `targetLanguage` names in `src/services/ai/OpenAIService.ts`
-- [X] T011 [US2] Update `generateSingleMnemonic` to use dynamic language names in `src/services/ai/OpenAIService.ts`
-- [X] T012 [P] [US2] Update `handleGenerate` in `src/app/[locale]/generate/page.tsx` to pass languages from settings to the AI service
+- [x] T010 [US2] Update `generateVocabulary` to accept and use `sourceLanguage` and `targetLanguage` names in `src/services/ai/OpenAIService.ts`
+- [x] T011 [US2] Update `generateSingleMnemonic` to use dynamic language names in `src/services/ai/OpenAIService.ts`
+- [x] T012 [P] [US2] Update `handleGenerate` in `src/app/[locale]/generate/page.tsx` to pass languages from settings to the AI service
 
 ---
 
@@ -67,9 +67,9 @@
 
 **Independent Test**: Switch target language to "Spanish" and verify the virtual keyboard shows "ñ", "á", etc.
 
-- [X] T013 [US3] Create `DIACRITICS` lookup table in `src/constants/languages.ts`
-- [X] T014 [US3] Modify `VirtualKeyboard` to accept `targetLanguage` prop and render appropriate keys in `src/components/keyboard/VirtualKeyboard.tsx`
-- [X] T015 [US3] Update `Flashcard` component to pass the current `targetLanguage` to the `VirtualKeyboard` in `src/components/trainer/Flashcard.tsx`
+- [x] T013 [US3] Create `DIACRITICS` lookup table in `src/constants/languages.ts`
+- [x] T014 [US3] Modify `VirtualKeyboard` to accept `targetLanguage` prop and render appropriate keys in `src/components/keyboard/VirtualKeyboard.tsx`
+- [x] T015 [US3] Update `Flashcard` component to pass the current `targetLanguage` to the `VirtualKeyboard` in `src/components/trainer/Flashcard.tsx`
 
 ---
 
@@ -79,7 +79,7 @@
 
 **Independent Test**: Click "Reset All Data" in settings and verify the user is redirected to the onboarding screen.
 
-- [X] T016 [US4] Verify that the existing `handleConfirmReset` in `src/app/[locale]/settings/page.tsx` clears the language pair flags correctly
+- [x] T016 [US4] Verify that the existing `handleConfirmReset` in `src/app/[locale]/settings/page.tsx` clears the language pair flags correctly
 
 ---
 
@@ -87,9 +87,9 @@
 
 **Purpose**: Final audit and verification
 
-- [X] T017 Audit all UI strings for "German" or "Czech" and replace with dynamic references (e.g. `sourceLanguage`) in Dashboard and Collection views
-- [X] T018 Run production build verification with `npm run build`
-- [X] T019 Verify WCAG contrast for the new onboarding UI in Light and Dark mode
+- [x] T017 Audit all UI strings for "German" or "Czech" and replace with dynamic references (e.g. `sourceLanguage`) in Dashboard and Collection views
+- [x] T018 Run production build verification with `npm run build`
+- [x] T019 Verify WCAG contrast for the new onboarding UI in Light and Dark mode
 
 ---
 

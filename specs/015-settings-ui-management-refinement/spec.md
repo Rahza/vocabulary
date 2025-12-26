@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "In the settings, let the user toggle between light mode and dark mode (or system). Remove browser autocomplete from all inputs. Revise the layout for the vocabulary management page (except for the words themselves - their layout is great. Focus on the header/filter). Make sure to consider 0 count states for all sections."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Theme Customization (Priority: P1)
 
@@ -64,7 +64,7 @@ As a user, I want to type into inputs without browser-suggested autocomplete pop
 
 1. **Given** a text input field, **When** I click into it or start typing, **Then** no previous browser entries are suggested.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -75,14 +75,14 @@ As a user, I want to type into inputs without browser-suggested autocomplete pop
 - **FR-005**: The Vocabulary Management filter section MUST be updated to be more intuitive and responsive.
 - **FR-006**: Every list or grid section MUST implement a dedicated "Empty State" UI when the item count is zero.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
-- **UserSettings**: 
-    - `theme`: 'light' | 'dark' | 'system'
+- **UserSettings**:
+  - `theme`: 'light' | 'dark' | 'system'
 - **VocabularyCollection**:
-    - `count`: Number (used to trigger empty states)
+  - `count`: Number (used to trigger empty states)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

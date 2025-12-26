@@ -23,7 +23,7 @@ This feature is a comprehensive UI/UX overhaul aimed at making the Vocabulary Tr
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **I. Engineering Excellence**: ✅ Centralizing design tokens in `globals.css` and `tailwind.config.ts` ensures a single source of truth for the aesthetic.
 - **II. Maintainability and Extensibility**: ✅ The design revision uses existing component boundaries, making it easy to swap themes or adjust tokens in the future.
@@ -62,6 +62,6 @@ src/
 
 ## Complexity Tracking
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
+| Violation         | Why Needed                                                | Simpler Alternative Rejected Because                            |
+| ----------------- | --------------------------------------------------------- | --------------------------------------------------------------- |
 | Custom Keycap CSS | To achieve the "3D keycap" look for the virtual keyboard. | Standard flat buttons lack the tactile, playful feel requested. |

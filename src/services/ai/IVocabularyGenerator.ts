@@ -7,8 +7,8 @@ export interface GeneratedVocabularyItem {
 
 export interface IVocabularyGenerator {
   generate(
-    topic: string, 
-    count: number, 
+    topic: string,
+    count: number,
     existingTerms: string[]
   ): Promise<GeneratedVocabularyItem[]>;
 }

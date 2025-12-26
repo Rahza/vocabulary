@@ -3,6 +3,7 @@
 Auto-generated from all feature plans. Last updated: 2025-12-25
 
 ## Active Technologies
+
 - TypeScript 5.x, Node.js 18+ + `sonner` (New), Next.js, React, Tailwind CSS (002-fix-vocab-bugs)
 - LocalStorage (Unchanged) (002-fix-vocab-bugs)
 - TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, OpenAI SDK, Tailwind CSS, Framer Motion, Sonner (004-vocab-enhancements-de)
@@ -44,6 +45,7 @@ npm test && npm run lint
 TypeScript 5.x, Node.js 18+: Follow standard conventions
 
 ## Constitution
+
 - **V. Version Control Discipline**: Atomic, clear, and descriptive commits.
 - **VI. Pragmatic Testing**: High-value tests covering core logic and edge cases only.
 - **VII. Strict Linting & Formatting**: Strict ruleset, no comment suppression.
@@ -51,10 +53,10 @@ TypeScript 5.x, Node.js 18+: Follow standard conventions
 - **IX. Modern Coding Style**: Mandatory arrow functions for components and logic.
 
 ## Recent Changes
+
 - 024-lang-selector-refinement: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, `next-intl`, `next-themes`, Framer Motion, Lucide React, `sonner`
 - 023-dynamic-language-pairs: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, OpenAI SDK, Framer Motion, Lucide Reac
 - 022-app-i18n-implementation: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, `next-intl`, Tailwind CSS v4, `next-themes`
-
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

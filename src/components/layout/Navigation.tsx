@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { Link, usePathname } from "@/i18n/routing";
-import { LayoutDashboard, BrainCircuit, Dumbbell, Settings, Library } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { Link, usePathname } from '@/i18n/routing';
+import { LayoutDashboard, BrainCircuit, Dumbbell, Settings, Library } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 export function Navigation() {
   const pathname = usePathname();
-  const t = useTranslations("navigation");
+  const t = useTranslations('navigation');
 
   const links = [
-    { href: "/", label: t("dashboard"), icon: LayoutDashboard },
-    { href: "/vocabulary", label: t("vocabulary"), icon: Library },
-    { href: "/trainer", label: t("trainer"), icon: BrainCircuit },
-    { href: "/practice", label: t("practice"), icon: Dumbbell },
-    { href: "/settings", label: t("settings"), icon: Settings },
+    { href: '/', label: t('dashboard'), icon: LayoutDashboard },
+    { href: '/vocabulary', label: t('vocabulary'), icon: Library },
+    { href: '/trainer', label: t('trainer'), icon: BrainCircuit },
+    { href: '/practice', label: t('practice'), icon: Dumbbell },
+    { href: '/settings', label: t('settings'), icon: Settings },
   ];
 
   return (
@@ -28,20 +28,23 @@ export function Navigation() {
               key={href}
               href={href}
               className={cn(
-                "relative flex flex-col items-center justify-center w-full h-full space-y-1 transition-all",
+                'relative flex flex-col items-center justify-center w-full h-full space-y-1 transition-all',
                 isActive
-                  ? "text-playful-indigo"
-                  : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
+                  ? 'text-playful-indigo'
+                  : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300'
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="nav-active"
                   className="absolute inset-x-2 inset-y-2 bg-playful-indigo/10 rounded-2xl -z-10"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
-              <Icon size={24} className={cn("transition-transform duration-300", isActive && "scale-110")} />
+              <Icon
+                size={24}
+                className={cn('transition-transform duration-300', isActive && 'scale-110')}
+              />
               <span className="text-[10px] font-black uppercase tracking-widest">{label}</span>
             </Link>
           );

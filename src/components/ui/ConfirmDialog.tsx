@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "./Button";
-import { AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from './Button';
+import { AlertCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -15,7 +15,7 @@ interface ConfirmDialogProps {
   description: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: "destructive" | "playful";
+  variant?: 'destructive' | 'playful';
 }
 
 export function ConfirmDialog({
@@ -26,11 +26,11 @@ export function ConfirmDialog({
   description,
   confirmText,
   cancelText,
-  variant = "playful",
+  variant = 'playful',
 }: ConfirmDialogProps) {
-  const t = useTranslations("common");
-  const finalConfirmText = confirmText || t("confirm");
-  const finalCancelText = cancelText || t("cancel");
+  const t = useTranslations('common');
+  const finalConfirmText = confirmText || t('confirm');
+  const finalCancelText = cancelText || t('cancel');
 
   return (
     <AnimatePresence>
@@ -53,18 +53,20 @@ export function ConfirmDialog({
             className="relative w-full max-w-sm bg-white dark:bg-zinc-900 rounded-[40px] border-4 border-zinc-100 dark:border-zinc-800 shadow-2xl p-8 overflow-hidden"
           >
             <div className="flex flex-col items-center text-center space-y-6">
-              <div className={cn(
-                "w-16 h-16 rounded-3xl flex items-center justify-center shadow-lg",
-                variant === "destructive" ? "bg-playful-red/10 text-playful-red" : "bg-playful-yellow/10 text-playful-yellow"
-              )}>
+              <div
+                className={cn(
+                  'w-16 h-16 rounded-3xl flex items-center justify-center shadow-lg',
+                  variant === 'destructive'
+                    ? 'bg-playful-red/10 text-playful-red'
+                    : 'bg-playful-yellow/10 text-playful-yellow'
+                )}
+              >
                 <AlertCircle size={32} />
               </div>
 
               <div className="space-y-2">
                 <h3 className="text-2xl font-black tracking-tight">{title}</h3>
-                <p className="text-zinc-500 font-bold text-sm leading-relaxed">
-                  {description}
-                </p>
+                <p className="text-zinc-500 font-bold text-sm leading-relaxed">{description}</p>
               </div>
 
               <div className="flex flex-col w-full gap-3">

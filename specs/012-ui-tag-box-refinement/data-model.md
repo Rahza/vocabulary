@@ -5,6 +5,7 @@ This document defines the static mappings used for UI enhancements.
 ## Entities
 
 ### LeitnerBoxDefinition
+
 A static mapping of Leitner box indices to their display properties.
 
 - `index`: Number (1-5)
@@ -14,10 +15,10 @@ A static mapping of Leitner box indices to their display properties.
 
 ## Mapping Table
 
-| Index | Icon | Name | Description |
-|-------|------|------|-------------|
-| 1 | 🌱 | Keimling | Ganz neu in der Sammlung |
-| 2 | 🌿 | Setzling | Erste Wiederholungen geschafft |
-| 3 | 🌳 | Jungbaum | Festigt sich im Gedächtnis |
-| 4 | 🏰 | Erfahren | Langzeitgedächtnis erreicht |
-| 5 | 🏆 | Meister | Dauerhaft gemerkt |
+| Index | Icon | Name     | Description                    |
+| ----- | ---- | -------- | ------------------------------ |
+| 1     | 🌱   | Keimling | Ganz neu in der Sammlung       |
+| 2     | 🌿   | Setzling | Erste Wiederholungen geschafft |
+| 3     | 🌳   | Jungbaum | Festigt sich im Gedächtnis     |
+| 4     | 🏰   | Erfahren | Langzeitgedächtnis erreicht    |
+| 5     | 🏆   | Meister  | Dauerhaft gemerkt              |

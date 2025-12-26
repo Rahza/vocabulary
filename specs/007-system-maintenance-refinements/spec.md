@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Allow editing tags themselves (delete/rename). In the word detail view, allow recreating the mnemonic for that single word. When selecting multiple words and performing a bulk action, don't deselect them after performing the action. Perform a code audit, fix all eslint errors. Make sure tests don't run in interactive mode per default. Audit, add and run tests. The Skip button in the trainer doesn't work. Don't allow tips/mnemonic in the trainer, only in practice mode."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Global Tag Management (Priority: P1)
 
@@ -71,7 +71,7 @@ As a learner, I expect the "Skip" button to work in the trainer and for the trai
 - **Network failure during mnemonic regen**: Should show an error toast and keep the old mnemonic.
 - **Bulk action failure**: If a bulk action fails for some reason, the selection should still persist to allow retry.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -89,7 +89,7 @@ As a learner, I expect the "Skip" button to work in the trainer and for the trai
 - **VocabularyItem**: Updated via global tag changes and mnemonic regeneration.
 - **Tag**: Entity managed via rename/delete.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

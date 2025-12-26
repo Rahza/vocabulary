@@ -1,4 +1,4 @@
-import { Variants } from "framer-motion";
+import { Variants } from 'framer-motion';
 
 export const bouncyButton: Variants = {
   initial: { scale: 1 },
@@ -13,28 +13,28 @@ export const slideTransition: Variants = {
 };
 
 export const juicyCorrect: Variants = {
-  animate: { 
+  animate: {
     scale: [1, 1.1, 1],
     rotate: [0, 5, -5, 0],
-    transition: { duration: 0.4 }
+    transition: { duration: 0.4 },
   },
 };
 
 export const juicyIncorrect: Variants = {
-  animate: { 
+  animate: {
     x: [0, -10, 10, -10, 10, 0],
-    transition: { duration: 0.4 }
+    transition: { duration: 0.4 },
   },
 };
 
 export const containerReveal: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
-      staggerChildren: 0.1
-    }
+      staggerChildren: 0.1,
+    },
   },
 };
 

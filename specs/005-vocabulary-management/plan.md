@@ -21,7 +21,7 @@ This feature implements a comprehensive vocabulary management system, allowing u
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **I. Engineering Excellence**: [PASSED] The modular repository pattern and React state management follow best practices.
 - **II. Maintainability and Extensibility**: [PASSED] Separating tag management and bulk actions ensures a modular UI.
@@ -72,5 +72,5 @@ src/
 ## Complexity Tracking
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| N/A       |            |                                     |
+| --------- | ---------- | ------------------------------------ |
+| N/A       |            |                                      |
