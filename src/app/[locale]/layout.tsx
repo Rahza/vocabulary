@@ -1,47 +1,17 @@
-import type { Metadata, Viewport } from 'next';
-import { Quicksand } from 'next/font/google';
-import '../globals.css';
-import { Navigation } from '@/components/layout/Navigation';
-import { SettingsProvider } from '@/contexts/SettingsContext';
-import { Toaster } from 'sonner';
-import { ThemeProvider } from 'next-themes';
-import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing, Locale } from '@/i18n/routing';
 import { LanguageOnboarding } from '@/components/onboarding/LanguageOnboarding';
-
-const quicksand = Quicksand({
-  variable: '--font-quicksand',
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-});
-
-export const metadata: Metadata = {
-  title: 'AI Vocabulary Trainer',
-  description: 'Learn vocabulary with AI and Spaced Repetition',
-  manifest: '/manifest.json',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: 'Vocab AI',
-  },
-  icons: {
-    icon: '/icon.svg',
-    apple: '/icon.svg',
-  },
-};
-
-export const viewport: Viewport = {
-  themeColor: '#6366f1',
-};
+import { SettingsProvider } from '@/contexts/SettingsContext';
+import { Navigation } from '@/components/layout/Navigation';
+import { Toaster } from 'sonner';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function RootLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
@@ -63,25 +33,13 @@ export default async function RootLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={`${quicksand.variable} font-sans antialiased`}>
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            storageKey="ai_vocab_theme"
-          >
-            <SettingsProvider>
-              <LanguageOnboarding />
-              <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">{children}</main>
-              <Navigation />
-              <Toaster position="top-center" richColors />
-              <ServiceWorkerRegistration />
-            </SettingsProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <SettingsProvider>
+        <LanguageOnboarding />
+        <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">{children}</main>
+        <Navigation />
+        <Toaster position="top-center" richColors />
+      </SettingsProvider>
+    </NextIntlClientProvider>
   );
 }

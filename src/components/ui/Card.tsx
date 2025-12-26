@@ -27,13 +27,13 @@ export const Card = ({
     outline: 'bg-transparent border-zinc-200 dark:border-zinc-800',
   };
 
-  const Component = onClick ? motion.div : 'div';
+  const isInteractive = onClick || hoverable;
 
   return (
-    <Component
+    <motion.div
       onClick={onClick}
-      whileHover={onClick || hoverable ? { scale: 0.98 } : undefined}
-      whileTap={onClick || hoverable ? { scale: 0.96 } : undefined}
+      whileHover={isInteractive ? { scale: 0.98 } : undefined}
+      whileTap={isInteractive ? { scale: 0.96 } : undefined}
       className={cn(
         'p-3 border-2 rounded-[24px] transition-all relative',
         variants[variant],
@@ -43,6 +43,6 @@ export const Card = ({
       )}
     >
       {children}
-    </Component>
+    </motion.div>
   );
 };
