@@ -11,6 +11,7 @@ import { BrainCircuit, Wand2, Dumbbell, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { containerReveal, itemReveal } from '@/lib/animations';
 import { Heading } from '@/components/ui/Heading';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { useTranslations } from 'next-intl';
 
 export default function DashboardPage() {
@@ -92,7 +93,7 @@ export default function DashboardPage() {
           {t('progress')}
         </Heading>
         {loading || !globalStats ? (
-          <div className="h-64 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-playful" />
+          <Skeleton variant="card" />
         ) : (
           <StatsOverview stats={stats} globalStats={globalStats} />
         )}

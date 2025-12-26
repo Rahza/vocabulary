@@ -4,6 +4,9 @@ import { getFirestore, Firestore } from 'firebase-admin/firestore';
 
 let adminApp: App | null = null;
 
+// Check if running with emulators
+const useEmulators = process.env.NEXT_PUBLIC_USE_EMULATORS === 'true';
+
 const getFirebaseAdmin = (): App => {
     if (adminApp) {
         return adminApp;
@@ -15,6 +18,20 @@ const getFirebaseAdmin = (): App => {
     }
 
     const projectId = process.env.FIREBASE_PROJECT_ID;
+
+    // When using emulators, we can initialize without full credentials
+    if (useEmulators) {
+        // Set emulator environment variables for Firebase Admin SDK
+        process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
+        process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
+
+        adminApp = initializeApp({
+            projectId: projectId || 'demo-project',
+        });
+        return adminApp;
+    }
+
+    // Production mode - require full credentials
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
@@ -48,4 +65,3 @@ export const adminDb: Firestore = {
         return getFirestore(app).collection(path);
     },
 } as Firestore;
-

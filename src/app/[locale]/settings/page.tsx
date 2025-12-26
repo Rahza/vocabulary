@@ -1,13 +1,11 @@
 'use client';
 
-import { useSettings } from '@/contexts/SettingsContext';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { containerReveal, itemReveal } from '@/lib/animations';
-import { Key, Trash2, Palette, Languages } from 'lucide-react';
+import { Trash2, Palette, Languages } from 'lucide-react';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { LanguageSelector } from '@/components/settings/LanguageSelector';
@@ -15,22 +13,8 @@ import { Heading } from '@/components/ui/Heading';
 import { useTranslations } from 'next-intl';
 
 export default function SettingsPage() {
-  const { settings, updateSettings } = useSettings();
   const t = useTranslations('settings');
-  const [apiKey, setApiKey] = useState('');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-
-  useEffect(() => {
-    if (settings.openaiApiKey) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setApiKey(settings.openaiApiKey);
-    }
-  }, [settings.openaiApiKey]);
-
-  const handleSave = () => {
-    updateSettings({ openaiApiKey: apiKey });
-    toast.success(t('settingsSaved'));
-  };
 
   const handleConfirmReset = () => {
     localStorage.clear();
@@ -64,25 +48,6 @@ export default function SettingsPage() {
         </Heading>
         <ThemeSelector />
       </motion.section>
-
-      <motion.div variants={itemReveal} className="space-y-4">
-        <Heading level={2} icon={Key} subtitle="" className="text-playful-indigo ml-1">
-          {t('apiKey')}
-        </Heading>
-        <Input
-          id="apiKey"
-          type="password"
-          placeholder={t('apiKeyPlaceholder')}
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          className="focus-visible:ring-playful-indigo"
-        />
-        <p className="text-xs text-zinc-400 font-bold italic px-1">{t('apiKeyHint')}</p>
-
-        <Button onClick={handleSave} className="w-full h-16 rounded-3xl border-b-4">
-          {t('saveSettings')}
-        </Button>
-      </motion.div>
 
       <motion.div
         variants={itemReveal}

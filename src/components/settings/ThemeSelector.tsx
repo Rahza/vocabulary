@@ -1,32 +1,25 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
 import { Sun, Moon, Laptop } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { UserSettings } from '@/models/types';
 import { useTheme } from 'next-themes';
 import { Card } from '@/components/ui/Card';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { useMounted } from '@/hooks/use-mounted';
 
 export const ThemeSelector = () => {
   const { updateSettings } = useSettings();
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch - this pattern is intentional
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
 
   if (!mounted) {
     return (
       <div className="grid grid-cols-3 gap-3">
         {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="h-24 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-3xl border-2 border-zinc-100 dark:border-zinc-800"
-          />
+          <Skeleton key={i} className="h-24 rounded-3xl border-2 border-zinc-100 dark:border-zinc-800" />
         ))}
       </div>
     );

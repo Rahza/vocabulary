@@ -7,6 +7,7 @@ Auto-generated from all feature plans. Last updated: 2025-12-25
 - Cloud Firestore (026-firebase-backend-auth)
 - TypeScript 5.x, Node.js 18+ + Next.js 16+, Framer Motion, Lucide React, Tailwind CSS v4 (027-auth-ui-redesign)
 - N/A (UI-only change) (027-auth-ui-redesign)
+- TypeScript 5.x, Node.js 18+ + Next.js 16+, Firebase SDK, Tailwind CSS v4, Framer Motion, Vites (028-comprehensive-app-audit)
 
 - TypeScript 5.x, Node.js 18+ + `sonner` (New), Next.js, React, Tailwind CSS (002-fix-vocab-bugs)
 - LocalStorage (Unchanged) (002-fix-vocab-bugs)
@@ -57,10 +58,10 @@ TypeScript 5.x, Node.js 18+: Follow standard conventions
 - **IX. Modern Coding Style**: Mandatory arrow functions for components and logic.
 
 ## Recent Changes
+- 028-comprehensive-app-audit: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, Firebase SDK, Tailwind CSS v4, Framer Motion, Vites
 - 027-auth-ui-redesign: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, Framer Motion, Lucide React, Tailwind CSS v4
 - 026-firebase-backend-auth: Added TypeScript 5.x, Node.js 18+ + Firebase SDK (v10+), OpenAI SDK (v4+), Next.js 16+, firebase-admin
 
-- 024-lang-selector-refinement: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, `next-intl`, `next-themes`, Framer Motion, Lucide React, `sonner`
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

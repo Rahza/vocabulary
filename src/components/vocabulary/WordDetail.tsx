@@ -58,17 +58,11 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
   }, [item.mnemonic]);
 
   const handleRegenerateMnemonic = async () => {
-    if (!settings.openaiApiKey) {
-      toast.error('OpenAI API-Schlüssel fehlt. Bitte in den Einstellungen hinzufügen.');
-      return;
-    }
-
     setIsRegenerating(true);
     try {
       const newMnemonic = await aiService.generateSingleMnemonic(
         item.source,
         item.target,
-        settings.openaiApiKey,
         settings.sourceLanguage || 'German',
         settings.targetLanguage || 'Czech'
       );

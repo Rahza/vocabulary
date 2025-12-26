@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { useRouter, Link } from '@/i18n/routing';
+import { useRouter } from '@/i18n/routing';
 import { GeneratorForm } from '@/components/generator/GeneratorForm';
 import { GeneratedList } from '@/components/generator/GeneratedList';
 import { OpenAIService } from '@/services/ai/OpenAIService';
 import { useRepository } from '@/contexts/RepositoryContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { VocabularyPair } from '@/models/types';
-import { Button } from '@/components/ui/Button';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { containerReveal, itemReveal } from '@/lib/animations';
@@ -40,7 +39,6 @@ export default function GeneratePage() {
         theme,
         difficulty,
         count,
-        settings.openaiApiKey || '',
         settings.sourceLanguage || 'German',
         settings.targetLanguage || 'Czech',
         existingTerms
@@ -87,19 +85,7 @@ export default function GeneratePage() {
     }
   };
 
-  if (!settings.openaiApiKey) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[60vh] space-y-6 text-center">
-        <div className="text-6xl">🔑</div>
-        <p className="text-zinc-400 font-bold max-w-[200px]">{t('noApiKey')}</p>
-        <Link href="/settings">
-          <Button variant="playful" className="h-14 px-8 rounded-3xl border-b-4 font-black">
-            {t('openSettings')}
-          </Button>
-        </Link>
-      </div>
-    );
-  }
+  // Note: API key is optional - backend returns mock data if not configured
 
   return (
     <motion.div variants={containerReveal} initial="hidden" animate="visible" className="space-y-8">

@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Flashcard } from './Flashcard';
 import { VocabularyPair } from '@/models/types';
 import { DIRECTION_FORWARD } from '@/constants/languages';
@@ -13,6 +12,11 @@ vi.mock('@/contexts/SettingsContext', () => ({
       targetLanguage: 'Czech',
     },
   }),
+}));
+
+// Mock next-intl
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
 }));
 
 const mockWord: VocabularyPair = {

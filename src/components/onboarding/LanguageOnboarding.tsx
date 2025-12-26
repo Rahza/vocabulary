@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { SUPPORTED_LANGUAGES, SupportedLanguage } from '@/constants/languages';
+import { SUPPORTED_LANGUAGES, SupportedLanguage, LANG_CODE_MAP } from '@/constants/languages';
 import { useSettings } from '@/contexts/SettingsContext';
 import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui/Heading';
@@ -18,15 +18,6 @@ const FLAGS: Record<SupportedLanguage, string> = {
   Spanish: '🇪🇸',
   French: '🇫🇷',
   Italian: '🇮🇹',
-};
-
-const LANG_CODE_MAP: Record<SupportedLanguage, string> = {
-  English: 'en',
-  German: 'de',
-  Czech: 'cs',
-  Spanish: 'es',
-  French: 'fr',
-  Italian: 'it',
 };
 
 // Routes where onboarding should not appear

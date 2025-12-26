@@ -6,7 +6,6 @@ export interface IAIService {
     theme: string,
     difficulty: string,
     count: number,
-    apiKey: string, // Kept for backward compatibility, but not used
     sourceLanguage: string,
     targetLanguage: string,
     existingTerms?: string[]
@@ -15,7 +14,6 @@ export interface IAIService {
   generateSingleMnemonic(
     sourceWord: string,
     targetWord: string,
-    apiKey: string,
     sourceLanguage: string,
     targetLanguage: string
   ): Promise<string>;
@@ -34,11 +32,9 @@ export class OpenAIService implements IAIService {
   async generateSingleMnemonic(
     sourceWord: string,
     targetWord: string,
-    apiKey: string,
     sourceLanguage: string,
     targetLanguage: string
   ): Promise<string> {
-    // For mnemonic regeneration, we call the mnemonic API endpoint
     const idToken = await this.getIdToken();
 
     const response = await fetch('/api/mnemonic', {
@@ -68,7 +64,6 @@ export class OpenAIService implements IAIService {
     theme: string,
     difficulty: string,
     count: number,
-    _apiKey: string, // Not used - API key is now server-side
     sourceLanguage: string,
     targetLanguage: string,
     existingTerms: string[] = []
@@ -100,4 +95,3 @@ export class OpenAIService implements IAIService {
     return data.vocabulary || [];
   }
 }
-

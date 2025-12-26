@@ -8,6 +8,7 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { motion } from 'framer-motion';
 import { containerReveal, itemReveal } from '@/lib/animations';
 import { toast } from 'sonner';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { useTranslations } from 'next-intl';
 
 export default function TagManagementPage() {
@@ -62,7 +63,7 @@ export default function TagManagementPage() {
         <TagEditor onCreate={handleCreateTag} existingTags={tags} />
 
         {loading ? (
-          <div className="h-64 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-playful" />
+          <Skeleton variant="card" />
         ) : (
           <TagList tags={tags} onDelete={(tag) => setTagToDelete(tag)} onRename={handleRenameTag} />
         )}

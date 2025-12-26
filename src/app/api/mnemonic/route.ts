@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminAuth } from '@/lib/firebase-admin';
+import { verifyAuthToken } from '@/lib/api-auth';
 import OpenAI from 'openai';
 
 interface MnemonicRequestBody {
@@ -12,17 +12,9 @@ interface MnemonicRequestBody {
 export const POST = async (request: NextRequest) => {
     try {
         // Verify Firebase ID token
-        const authHeader = request.headers.get('Authorization');
-        if (!authHeader?.startsWith('Bearer ')) {
-            return NextResponse.json({ error: 'Unauthorized - Missing token' }, { status: 401 });
-        }
-
-        const idToken = authHeader.substring(7);
-        try {
-            await adminAuth.verifyIdToken(idToken);
-        } catch (error) {
-            console.error('Token verification failed:', error);
-            return NextResponse.json({ error: 'Unauthorized - Invalid token' }, { status: 401 });
+        const authResult = await verifyAuthToken(request);
+        if (!authResult.success) {
+            return authResult.response;
         }
 
         // Parse request body
@@ -54,7 +46,7 @@ Return ONLY the mnemonic text, no JSON, no explanations.`;
                 { role: 'system', content: 'You are a helpful language tutor.' },
                 { role: 'user', content: prompt },
             ],
-            model: 'gpt-4o-mini',
+            model: 'gpt-5.2',
             temperature: 0.8,
         });
 

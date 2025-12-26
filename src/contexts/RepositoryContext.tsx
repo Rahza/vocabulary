@@ -15,7 +15,7 @@ interface RepositoryContextType {
 const RepositoryContext = createContext<RepositoryContextType | undefined>(undefined);
 
 export const RepositoryProvider = ({ children }: { children: React.ReactNode }) => {
-    const { user, loading } = useAuth();
+    const { loading } = useAuth();
 
     const value = useMemo<RepositoryContextType>(() => {
         // Always use Firebase - user must be authenticated
@@ -24,7 +24,7 @@ export const RepositoryProvider = ({ children }: { children: React.ReactNode }) 
             repository: new FirebaseRepository(),
             isCloudBacked: true,
         };
-    }, [user]);
+    }, []);
 
     if (loading) {
         return null; // Or a loading spinner

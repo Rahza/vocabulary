@@ -24,34 +24,34 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+    // Compute initial values synchronously to avoid setState in effect body
+    const [isConfigured] = useState(() => isFirebaseConfigured());
+    // If not configured, start with loading=false; else loading=true until auth state resolves
+    const [loading, setLoading] = useState(() => isFirebaseConfigured());
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [isConfigured, setIsConfigured] = useState(false);
 
     useEffect(() => {
-        // Check if Firebase is configured
-        const configured = isFirebaseConfigured();
-        setIsConfigured(configured);
-
-        if (!configured) {
-            // Firebase not configured - skip auth and mark as loaded
-            setLoading(false);
+        if (!isConfigured) {
+            // Already set loading=false via initial state; nothing to do
             return;
         }
 
         const auth = getFirebaseAuth();
         if (!auth) {
+            // Edge case: configured but auth couldn't be obtained
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setLoading(false);
             return;
         }
 
+        // Subscribe to auth state changes - this is an event subscription pattern
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             setUser(firebaseUser);
             setLoading(false);
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [isConfigured]);
 
     const signIn = useCallback(async (email: string, password: string) => {
         const auth = getFirebaseAuth();

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -58,8 +57,9 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
     setSelectedRight(null);
   }, [vocabulary]);
 
-  // Initialize on mount
+  // Initialize round on mount - data fetch pattern
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     startRound();
   }, [startRound]);
 
@@ -73,16 +73,18 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
     }
   };
 
-  // Match checking - handle match results
+  // Game state machine: Match checking - responds to selection changes
+  // This effect legitimately modifies state in response to user selections
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (selectedLeft && selectedRight) {
       if (selectedLeft.id === selectedRight.id) {
-        // Success
+        // Success - game state transition
         setCompletedIds((prev) => new Set(prev).add(selectedLeft.id));
         setSelectedLeft(null);
         setSelectedRight(null);
       } else {
-        // Mismatch
+        // Mismatch - game state transition
         setMistakes((prev) => prev + 1);
         const leftKey = `source-${selectedLeft.id}`;
         const rightKey = `target-${selectedRight.id}`;
@@ -98,7 +100,9 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
       }
     }
   }, [selectedLeft, selectedRight]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
+  // Round completion - game state transition
   useEffect(() => {
     if (completedIds.size === 5 && leftItems.length > 0) {
       const timeout = setTimeout(() => {
@@ -142,7 +146,7 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
             isSelected && 'border-playful-indigo ring-2 ring-playful-indigo/20',
             isIncorrect && 'border-playful-red bg-playful-red/5',
             isCompleted &&
-              'border-playful-green bg-playful-green/20 pointer-events-none shadow-none'
+            'border-playful-green bg-playful-green/20 pointer-events-none shadow-none'
           )}
         >
           <span

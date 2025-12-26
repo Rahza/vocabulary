@@ -3,7 +3,7 @@
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter, usePathname } from '@/i18n/routing';
 import { useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 interface AuthGuardProps {
     children: React.ReactNode;
@@ -18,7 +18,9 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     const pathname = usePathname();
 
     // Check if current route is public (doesn't need auth)
-    const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route));
+    const isPublicRoute = PUBLIC_ROUTES.some(
+        (route) => pathname === route || pathname.startsWith(route)
+    );
 
     useEffect(() => {
         // Skip auth check for public routes
@@ -38,22 +40,9 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
         return <>{children}</>;
     }
 
-    // Show loading spinner while checking auth
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-playful-indigo" />
-            </div>
-        );
-    }
-
-    // If no user, don't render children (redirect will happen)
-    if (!user) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-playful-indigo" />
-            </div>
-        );
+    // Show loading spinner while checking auth or waiting for redirect
+    if (loading || !user) {
+        return <LoadingSpinner fullPage />;
     }
 
     // User is authenticated, render children

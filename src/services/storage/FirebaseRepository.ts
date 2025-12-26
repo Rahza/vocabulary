@@ -6,6 +6,7 @@ import {
     setDoc,
     query,
     where,
+    orderBy,
     writeBatch,
 } from 'firebase/firestore';
 import { getFirebaseDb, getFirebaseAuth } from '@/lib/firebase';
@@ -141,12 +142,28 @@ export class FirebaseRepository implements IVocabularyRepository {
     async getDueReviews(
         now: Date
     ): Promise<{ vocab: VocabularyPair; direction: LanguageDirection }[]> {
-        const allVocab = await this.getAllVocabulary();
-        const allLeitner = await this.getAllLeitnerStates();
         const nowISO = now.toISOString();
 
-        const dueStates = allLeitner.filter((l) => l.nextReview <= nowISO);
-        const vocabMap = new Map(allVocab.map((v) => [v.id, v]));
+        // Server-side filtering: only fetch leitner states where nextReview <= now
+        const dueQuery = query(
+            getLeitnerCollectionRef(),
+            where('nextReview', '<=', nowISO),
+            orderBy('nextReview')
+        );
+        const leitnerSnapshot = await getDocs(dueQuery);
+        const dueStates = leitnerSnapshot.docs.map((d) => d.data() as LeitnerState);
+
+        if (dueStates.length === 0) {
+            return [];
+        }
+
+        // Fetch only the vocabulary items we need
+        const vocabIds = [...new Set(dueStates.map((s) => s.vocabId))];
+        const vocabPromises = vocabIds.map((id) => this.getVocabularyById(id));
+        const vocabResults = await Promise.all(vocabPromises);
+        const vocabMap = new Map(
+            vocabResults.filter((v): v is VocabularyPair => v !== null).map((v) => [v.id, v])
+        );
 
         const results: { vocab: VocabularyPair; direction: LanguageDirection }[] = [];
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminAuth } from '@/lib/firebase-admin';
+import { verifyAuthToken } from '@/lib/api-auth';
 import OpenAI from 'openai';
 
 interface GenerateRequestBody {
@@ -55,8 +55,8 @@ const generateMockVocabulary = (
     theme: string,
     difficulty: string,
     count: number,
-    sourceLanguage: string,
-    targetLanguage: string
+    _sourceLanguage: string,
+    _targetLanguage: string
 ): GeneratedVocabulary[] => {
     const themeKey = theme.toLowerCase();
     const words = mockWords[themeKey] || mockWords.default;
@@ -73,17 +73,9 @@ const generateMockVocabulary = (
 export const POST = async (request: NextRequest) => {
     try {
         // Verify Firebase ID token
-        const authHeader = request.headers.get('Authorization');
-        if (!authHeader?.startsWith('Bearer ')) {
-            return NextResponse.json({ error: 'Unauthorized - Missing token' }, { status: 401 });
-        }
-
-        const idToken = authHeader.substring(7);
-        try {
-            await adminAuth.verifyIdToken(idToken);
-        } catch (error) {
-            console.error('Token verification failed:', error);
-            return NextResponse.json({ error: 'Unauthorized - Invalid token' }, { status: 401 });
+        const authResult = await verifyAuthToken(request);
+        if (!authResult.success) {
+            return authResult.response;
         }
 
         // Parse request body
@@ -124,7 +116,7 @@ IMPORTANT:
         const userPrompt = `Generate ${count} ${difficulty} level vocabulary pairs for the theme "${theme}" in ${sourceLanguage} to ${targetLanguage}.`;
 
         const completion = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: 'gpt-5.2',
             messages: [
                 { role: 'system', content: systemPrompt },
                 { role: 'user', content: userPrompt },

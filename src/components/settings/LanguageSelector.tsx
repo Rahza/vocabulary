@@ -1,12 +1,13 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { useMounted } from '@/hooks/use-mounted';
 
 export const LanguageSelector = () => {
   const { updateSettings } = useSettings();
@@ -14,21 +15,13 @@ export const LanguageSelector = () => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch - this pattern is intentional
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
 
   if (!mounted) {
     return (
       <div className="grid grid-cols-3 gap-3">
         {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="h-20 bg-zinc-100 dark:bg-zinc-800 animate-pulse rounded-3xl border-2 border-zinc-100 dark:border-zinc-800"
-          />
+          <Skeleton key={i} className="h-20 rounded-3xl border-2 border-zinc-100 dark:border-zinc-800" />
         ))}
       </div>
     );
