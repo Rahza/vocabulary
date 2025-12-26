@@ -6,6 +6,7 @@ import { useEnterKey } from "@/hooks/use-enter-key";
 import { Trophy, Clock, PartyPopper } from "lucide-react";
 import { motion } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
+import { useTranslations } from "next-intl";
 
 interface SessionSummaryProps {
   score: number;
@@ -16,6 +17,7 @@ interface SessionSummaryProps {
 }
 
 export function SessionSummary({ score, total, durationSeconds, onRestart, onExit }: SessionSummaryProps) {
+  const t = useTranslations("practice");
   const percentage = Math.round((score / total) * 100) || 0;
   const minutes = Math.floor(durationSeconds / 60);
   const seconds = Math.floor(durationSeconds % 60);
@@ -32,8 +34,8 @@ export function SessionSummary({ score, total, durationSeconds, onRestart, onExi
     >
       <motion.div variants={itemReveal} className="relative">
         <PartyPopper className="w-16 h-16 text-playful-yellow absolute -top-12 -left-12 -rotate-12 animate-bounce" />
-        <h2 className="text-4xl font-black tracking-tight">Gut gemacht!</h2>
-        <p className="text-zinc-400 font-bold uppercase tracking-widest text-sm mt-2">Sitzung beendet</p>
+        <h2 className="text-4xl font-black tracking-tight">{t("summaryTitle")}</h2>
+        <p className="text-zinc-400 font-bold uppercase tracking-widest text-sm mt-2">{t("sessionEnded")}</p>
       </motion.div>
 
       <div className="grid grid-cols-2 gap-6 w-full max-w-sm">
@@ -43,7 +45,7 @@ export function SessionSummary({ score, total, durationSeconds, onRestart, onExi
         >
           <Trophy className="w-10 h-10 text-playful-yellow mb-2" />
           <span className="text-3xl font-black text-playful-yellow">{percentage}%</span>
-          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mt-1">Genauigkeit</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mt-1">{t("accuracy")}</span>
         </motion.div>
         
         <motion.div 
@@ -54,20 +56,20 @@ export function SessionSummary({ score, total, durationSeconds, onRestart, onExi
           <span className="text-3xl font-black text-playful-indigo">
             {minutes}:{seconds.toString().padStart(2, '0')}
           </span>
-          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mt-1">Dauer</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mt-1">{t("duration")}</span>
         </motion.div>
       </div>
 
       <motion.div variants={itemReveal} className="text-zinc-500 font-bold italic">
-        Du hast {score} von {total} Wörtern richtig erkannt!
+        {t("summaryDesc", { score, total })}
       </motion.div>
 
       <motion.div variants={itemReveal} className="flex w-full gap-4 max-w-sm">
         <Button variant="outline" onClick={onExit} className="flex-1 h-16 rounded-3xl border-4 text-lg">
-          Beenden
+          {t("end")}
         </Button>
         <Button onClick={onRestart} variant="playful" className="flex-1 h-16 rounded-3xl border-b-4 text-lg">
-          Nochmal!
+          {t("playAgain")}
         </Button>
       </motion.div>
     </motion.div>

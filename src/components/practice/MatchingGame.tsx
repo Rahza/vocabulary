@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { VocabularyPair, MatchingItem } from "@/models/types";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { shuffleArray } from "@/lib/shuffle";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface MatchingGameProps {
   vocabulary: VocabularyPair[];
@@ -20,6 +21,8 @@ export const MatchingGame = ({
   onComplete,
   onExit,
 }: MatchingGameProps) => {
+  const t = useTranslations("practice");
+  const commonT = useTranslations("common");
   const [currentRound, setCurrentRound] = useState(1);
   const [leftItems, setLeftItems] = useState<MatchingItem[]>([]);
   const [rightItems, setRightItems] = useState<MatchingItem[]>([]);
@@ -153,24 +156,24 @@ export const MatchingGame = ({
     <div className="space-y-8">
       <div className="flex justify-between items-center px-2">
         <div className="flex flex-col">
-          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Runde</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{t("round")}</span>
           <span className="text-sm font-black text-playful-green">{currentRound} / {rounds}</span>
         </div>
         <button
           onClick={onExit}
           className="text-xs font-black uppercase tracking-widest text-playful-red hover:brightness-110"
         >
-          Beenden
+          {t("end")}
         </button>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-3">
-          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">Deutsch</h4>
+          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">{commonT("german")}</h4>
           {leftItems.map(renderItem)}
         </div>
         <div className="space-y-3">
-          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">Česky</h4>
+          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">{commonT("czech")}</h4>
           {rightItems.map(renderItem)}
         </div>
       </div>

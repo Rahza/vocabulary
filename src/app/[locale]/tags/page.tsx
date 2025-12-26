@@ -8,8 +8,11 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { motion } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function TagManagementPage() {
+  const t = useTranslations("tags");
+  const commonT = useTranslations("common");
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [tagToDelete, setTagToDelete] = useState<string | null>(null);
@@ -31,26 +34,19 @@ export default function TagManagementPage() {
   const handleConfirmDelete = async () => {
     if (!tagToDelete) return;
     await repository.deleteTagGlobal(tagToDelete);
-    toast.success(`Tag #${tagToDelete} gelöscht`);
+    toast.success(t("deleteSuccess", { tag: tagToDelete }));
     setTagToDelete(null);
     loadData();
   };
 
   const handleRenameTag = async (oldName: string, newName: string) => {
     await repository.renameTagGlobal(oldName, newName);
-    toast.success(`Tag #${oldName} zu #${newName} umbenannt`);
+    toast.success(t("renameSuccess", { oldName, newName }));
     loadData();
   };
 
   const handleCreateTag = async () => {
-    // Tags are created implicitly by adding them to words, but we can have a "Tag Library"
-    // For now, "Creating" a tag just means it exists in the system if words use it.
-    // Or we can have a separate storage for "Preferred Tags".
-    // Let's assume tags are derived from words for now as per current getTags() implementation.
-    // To "create" a tag without words, we'd need a separate table.
-    // Requirement FR-006 says "create and delete tags globally".
-    // I'll show a toast that tags are created when assigned to words.
-    toast.info("Tags werden automatisch erstellt, wenn sie Vokabeln zugewiesen werden.");
+    toast.info(t("info"));
   };
 
   return (
@@ -61,9 +57,9 @@ export default function TagManagementPage() {
       className="space-y-8"
     >
       <motion.div variants={itemReveal}>
-        <h1 className="text-3xl font-black tracking-tight">Tags verwalten</h1>
+        <h1 className="text-3xl font-black tracking-tight">{t("title")}</h1>
         <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs mt-1">
-          Kategorien global organisieren
+          {t("subtitle")}
         </p>
       </motion.div>
 
@@ -81,9 +77,9 @@ export default function TagManagementPage() {
         isOpen={!!tagToDelete}
         onClose={() => setTagToDelete(null)}
         onConfirm={handleConfirmDelete}
-        title="Tag global löschen?"
-        description={`Bist du sicher? #${tagToDelete} wird von allen Vokabeln entfernt.`}
-        confirmText="Tag löschen"
+        title={t("deleteTitle")}
+        description={t("deleteDesc", { tag: tagToDelete ?? "" })}
+        confirmText={commonT("delete")}
         variant="destructive"
       />
     </motion.div>

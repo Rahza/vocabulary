@@ -27,6 +27,7 @@ export interface ReviewResult {
 export interface UserSettings {
   openaiApiKey?: string;
   theme: 'light' | 'dark' | 'system';
+  language: 'en' | 'de' | 'cs';
   dailyGoal: number;
 }
 

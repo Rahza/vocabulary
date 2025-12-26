@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { VocabularyWithProgress } from "@/app/vocabulary/page";
+import { VocabularyWithProgress } from "@/app/[locale]/vocabulary/page";
 import { LocalStorageRepository } from "@/services/storage/LocalStorageRepository";
 import { OpenAIService } from "@/services/ai/OpenAIService";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -14,6 +14,7 @@ import { BOX_DEFINITIONS } from "@/constants/box-definitions";
 import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
 import { Badge } from "@/components/ui/Badge";
+import { useTranslations, useFormatter } from "next-intl";
 
 interface WordDetailProps {
   item: VocabularyWithProgress;
@@ -22,6 +23,11 @@ interface WordDetailProps {
 }
 
 export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
+  const t = useTranslations("vocabulary");
+  const commonT = useTranslations("common");
+  const boxT = useTranslations("vocabulary.boxes");
+  const format = useFormatter();
+  
   const [newTag, setNewTag] = useState("");
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [mnemonic, setMnemonic] = useState(item.mnemonic);
@@ -54,11 +60,11 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
       );
       await repository.updateVocabulary(item.id, { mnemonic: newMnemonic });
       setMnemonic(newMnemonic); // Update local state immediately
-      toast.success("Eselsbrücke erneuert!");
+      toast.success(t("regenerateSuccess"));
       onRefresh();
     } catch (error) {
       console.error(error);
-      toast.error("Fehler beim Generieren der Eselsbrücke.");
+      toast.error(t("regenerateError"));
     } finally {
       setIsRegenerating(false);
     }
@@ -66,13 +72,13 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
 
   const handleReset = async () => {
     await repository.resetProgress(item.id);
-    toast.success("Fortschritt zurückgesetzt");
+    toast.success(t("resetSuccess"));
     onRefresh();
   };
 
   const handleDelete = async () => {
     await repository.deleteVocabulary(item.id);
-    toast.success("Vokabel gelöscht");
+    toast.success(t("deleteWordSuccess"));
     onClose();
     onRefresh();
   };
@@ -82,7 +88,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
     if (!newTag.trim()) return;
     
     if (item.tags.includes(newTag.trim())) {
-      toast.error("Tag existiert bereits");
+      toast.error(t("tagExists"));
       return;
     }
 
@@ -103,22 +109,32 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
       {/* Header Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6 bg-playful-indigo/5 border-playful-indigo/10 shadow-none">
-          <Heading level={4} subtitle="Deutsch" className="text-playful-indigo">
+          <Heading level={4} subtitle={commonT("german")} className="text-playful-indigo">
             {item.german}
           </Heading>
         </Card>
         <Card className="p-6 bg-playful-green/5 border-playful-green/10 shadow-none">
-          <Heading level={4} subtitle="Česky" className="text-playful-green">
+          <Heading level={4} subtitle={commonT("czech")} className="text-playful-green">
             {item.czech}
           </Heading>
         </Card>
+      </div>
+
+      <div className="flex justify-end px-2">
+        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+          {t("createdAt")}: {format.dateTime(new Date(item.createdAt), {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </span>
       </div>
 
       {/* Mnemonic Section */}
       <div className="space-y-3">
         <div className="flex justify-between items-center ml-1">
           <Heading level={4} icon={Sparkles} subtitle="" className="text-zinc-400">
-            Eselsbrücke
+            {t("mnemonic")}
           </Heading>
           <button
             onClick={handleRegenerateMnemonic}
@@ -130,7 +146,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
             ) : (
               <Wand2 size={14} />
             )}
-            Neu generieren
+            {t("regenerate")}
           </button>
         </div>
         <Card className="p-6 bg-zinc-50 dark:bg-zinc-900 border-zinc-100 dark:border-zinc-800">
@@ -139,7 +155,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
               {mnemonic}
             </p>
           ) : (
-            <p className="text-zinc-400 italic">Keine Eselsbrücke vorhanden.</p>
+            <p className="text-zinc-400 italic">{t("noMnemonic")}</p>
           )}
         </Card>
       </div>
@@ -149,16 +165,16 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         {/* Progress */}
         <div className="space-y-3">
           <Heading level={4} icon={BrainCircuit} className="text-zinc-400 ml-1">
-            Status
+            {t("status")}
           </Heading>
           <Card className="flex items-center gap-4 p-4">
             <div className="w-12 h-12 rounded-2xl bg-playful-yellow flex items-center justify-center text-2xl font-black text-playful-indigo shadow-lg shadow-playful-yellow/20">
               {currentBox.icon}
             </div>
             <div>
-              <p className="font-black text-base">{currentBox.name}</p>
+              <p className="font-black text-base">{boxT(`${currentBox.index}.name`)}</p>
               <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
-                {currentBox.description}
+                {boxT(`${currentBox.index}.desc`)}
               </p>
             </div>
           </Card>
@@ -167,7 +183,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         {/* Tags */}
         <div className="space-y-3">
           <Heading level={4} icon={Tag} className="text-zinc-400 ml-1">
-            Tags
+            {t("tags")}
           </Heading>
           <Card className="p-4">
             <div className="flex flex-wrap gap-2 mb-4">
@@ -187,17 +203,17 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
                 </Badge>
               ))}
               {item.tags.length === 0 && (
-                <p className="text-xs text-zinc-400 italic">Keine Tags zugewiesen.</p>
+                <p className="text-xs text-zinc-400 italic">{t("noTags")}</p>
               )}
             </div>
             <form onSubmit={handleAddTag} className="flex gap-2">
               <Input
-                placeholder="Neuer Tag..."
+                placeholder={t("newTagPlaceholder")}
                 value={newTag}
                 onChange={(e) => setNewTag(e.target.value)}
                 className="h-10 text-xs rounded-xl"
               />
-              <Button type="submit" size="sm" className="h-10 w-10 p-0 rounded-xl">
+              <Button type="submit" size="sm" className="h-10 w-10 p-0 rounded-xl bg-playful-indigo">
                 <Plus size={18} />
               </Button>
             </form>
@@ -212,14 +228,14 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
           onClick={() => setShowResetConfirm(true)}
           className="h-14 rounded-[24px] border-2 font-black gap-2"
         >
-          <RotateCcw size={20} /> Reset
+          <RotateCcw size={20} /> {commonT("reset")}
         </Button>
         <Button
           variant="destructive"
           onClick={() => setShowDeleteConfirm(true)}
-          className="h-14 rounded-[24px] font-black gap-2"
+          className="h-14 rounded-[24px] font-black gap-2 shadow-lg shadow-playful-red/20"
         >
-          <Trash2 size={20} /> Löschen
+          <Trash2 size={20} /> {commonT("delete")}
         </Button>
       </div>
 
@@ -227,9 +243,9 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
-        title="Vokabel löschen?"
-        description={`Bist du sicher? "${item.german}" wird gelöscht.`}
-        confirmText="Löschen"
+        title={t("deleteWord")}
+        description={t("deleteWordDesc", { word: item.german })}
+        confirmText={commonT("delete")}
         variant="destructive"
       />
 
@@ -237,9 +253,9 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         isOpen={showResetConfirm}
         onClose={() => setShowResetConfirm(false)}
         onConfirm={handleReset}
-        title="Lernfortschritt zurücksetzen?"
-        description="Das Wort wird wieder in Box 1 verschoben."
-        confirmText="Reset"
+        title={t("resetProgress")}
+        description={t("resetProgressDesc")}
+        confirmText={commonT("reset")}
       />
     </div>
   );

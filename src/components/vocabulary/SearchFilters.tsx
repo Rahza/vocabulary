@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { itemReveal } from "@/lib/animations";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
-import { Heading } from "@/components/ui/Heading";
 import { Card } from "@/components/ui/Card";
 
 interface SearchFiltersProps {
@@ -33,6 +33,9 @@ export function SearchFilters({
   availableTags,
   onResetFilters,
 }: SearchFiltersProps) {
+  const t = useTranslations("vocabulary");
+  const dashT = useTranslations("dashboard");
+
   const toggleTag = (tag: string) => {
     onTagsChange(
       selectedTags.includes(tag)
@@ -49,7 +52,7 @@ export function SearchFilters({
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 w-4 h-4" />
           <Input
-            placeholder="Suchen..."
+            placeholder={t("searchPlaceholder")}
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             className="pl-10 focus-visible:ring-playful-indigo"
@@ -67,7 +70,7 @@ export function SearchFilters({
         <Link href="/generate">
           <Button className="h-12 px-4 rounded-xl border-b-4 font-black shadow-lg shadow-playful-yellow/20 whitespace-nowrap text-sm bg-playful-yellow text-playful-indigo border-yellow-600">
             <Wand2 size={18} className="sm:mr-2" />
-            <span className="hidden sm:inline">Neu generieren</span>
+            <span className="hidden sm:inline">{dashT("generate")}</span>
           </Button>
         </Link>
       </div>
@@ -78,7 +81,7 @@ export function SearchFilters({
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
                 <Filter size={14} />
-                <span className="text-[9px] font-black uppercase tracking-widest">Tags</span>
+                <span className="text-[9px] font-black uppercase tracking-widest">{t("tags")}</span>
               </div>
               {selectedTags.length > 0 && (
                 <button onClick={() => onTagsChange([])} className="text-[9px] font-black text-playful-red uppercase">Reset</button>
@@ -102,7 +105,7 @@ export function SearchFilters({
                   </button>
                 );
               })}
-              {availableTags.length === 0 && <span className="text-[9px] text-zinc-400 italic px-1">Keine Tags</span>}
+              {availableTags.length === 0 && <span className="text-[9px] text-zinc-400 italic px-1">{t("noTags")}</span>}
             </div>
           </div>
 
@@ -110,7 +113,7 @@ export function SearchFilters({
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
                 <RotateCcw size={14} />
-                <span className="text-[9px] font-black uppercase tracking-widest">Box</span>
+                <span className="text-[9px] font-black uppercase tracking-widest">{t("box")}</span>
               </div>
               {selectedBox !== null && (
                 <button onClick={() => onBoxChange(null)} className="text-[9px] font-black text-playful-red uppercase">Reset</button>
@@ -143,7 +146,7 @@ export function SearchFilters({
             onClick={onResetFilters}
             className="w-full mt-3 py-2 text-[9px] font-black uppercase tracking-widest text-playful-red bg-playful-red/5 hover:bg-playful-red/10 rounded-xl transition-all border border-dashed border-playful-red/20"
           >
-            Alle Filter zurücksetzen
+            {t("resetFilters")}
           </button>
         )}
       </Card>

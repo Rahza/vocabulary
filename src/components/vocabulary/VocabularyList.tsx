@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { Search } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { useTranslations } from "next-intl";
 
 interface VocabularyListProps {
   items: VocabularyPair[];
@@ -29,14 +30,16 @@ export function VocabularyList({
   onOpenDetail,
   onResetFilters,
 }: VocabularyListProps) {
+  const t = useTranslations("vocabulary");
+
   if (items.length === 0) {
     return (
       <EmptyState
-        title="Keine Vokabeln gefunden"
-        description="Versuche es mit einem anderen Suchbegriff oder ändere die Filter."
+        title={t("noVocabFound")}
+        description={t("noVocabDesc")}
         icon={Search}
         action={onResetFilters ? {
-          label: "Filter zurücksetzen",
+          label: t("resetFilters"),
           onClick: onResetFilters
         } : undefined}
       />

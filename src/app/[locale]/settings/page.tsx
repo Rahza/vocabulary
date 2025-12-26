@@ -7,13 +7,16 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
-import { Key, Trash2, Palette } from "lucide-react";
+import { Key, Trash2, Palette, Languages } from "lucide-react";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ThemeSelector } from "@/components/settings/ThemeSelector";
+import { LanguageSelector } from "@/components/settings/LanguageSelector";
 import { Heading } from "@/components/ui/Heading";
+import { useTranslations } from "next-intl";
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettings();
+  const t = useTranslations("settings");
   const [apiKey, setApiKey] = useState("");
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
@@ -26,12 +29,12 @@ export default function SettingsPage() {
 
   const handleSave = () => {
     updateSettings({ openaiApiKey: apiKey });
-    toast.success("Einstellungen gespeichert!");
+    toast.success(t("settingsSaved"));
   };
 
   const handleConfirmReset = () => {
     localStorage.clear();
-    toast.success("Alle Daten wurden zurückgesetzt.");
+    toast.success(t("dataReset"));
     window.location.reload();
   };
 
@@ -45,11 +48,23 @@ export default function SettingsPage() {
       <motion.div variants={itemReveal}>
         <Heading 
           level={1} 
-          subtitle="App-Präferenzen"
+          subtitle={t("appPreferences")}
         >
-          Einstellungen
+          {t("title")}
         </Heading>
       </motion.div>
+
+      <motion.section variants={itemReveal} className="space-y-4">
+        <Heading 
+          level={2} 
+          icon={Languages} 
+          subtitle="" 
+          className="text-playful-indigo ml-1"
+        >
+          {t("language")}
+        </Heading>
+        <LanguageSelector />
+      </motion.section>
 
       <motion.section variants={itemReveal} className="space-y-4">
         <Heading 
@@ -58,7 +73,7 @@ export default function SettingsPage() {
           subtitle="" 
           className="text-playful-indigo ml-1"
         >
-          Erscheinungsbild
+          {t("appearance")}
         </Heading>
         <ThemeSelector />
       </motion.section>
@@ -70,22 +85,22 @@ export default function SettingsPage() {
           subtitle="" 
           className="text-playful-indigo ml-1"
         >
-          OpenAI API-Schlüssel
+          {t("apiKey")}
         </Heading>
         <Input
           id="apiKey"
           type="password"
-          placeholder="sk-..."
+          placeholder={t("apiKeyPlaceholder")}
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
           className="focus-visible:ring-playful-indigo"
         />
         <p className="text-xs text-zinc-400 font-bold italic px-1">
-          Dein Schlüssel wird sicher im lokalen Speicher deines Browsers gespeichert.
+          {t("apiKeyHint")}
         </p>
         
         <Button onClick={handleSave} className="w-full h-16 rounded-3xl border-b-4">
-          Einstellungen speichern
+          {t("saveSettings")}
         </Button>
       </motion.div>
 
@@ -96,10 +111,10 @@ export default function SettingsPage() {
           subtitle="" 
           className="text-playful-red mb-4 ml-1"
         >
-          Gefahrenzone
+          {t("dangerZone")}
         </Heading>
         <Button variant="destructive" onClick={() => setShowResetConfirm(true)} className="w-full h-14 rounded-3xl border-b-4 font-black">
-          Alle Daten zurücksetzen
+          {t("resetData")}
         </Button>
       </motion.div>
 
@@ -107,9 +122,9 @@ export default function SettingsPage() {
         isOpen={showResetConfirm}
         onClose={() => setShowResetConfirm(false)}
         onConfirm={handleConfirmReset}
-        title="Alle Daten löschen?"
-        description="Bist du sicher? Dies wird deinen gesamten Fortschritt und alle Vokabeln unwiderruflich löschen."
-        confirmText="Alles löschen"
+        title={t("resetConfirmTitle")}
+        description={t("resetConfirmDesc")}
+        confirmText={t("resetConfirmButton")}
         variant="destructive"
       />
     </motion.div>

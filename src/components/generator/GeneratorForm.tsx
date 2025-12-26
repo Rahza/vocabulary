@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Wand2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { itemReveal } from "@/lib/animations";
+import { useTranslations } from "next-intl";
 
 interface GeneratorFormProps {
   onGenerate: (theme: string, difficulty: string, count: number) => void;
@@ -13,6 +14,7 @@ interface GeneratorFormProps {
 }
 
 export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
+  const t = useTranslations("generator.form");
   const [theme, setTheme] = useState("");
   const [difficulty, setDifficulty] = useState("Beginner");
   const [count, setCount] = useState(5);
@@ -32,11 +34,11 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
     >
       <div className="space-y-2">
         <label htmlFor="theme" className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1">
-          Thema / Kategorie
+          {t("themeLabel")}
         </label>
         <Input
           id="theme"
-          placeholder="z.B. Weltraum, Kochen, Emotionen..."
+          placeholder={t("themePlaceholder")}
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
           required
@@ -47,7 +49,7 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <label htmlFor="difficulty" className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1">
-            Schwierigkeit
+            {t("difficultyLabel")}
           </label>
           <select
             id="difficulty"
@@ -55,15 +57,15 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
           >
-            <option value="Beginner">🌱 Anfänger</option>
-            <option value="Intermediate">🌿 Fortgeschritten</option>
-            <option value="Advanced">🌳 Experte</option>
+            <option value="Beginner">{t("difficulties.Beginner")}</option>
+            <option value="Intermediate">{t("difficulties.Intermediate")}</option>
+            <option value="Advanced">{t("difficulties.Advanced")}</option>
           </select>
         </div>
 
         <div className="space-y-2">
           <label htmlFor="count" className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1">
-            Wie viele?
+            {t("countLabel")}
           </label>
           <Input
             id="count"
@@ -92,11 +94,11 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
             >
               🪄
             </motion.span>
-            Erzeuge Magie...
+            {t("loading")}
           </span>
         ) : (
           <>
-            <Wand2 className="mr-2 h-6 w-6" /> Vokabeln generieren
+            <Wand2 className="mr-2 h-6 w-6" /> {t("submit")}
           </>
         )}
       </Button>

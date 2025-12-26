@@ -14,8 +14,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
 import { toast } from "sonner";
 import { Tags } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Heading } from "@/components/ui/Heading";
+import { useTranslations } from "next-intl";
 
 export interface VocabularyWithProgress extends VocabularyPair {
   maxBox: number;
@@ -31,6 +32,9 @@ export default function VocabularyManagementPage() {
   const [detailItem, setDetailItem] = useState<VocabularyWithProgress | null>(null);
   const [showBulkDeleteConfirm, setShowBulkDeleteConfirm] = useState(false);
 
+  const t = useTranslations("vocabulary");
+  const navT = useTranslations("navigation");
+  const commonT = useTranslations("common");
   const repository = useMemo(() => new LocalStorageRepository(), []);
 
   const loadData = useCallback(async () => {
@@ -78,20 +82,20 @@ export default function VocabularyManagementPage() {
 
   const handleBulkDelete = async () => {
     await repository.bulkDelete(selectedIds);
-    toast.success(`${selectedIds.length} Vokabeln gelöscht`);
+    toast.success(t("deleteSuccess", { count: selectedIds.length }));
     setSelectedIds([]);
     loadData();
   };
 
   const handleBulkAddTag = async (tag: string) => {
     await repository.bulkAddTag(selectedIds, tag);
-    toast.success(`Tag #${tag} zu ${selectedIds.length} Vokabeln hinzugefügt`);
+    toast.success(t("addTagSuccess", { tag, count: selectedIds.length }));
     loadData();
   };
 
   const handleBulkRemoveTag = async (tag: string) => {
     await repository.bulkRemoveTag(selectedIds, tag);
-    toast.success(`Tag #${tag} von ${selectedIds.length} Vokabeln entfernt`);
+    toast.success(t("removeTagSuccess", { tag, count: selectedIds.length }));
     loadData();
   };
 
@@ -106,15 +110,15 @@ export default function VocabularyManagementPage() {
         <motion.div variants={itemReveal}>
           <Heading 
             level={1} 
-            subtitle={`${vocabulary.length} Vokabeln insgesamt`}
+            subtitle={t("subtitle", { count: vocabulary.length })}
           >
-            Sammlung
+            {t("title")}
           </Heading>
         </motion.div>
         <motion.div variants={itemReveal}>
           <Link href="/tags">
             <Button variant="outline" size="sm" className="rounded-xl border-2 font-black gap-2 h-10 px-4 mt-1">
-              <Tags size={16} /> Tags
+              <Tags size={16} /> {navT("vocabulary")} Tags
             </Button>
           </Link>
         </motion.div>
@@ -155,7 +159,7 @@ export default function VocabularyManagementPage() {
       <Drawer
         isOpen={!!detailItem}
         onClose={() => setDetailItem(null)}
-        title="Vokabel-Details"
+        title={t("detailTitle")}
       >
         {detailItem && (
           <WordDetail
@@ -170,9 +174,9 @@ export default function VocabularyManagementPage() {
         isOpen={showBulkDeleteConfirm}
         onClose={() => setShowBulkDeleteConfirm(false)}
         onConfirm={handleBulkDelete}
-        title="Vokabeln löschen?"
-        description={`Bist du sicher? Es werden ${selectedIds.length} Vokabeln unwiderruflich gelöscht.`}
-        confirmText="Löschen"
+        title={t("deleteTitle")}
+        description={t("deleteDesc", { count: selectedIds.length })}
+        confirmText={commonT("delete")}
         variant="destructive"
       />
 

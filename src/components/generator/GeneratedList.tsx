@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
+import { useTranslations } from "next-intl";
 
 interface GeneratedListProps {
   items: Omit<VocabularyPair, "id" | "createdAt">[];
@@ -13,6 +14,9 @@ interface GeneratedListProps {
 }
 
 export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedListProps) {
+  const t = useTranslations("generator.results");
+  const commonT = useTranslations("common");
+
   return (
     <motion.div 
       variants={containerReveal}
@@ -22,7 +26,7 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
     >
       {items.length > 0 && (
         <div className="flex justify-between items-center px-1">
-          <h3 className="text-xl font-black">Erfolg! ({items.length})</h3>
+          <h3 className="text-xl font-black">{t("title")} ({items.length})</h3>
         </div>
       )}
       
@@ -39,7 +43,7 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
               <button 
                 onClick={() => onDelete(index)}
                 className="absolute -top-3 -right-3 p-2 bg-playful-red text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg scale-75 hover:scale-90"
-                title="Löschen"
+                title={commonT("delete")}
               >
                 <Trash2 size={16} />
               </button>
@@ -71,10 +75,10 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
       {items.length > 0 && (
         <div className="flex gap-4 sticky bottom-24 bg-gray-50/80 dark:bg-zinc-950/80 backdrop-blur-md p-2 rounded-[32px]">
           <Button variant="outline" onClick={onDiscard} className="flex-1 h-16 rounded-3xl border-4 font-black">
-            Verwerfen
+            {t("discard")}
           </Button>
           <Button onClick={onSave} variant="playful" className="flex-1 h-16 rounded-3xl border-b-4 font-black">
-            Behalten!
+            {t("save")}
           </Button>
         </div>
       )}

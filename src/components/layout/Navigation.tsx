@@ -1,20 +1,21 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/routing";
 import { LayoutDashboard, BrainCircuit, Dumbbell, Settings, Library } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export function Navigation() {
   const pathname = usePathname();
+  const t = useTranslations("navigation");
 
   const links = [
-    { href: "/", label: "Start", icon: LayoutDashboard },
-    { href: "/vocabulary", label: "Sammlung", icon: Library },
-    { href: "/trainer", label: "Lernen", icon: BrainCircuit },
-    { href: "/practice", label: "Üben", icon: Dumbbell },
-    { href: "/settings", label: "Optionen", icon: Settings },
+    { href: "/", label: t("dashboard"), icon: LayoutDashboard },
+    { href: "/vocabulary", label: t("vocabulary"), icon: Library },
+    { href: "/trainer", label: t("trainer"), icon: BrainCircuit },
+    { href: "/practice", label: t("practice"), icon: Dumbbell },
+    { href: "/settings", label: t("settings"), icon: Settings },
   ];
 
   return (

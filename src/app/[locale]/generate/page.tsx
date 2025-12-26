@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, Link } from "@/i18n/routing";
 import { GeneratorForm } from "@/components/generator/GeneratorForm";
 import { GeneratedList } from "@/components/generator/GeneratedList";
 import { OpenAIService } from "@/services/ai/OpenAIService";
@@ -9,13 +9,14 @@ import { LocalStorageRepository } from "@/services/storage/LocalStorageRepositor
 import { useSettings } from "@/contexts/SettingsContext";
 import { VocabularyPair } from "@/models/types";
 import { Button } from "@/components/ui/Button";
-import Link from "next/link";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { containerReveal, itemReveal } from "@/lib/animations";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { useTranslations } from "next-intl";
 
 export default function GeneratePage() {
+  const t = useTranslations("generator");
   const { settings } = useSettings();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +30,8 @@ export default function GeneratePage() {
 
   const handleGenerate = async (theme: string, difficulty: string, count: number) => {
     if (!settings.openaiApiKey) {
-      setError("OpenAI API-Schlüssel fehlt. Bitte in den Einstellungen hinzufügen.");
-      toast.error("OpenAI API-Schlüssel fehlt");
+      setError(t("apiKeyMissing"));
+      toast.error(t("apiKeyMissing"));
       return;
     }
 
@@ -47,15 +48,14 @@ export default function GeneratePage() {
       if (result && result.length > 0) {
         setGenerated(result);
         setView("results");
-        toast.success(`Abrakadabra! ${result.length} Wörter generiert!`);
+        toast.success(t("generating", { count: result.length }));
       } else {
-        toast.info("Keine neuen Wörter gefunden. Probiere ein anderes Thema!");
+        toast.info(t("noNewWords"));
       }
     } catch (err) {
       console.error(err);
-      const msg = "Die Magie hat versagt. Prüfe deinen API-Schlüssel und die Verbindung.";
-      setError(msg);
-      toast.error(msg);
+      setError(t("error"));
+      toast.error(t("error"));
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +63,7 @@ export default function GeneratePage() {
 
   const handleSave = async () => {
     await repository.addVocabulary(generated);
-    toast.success("Vokabeln zu deinem Zauberbuch hinzugefügt!");
+    toast.success(t("saveSuccess"));
     router.push("/vocabulary");
   };
 
@@ -71,7 +71,7 @@ export default function GeneratePage() {
     setView("form");
     // Clear data only after exit animation completes
     setTimeout(() => setGenerated([]), 400);
-    toast.info("Generierte Wörter verworfen");
+    toast.info(t("discarded"));
   };
 
   const handleDelete = (index: number) => {
@@ -91,9 +91,9 @@ export default function GeneratePage() {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] space-y-6 text-center">
         <div className="text-6xl">🔑</div>
-        <p className="text-zinc-400 font-bold max-w-[200px]">Du benötigst einen OpenAI API-Schlüssel, um den magischen Generator zu nutzen.</p>
+        <p className="text-zinc-400 font-bold max-w-[200px]">{t("noApiKey")}</p>
         <Link href="/settings">
-          <Button variant="playful" className="h-14 px-8 rounded-3xl border-b-4 font-black">Einstellungen öffnen</Button>
+          <Button variant="playful" className="h-14 px-8 rounded-3xl border-b-4 font-black">{t("openSettings")}</Button>
         </Link>
       </div>
     );
@@ -107,8 +107,8 @@ export default function GeneratePage() {
       className="space-y-8"
     >
       <motion.div variants={itemReveal}>
-        <h1 className="text-3xl font-black tracking-tight">Generator</h1>
-        <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs mt-1">Neue Karten erstellen</p>
+        <h1 className="text-3xl font-black tracking-tight">{t("title")}</h1>
+        <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs mt-1">{t("subtitle")}</p>
       </motion.div>
       
       {error && (
@@ -155,9 +155,9 @@ export default function GeneratePage() {
         isOpen={showDiscardConfirm}
         onClose={() => setShowDiscardConfirm(false)}
         onConfirm={handleConfirmDiscard}
-        title="Wörter verwerfen?"
-        description="Bist du sicher? Diese generierten Wörter werden für immer verschwinden."
-        confirmText="Ja, verwerfen"
+        title={t("discardConfirm")}
+        description={t("discardDesc")}
+        confirmText={t("discardAction")}
         variant="destructive"
       />
     </motion.div>

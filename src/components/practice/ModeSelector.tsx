@@ -2,27 +2,28 @@
 
 import React from "react";
 import { PracticeMode } from "@/models/types";
-import { motion } from "framer-motion";
 import { BrainCircuit, Languages } from "lucide-react";
 import { Card } from "@/components/ui/Card";
+import { useTranslations } from "next-intl";
 
 interface ModeSelectorProps {
   onSelect: (mode: PracticeMode) => void;
 }
 
 export const ModeSelector = ({ onSelect }: ModeSelectorProps) => {
+  const t = useTranslations("practice");
   const modes: { id: PracticeMode; title: string; description: string; icon: React.ReactNode; color: string }[] = [
     {
       id: "classic",
-      title: "Klassisch",
-      description: "Vokabeln einzeln abfragen mit Tastatur-Eingabe.",
+      title: t("classicTitle"),
+      description: t("classicDesc"),
       icon: <BrainCircuit size={32} />,
       color: "text-playful-indigo",
     },
     {
       id: "connect-pairs",
-      title: "Paare finden",
-      description: "Wörter beider Sprachen in einer Liste einander zuordnen.",
+      title: t("matchingTitle"),
+      description: t("matchingDesc"),
       icon: <Languages size={32} />,
       color: "text-playful-green",
     },

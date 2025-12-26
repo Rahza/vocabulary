@@ -5,15 +5,13 @@ import { LocalStorageRepository } from "@/services/storage/LocalStorageRepositor
 import { LeitnerService } from "@/services/leitner/LeitnerService";
 import { Flashcard } from "@/components/trainer/Flashcard";
 import { VocabularyPair } from "@/models/types";
-import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import Link from "next/link";
 import { smartShuffle } from "@/lib/shuffle";
 import { getLevenshteinDistance } from "@/lib/string";
-import { motion } from "framer-motion";
-import { containerReveal, itemReveal } from "@/lib/animations";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { BrainCircuit, PartyPopper, CalendarClock } from "lucide-react";
+import { PartyPopper, CalendarClock } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 
 interface ReviewItem {
   vocab: VocabularyPair;
@@ -21,6 +19,8 @@ interface ReviewItem {
 }
 
 export default function TrainerPage() {
+  const t = useTranslations("trainer");
+  const router = useRouter();
   const [queue, setQueue] = useState<ReviewItem[]>([]);
   const [initialCount, setInitialCount] = useState(0);
   const [currentItem, setCurrentItem] = useState<ReviewItem | null>(null);
@@ -119,19 +119,19 @@ export default function TrainerPage() {
   };
 
   if (loading) {
-    return <div className="p-12 text-center font-black uppercase tracking-widest text-zinc-400 animate-pulse">Lade Wiederholungen...</div>;
+    return <div className="p-12 text-center font-black uppercase tracking-widest text-zinc-400 animate-pulse">{t("loading")}</div>;
   }
 
   if (!currentItem) {
     if (sessionCount > 0) {
       return (
         <EmptyState
-          title="Alles erledigt! 🎉"
-          description={`${sessionCount} Wiederholungen erfolgreich abgeschlossen. Dein Gedächtnis wird immer stärker!`}
+          title={t("allDone")}
+          description={t("allDoneDesc", { count: sessionCount })}
           icon={PartyPopper}
           action={{
-            label: "Zum Dashboard",
-            onClick: () => window.location.href = "/"
+            label: t("toDashboard"),
+            onClick: () => router.push("/")
           }}
         />
       );
@@ -139,12 +139,12 @@ export default function TrainerPage() {
 
     return (
       <EmptyState
-        title="Keine Vokabeln fällig"
-        description="Für heute bist du fertig! Schau später wieder vorbei oder füge neue Wörter hinzu."
+        title={t("noDue")}
+        description={t("noDueDesc")}
         icon={CalendarClock}
         action={{
-          label: "Neue Wörter generieren",
-          onClick: () => window.location.href = "/generate"
+          label: t("generateNew"),
+          onClick: () => router.push("/generate")
         }}
       />
     );
@@ -159,7 +159,7 @@ export default function TrainerPage() {
     <div className="space-y-10">
       <div className="space-y-4">
         <div className="flex justify-between items-end px-2">
-          <span className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">Fortschritt</span>
+          <span className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">{t("progress")}</span>
           <span className="text-xs font-black uppercase tracking-[0.2em] text-playful-indigo">{sessionCount + 1} / {initialCount}</span>
         </div>
         <ProgressBar progress={progress} />

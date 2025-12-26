@@ -5,6 +5,7 @@ import { Trash2, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface BulkActionsProps {
   selectedCount: number;
@@ -23,6 +24,7 @@ export function BulkActions({
   availableTags,
   onClearSelection,
 }: BulkActionsProps) {
+  const t = useTranslations("vocabulary.bulkActions");
   const [showAddTags, setShowAddTags] = useState(false);
   const [showRemoveTags, setShowRemoveTags] = useState(false);
 
@@ -40,7 +42,7 @@ export function BulkActions({
               {selectedCount}
             </div>
             <span className="font-black text-sm uppercase tracking-widest text-zinc-500">
-              Ausgewählt
+              {t("selected")}
             </span>
           </div>
           
@@ -48,7 +50,7 @@ export function BulkActions({
             onClick={onClearSelection}
             className="text-xs font-bold text-zinc-400 hover:text-playful-red transition-colors"
           >
-            Auswahl aufheben
+            {t("clearSelection")}
           </button>
         </div>
 
@@ -64,7 +66,7 @@ export function BulkActions({
               showAddTags ? "bg-playful-indigo border-playful-indigo text-white" : "border-zinc-100 dark:border-zinc-800"
             )}
           >
-            <Plus size={16} /> Tag +
+            <Plus size={16} /> {t("addTag")}
           </Button>
 
           <Button
@@ -78,14 +80,14 @@ export function BulkActions({
               showRemoveTags ? "bg-playful-indigo border-playful-indigo text-white" : "border-zinc-100 dark:border-zinc-800"
             )}
           >
-            <X size={16} /> Tag -
+            <X size={16} /> {t("removeTag")}
           </Button>
           
           <Button
             onClick={onDelete}
             className="h-14 rounded-2xl bg-playful-red hover:bg-rose-600 text-white font-black flex items-center justify-center gap-2 border-b-4 border-rose-800 text-xs"
           >
-            <Trash2 size={16} /> Löschen
+            <Trash2 size={16} /> {t("delete")}
           </Button>
         </div>
 
@@ -99,7 +101,7 @@ export function BulkActions({
             >
               <div className="pt-2 border-t-2 border-dashed border-zinc-100 dark:border-zinc-800">
                 <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2 text-center">
-                  {showAddTags ? "Tag zu Auswahl hinzufügen" : "Tag von Auswahl entfernen"}
+                  {showAddTags ? t("addTagTitle") : t("removeTagTitle")}
                 </p>
                 <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2">
                   {availableTags.map((tag) => (

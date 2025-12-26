@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { UserSettings } from "@/models/types";
+import { useLocale } from "next-intl";
 
 const STORAGE_KEY = "ai_vocab_user_settings";
 
@@ -14,6 +15,7 @@ interface SettingsContextType {
 const defaultSettings: UserSettings = {
   theme: "system",
   dailyGoal: 20,
+  language: "en",
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -21,20 +23,26 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<UserSettings>(defaultSettings);
   const [isLoading, setIsLoading] = useState(true);
+  const locale = useLocale() as 'en' | 'de' | 'cs';
 
   // Load settings on mount
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
+    const initialSettings = { ...defaultSettings, language: locale };
+    
     if (saved) {
       try {
         const parsed = JSON.parse(saved) as UserSettings;
-        setSettings({ ...defaultSettings, ...parsed });
+        setSettings({ ...initialSettings, ...parsed });
       } catch (e) {
         console.error("Failed to parse settings", e);
+        setSettings(initialSettings);
       }
+    } else {
+      setSettings(initialSettings);
     }
     setIsLoading(false);
-  }, []);
+  }, [locale]);
 
   // Persist settings to localStorage
   useEffect(() => {
@@ -44,6 +52,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   }, [settings, isLoading]);
 
   const updateSettings = (newSettings: Partial<UserSettings>) => {
+    if (newSettings.language) {
+      document.cookie = `NEXT_LOCALE=${newSettings.language}; path=/; max-age=31536000; SameSite=Lax`;
+    }
     setSettings((prev) => ({ ...prev, ...newSettings }));
   };
 

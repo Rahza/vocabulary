@@ -7,8 +7,8 @@ import { itemReveal } from "@/lib/animations";
 import { Input } from "@/components/ui/Input";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Tags } from "lucide-react";
-
 import { Badge } from "@/components/ui/Badge";
+import { useTranslations } from "next-intl";
 
 interface TagListProps {
   tags: string[];
@@ -17,14 +17,16 @@ interface TagListProps {
 }
 
 export function TagList({ tags, onDelete, onRename }: TagListProps) {
+  const t = useTranslations("tags");
+  const commonT = useTranslations("common");
   const [editingTag, setEditingTag] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
 
   if (tags.length === 0) {
     return (
       <EmptyState
-        title="Keine Tags vorhanden"
-        description="Erstelle deinen ersten Tag, um deine Vokabeln zu organisieren."
+        title={t("noTags")}
+        description={t("noTagsDesc")}
         icon={Tags}
       />
     );
@@ -91,14 +93,14 @@ export function TagList({ tags, onDelete, onRename }: TagListProps) {
                   <button
                     onClick={() => handleSaveRename(tag)}
                     className="p-2.5 text-playful-green hover:bg-playful-green/10 rounded-xl transition-all"
-                    title="Speichern"
+                    title={commonT("save")}
                   >
                     <Check size={20} />
                   </button>
                   <button
                     onClick={handleCancelEdit}
                     className="p-2.5 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-all"
-                    title="Abbrechen"
+                    title={commonT("cancel")}
                   >
                     <X size={20} />
                   </button>
@@ -108,14 +110,14 @@ export function TagList({ tags, onDelete, onRename }: TagListProps) {
                   <button
                     onClick={() => handleStartEdit(tag)}
                     className="p-2.5 text-zinc-400 hover:text-playful-indigo hover:bg-playful-indigo/10 rounded-xl transition-all"
-                    title="Tag umbenennen"
+                    title={commonT("edit")}
                   >
                     <Pencil size={18} />
                   </button>
                   <button
                     onClick={() => onDelete(tag)}
                     className="p-2.5 text-zinc-400 hover:text-playful-red hover:bg-playful-red/10 rounded-xl transition-all"
-                    title="Tag löschen"
+                    title={commonT("delete")}
                   >
                     <Trash2 size={18} />
                   </button>

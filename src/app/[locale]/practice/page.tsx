@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { LocalStorageRepository } from "@/services/storage/LocalStorageRepository";
-import { TagSelector } from "@/components/practice/TagSelector";
 import { Flashcard } from "@/components/trainer/Flashcard";
 import { SessionSummary } from "@/components/practice/SessionSummary";
 import { VocabularyPair } from "@/models/types";
@@ -14,7 +13,8 @@ import { Heading } from "@/components/ui/Heading";
 import { PracticeMode } from "@/models/types";
 import { MatchingGame } from "@/components/practice/MatchingGame";
 import { ModeSelector } from "@/components/practice/ModeSelector";
-import { ConnectPairsConfig } from "@/components/practice/ConnectPairsConfig";
+import { PracticeConfig } from "@/components/practice/PracticeConfig";
+import { useTranslations } from "next-intl";
 
 interface PracticeItem {
   vocab: VocabularyPair;
@@ -22,10 +22,10 @@ interface PracticeItem {
 }
 
 export default function PracticePage() {
+  const t = useTranslations("practice");
   const [view, setView] = useState<"mode-selection" | "config" | "practice" | "summary">("mode-selection");
   const [practiceMode, setPracticeMode] = useState<PracticeMode>("classic");
   
-  const [selectedTag, setSelectedTag] = useState("");
   const [selectedLength, setSelectedLength] = useState<number>(10);
   const [activeSessionTags, setActiveSessionTags] = useState<string[]>([]);
   const [queue, setQueue] = useState<PracticeItem[]>([]);
@@ -46,37 +46,11 @@ export default function PracticePage() {
     setView("config");
   };
 
-  const handleConfigSelect = async (tag: string, length: number) => {
-    setSelectedTag(tag);
-    setSelectedLength(length);
-    const words = await repository.getVocabularyByTag(tag);
-    
-    // Classic Practice logic
-    // Shuffle all first
-    const shuffledWords = words.sort(() => 0.5 - Math.random());
-    // Limit based on selected length
-    const limited = shuffledWords.slice(0, length);
-    
-    const items: PracticeItem[] = limited.map(v => ({
-      vocab: v,
-      direction: Math.random() > 0.5 ? "DE_TO_CZ" : "CZ_TO_DE"
-    }));
-    
-    const shuffledItems = smartShuffle(items, (item) => item.vocab.id);
-    
-    setQueue(shuffledItems);
-    if (shuffledItems.length > 0) {
-      setCurrentItem(shuffledItems[0]);
-      setView("practice");
-      setStartTime(Date.now());
-      setScore(0);
-      setTotal(shuffledItems.length);
-    }
-  };
-
-  const handleMatchingStart = async (tags: string[], rounds: number) => {
+  const handleStartSession = async (tags: string[], length: number) => {
     setActiveSessionTags(tags);
-    // Collect vocabulary from all tags
+    setSelectedLength(length);
+    
+    // Pooling logic for all modes
     const allWords: VocabularyPair[] = [];
     for (const tag of tags) {
       const words = await repository.getVocabularyByTag(tag);
@@ -86,12 +60,34 @@ export default function PracticePage() {
     // Deduplicate
     const uniqueWords = Array.from(new Map(allWords.map(w => [w.id, w])).values());
     
-    setMatchingVocabulary(uniqueWords);
-    setSelectedLength(rounds);
-    setView("practice");
-    setStartTime(Date.now());
-    setScore(0);
-    setTotal(rounds);
+    if (practiceMode === "classic") {
+      // Classic Practice logic
+      const shuffledWords = uniqueWords.sort(() => 0.5 - Math.random());
+      const limited = shuffledWords.slice(0, length);
+      
+      const items: PracticeItem[] = limited.map(v => ({
+        vocab: v,
+        direction: Math.random() > 0.5 ? "DE_TO_CZ" : "CZ_TO_DE"
+      }));
+      
+      const shuffledItems = smartShuffle(items, (item) => item.vocab.id);
+      
+      setQueue(shuffledItems);
+      if (shuffledItems.length > 0) {
+        setCurrentItem(shuffledItems[0]);
+        setView("practice");
+        setStartTime(Date.now());
+        setScore(0);
+        setTotal(shuffledItems.length);
+      }
+    } else {
+      // Connect Pairs
+      setMatchingVocabulary(uniqueWords);
+      setTotal(length); // length is number of rounds
+      setView("practice");
+      setStartTime(Date.now());
+      setScore(0);
+    }
   };
 
   const handleClassicAnswer = (answer: string) => {
@@ -144,16 +140,12 @@ export default function PracticePage() {
   };
 
   const handleRestart = () => {
-    if (practiceMode === "classic") {
-      handleConfigSelect(selectedTag, selectedLength);
-    } else {
-      handleMatchingStart(activeSessionTags, selectedLength);
-    }
+    handleStartSession(activeSessionTags, selectedLength);
   };
 
   const handleExit = () => {
     setView("mode-selection");
-    setSelectedTag("");
+    setActiveSessionTags([]);
   };
 
   return (
@@ -164,8 +156,8 @@ export default function PracticePage() {
       className="space-y-8"
     >
       <motion.div variants={itemReveal}>
-        <Heading level={1} subtitle={view === "mode-selection" ? "Lernmethode wählen" : "Themen-Training"}>
-          Üben
+        <Heading level={1} subtitle={view === "mode-selection" ? t("selectMethod") : t("thematicTraining")}>
+          {t("title")}
         </Heading>
       </motion.div>
       
@@ -178,19 +170,23 @@ export default function PracticePage() {
 
         {view === "config" && (
           <motion.div key="config" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {practiceMode === "classic" ? (
-              <TagSelector onSelect={handleConfigSelect} />
-            ) : (
-              <ConnectPairsConfig onStart={handleMatchingStart} onBack={handleExit} />
-            )}
+            <PracticeConfig mode={practiceMode} onStart={handleStartSession} onBack={handleExit} />
           </motion.div>
         )}
         
         {view === "practice" && practiceMode === "classic" && currentItem && (
           <motion.div key="classic" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
             <div className="flex justify-between items-center px-2">
-              <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Karte</span>
-              <span className="text-xs font-black uppercase tracking-widest text-playful-indigo">{total - queue.length + 1} / {total}</span>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{t("card")}</span>
+                <span className="text-sm font-black text-playful-indigo">{total - queue.length + 1} / {total}</span>
+              </div>
+              <button
+                onClick={handleExit}
+                className="text-xs font-black uppercase tracking-widest text-playful-red hover:brightness-110"
+              >
+                {t("end")}
+              </button>
             </div>
             
             <Flashcard
