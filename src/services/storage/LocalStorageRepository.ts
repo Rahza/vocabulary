@@ -7,6 +7,25 @@ const STORAGE_KEYS = {
   LEITNER: 'ai_vocab_leitner',
 };
 
+interface LegacyVocabItem {
+  id: string;
+  german: string;
+  czech: string;
+  mnemonic?: string;
+  tags: string[];
+  difficulty: string;
+  createdAt: string;
+}
+
+interface LegacyLeitnerItem {
+  vocabId: string;
+  direction: 'DE_TO_CZ' | 'CZ_TO_DE';
+  box: number;
+  lastReviewed: string;
+  nextReview: string;
+  history: unknown[];
+}
+
 export class LocalStorageRepository implements IVocabularyRepository {
   constructor() {
     if (typeof window !== 'undefined') {
@@ -19,12 +38,12 @@ export class LocalStorageRepository implements IVocabularyRepository {
     if (!rawVocab) return;
 
     try {
-      const data = JSON.parse(rawVocab);
+      const data = JSON.parse(rawVocab) as LegacyVocabItem[];
       if (data.length > 0 && 'german' in data[0]) {
         // Migration needed
         console.log('Migrating legacy data to new format...');
 
-        const newVocab = data.map((item: any) => ({
+        const newVocab = data.map((item) => ({
           id: item.id,
           source: item.german,
           target: item.czech,
@@ -39,8 +58,8 @@ export class LocalStorageRepository implements IVocabularyRepository {
         // Migrate Leitner states
         const rawLeitner = localStorage.getItem(STORAGE_KEYS.LEITNER);
         if (rawLeitner) {
-          const leitnerData = JSON.parse(rawLeitner);
-          const newLeitner = leitnerData.map((item: any) => ({
+          const leitnerData = JSON.parse(rawLeitner) as LegacyLeitnerItem[];
+          const newLeitner = leitnerData.map((item) => ({
             ...item,
             direction: item.direction === 'DE_TO_CZ' ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
           }));

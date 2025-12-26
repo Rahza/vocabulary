@@ -9,7 +9,7 @@ import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistratio
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { routing, Locale } from '@/i18n/routing';
 import { LanguageOnboarding } from '@/components/onboarding/LanguageOnboarding';
 
 const quicksand = Quicksand({
@@ -51,7 +51,7 @@ export default async function RootLayout({
   const { locale } = await params;
 
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
 

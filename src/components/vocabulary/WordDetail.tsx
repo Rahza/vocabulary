@@ -119,11 +119,11 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
   };
 
   const sourceLangName = settings.sourceLanguage
-    ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any)
+    ? tLang(LANG_CODE_MAP[settings.sourceLanguage])
     : 'Source';
 
   const targetLangName = settings.targetLanguage
-    ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any)
+    ? tLang(LANG_CODE_MAP[settings.targetLanguage])
     : 'Target';
 
   return (

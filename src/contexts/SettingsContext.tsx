@@ -22,28 +22,29 @@ const defaultSettings: UserSettings = {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
-  const [settings, setSettings] = useState<UserSettings>(defaultSettings);
-  const [isLoading, setIsLoading] = useState(true);
   const locale = useLocale() as 'en' | 'de' | 'cs';
 
-  // Load settings on mount
-  useEffect(() => {
+  // Initialize settings from localStorage synchronously (client-side only)
+  const getInitialSettings = (): UserSettings => {
+    if (typeof window === 'undefined') {
+      return { ...defaultSettings, language: locale };
+    }
     const saved = localStorage.getItem(STORAGE_KEY);
     const initialSettings = { ...defaultSettings, language: locale };
-
     if (saved) {
       try {
         const parsed = JSON.parse(saved) as UserSettings;
-        setSettings({ ...initialSettings, ...parsed });
+        return { ...initialSettings, ...parsed };
       } catch (e) {
         console.error('Failed to parse settings', e);
-        setSettings(initialSettings);
+        return initialSettings;
       }
-    } else {
-      setSettings(initialSettings);
     }
-    setIsLoading(false);
-  }, [locale]);
+    return initialSettings;
+  };
+
+  const [settings, setSettings] = useState<UserSettings>(getInitialSettings);
+  const isLoading = false;
 
   // Persist settings to localStorage
   useEffect(() => {

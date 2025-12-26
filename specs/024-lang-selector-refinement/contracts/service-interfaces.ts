@@ -1,4 +1,10 @@
-import { VocabularyPair, LeitnerState, LanguageDirection } from '@/models/types';
+import {
+  VocabularyPair,
+  LeitnerState,
+  LanguageDirection,
+  TagStats,
+  GlobalStats,
+} from '@/models/types';
 
 export interface IVocabularyRepository {
   // CRUD
@@ -19,8 +25,8 @@ export interface IVocabularyRepository {
   getDueReviews(now: Date): Promise<{ vocab: VocabularyPair; direction: LanguageDirection }[]>;
 
   // Stats
-  getStats(): Promise<any>; // Type to be updated in models
-  getGlobalStats(): Promise<any>; // Type to be updated in models
+  getStats(): Promise<TagStats[]>;
+  getGlobalStats(): Promise<GlobalStats>;
 
   // Utils
   exists(term: string): Promise<boolean>;

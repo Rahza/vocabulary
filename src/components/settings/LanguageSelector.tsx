@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -15,7 +16,7 @@ export const LanguageSelector = () => {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch
+  // Prevent hydration mismatch - this pattern is intentional
   useEffect(() => {
     setMounted(true);
   }, []);

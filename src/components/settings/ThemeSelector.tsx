@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -9,11 +10,11 @@ import { useTheme } from 'next-themes';
 import { Card } from '@/components/ui/Card';
 
 export const ThemeSelector = () => {
-  const { settings, updateSettings } = useSettings();
+  const { updateSettings } = useSettings();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Prevent hydration mismatch
+  // Prevent hydration mismatch - this pattern is intentional
   useEffect(() => {
     setMounted(true);
   }, []);

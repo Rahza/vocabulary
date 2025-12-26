@@ -87,7 +87,7 @@ export const LanguageOnboarding = () => {
                   )}
                 >
                   <span className="text-2xl">{FLAGS[lang]}</span>
-                  <span>{tLang(LANG_CODE_MAP[lang] as any)}</span>
+                  <span>{tLang(LANG_CODE_MAP[lang])}</span>
                 </button>
               ))}
             </div>
@@ -117,7 +117,7 @@ export const LanguageOnboarding = () => {
                     )}
                   >
                     <span className="text-2xl">{FLAGS[lang]}</span>
-                    <span>{tLang(LANG_CODE_MAP[lang] as any)}</span>
+                    <span>{tLang(LANG_CODE_MAP[lang])}</span>
                   </button>
                 );
               })}

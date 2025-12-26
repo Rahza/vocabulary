@@ -1,6 +1,6 @@
 // contracts/service-interfaces.ts
 
-import { VocabularyPair, LeitnerState, UserSettings, TagStats } from '../data-model';
+import { VocabularyPair, LeitnerState, TagStats } from '../data-model';
 
 /**
  * Service Contract for Data Persistence

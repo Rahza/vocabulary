@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -57,6 +58,7 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
     setSelectedRight(null);
   }, [vocabulary]);
 
+  // Initialize on mount
   useEffect(() => {
     startRound();
   }, [startRound]);
@@ -71,6 +73,7 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
     }
   };
 
+  // Match checking - handle match results
   useEffect(() => {
     if (selectedLeft && selectedRight) {
       if (selectedLeft.id === selectedRight.id) {
@@ -160,11 +163,11 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
   };
 
   const sourceLangName = settings.sourceLanguage
-    ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any)
+    ? tLang(LANG_CODE_MAP[settings.sourceLanguage])
     : commonT('german');
 
   const targetLangName = settings.targetLanguage
-    ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any)
+    ? tLang(LANG_CODE_MAP[settings.targetLanguage])
     : commonT('czech');
 
   return (

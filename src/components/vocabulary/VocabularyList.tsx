@@ -3,7 +3,6 @@
 import React from 'react';
 import { VocabularyPair } from '@/models/types';
 import { WordActions } from './WordActions';
-import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { itemReveal } from '@/lib/animations';
 import { SelectionToggle } from '@/components/ui/SelectionToggle';

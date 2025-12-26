@@ -50,11 +50,16 @@ describe('LocalStorageRepository Migration', () => {
     localStorage.setItem(STORAGE_KEYS.LEITNER, JSON.stringify(legacyLeitner));
 
     // Initialize repository, which triggers migration
-    const repo = new LocalStorageRepository();
+    new LocalStorageRepository();
 
     // Verify localStorage content directly
     const migratedVocabJson = localStorage.getItem(STORAGE_KEYS.VOCAB);
-    const migratedVocab = JSON.parse(migratedVocabJson!);
+    const migratedVocab = JSON.parse(migratedVocabJson!) as Array<{
+      source?: string;
+      target?: string;
+      german?: string;
+      czech?: string;
+    }>;
 
     expect(migratedVocab[0]).toHaveProperty('source', 'Hund');
     expect(migratedVocab[0]).toHaveProperty('target', 'Pes');
@@ -62,15 +67,18 @@ describe('LocalStorageRepository Migration', () => {
     expect(migratedVocab[0]).not.toHaveProperty('czech');
 
     const migratedLeitnerJson = localStorage.getItem(STORAGE_KEYS.LEITNER);
-    const migratedLeitner = JSON.parse(migratedLeitnerJson!);
+    const migratedLeitner = JSON.parse(migratedLeitnerJson!) as Array<{
+      direction: string;
+      vocabId: string;
+    }>;
 
-    const forward = migratedLeitner.find((l: any) => l.direction === DIRECTION_FORWARD);
-    const backward = migratedLeitner.find((l: any) => l.direction === DIRECTION_BACKWARD);
+    const forward = migratedLeitner.find((l) => l.direction === DIRECTION_FORWARD);
+    const backward = migratedLeitner.find((l) => l.direction === DIRECTION_BACKWARD);
 
     expect(forward).toBeDefined();
     expect(backward).toBeDefined();
-    expect(forward.vocabId).toBe('1');
-    expect(backward.vocabId).toBe('1');
+    expect(forward!.vocabId).toBe('1');
+    expect(backward!.vocabId).toBe('1');
   });
 
   it('should not modify already migrated data', () => {

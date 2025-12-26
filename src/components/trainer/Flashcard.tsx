@@ -90,10 +90,10 @@ export function Flashcard({
   const questionWord = direction === DIRECTION_FORWARD ? word.source : word.target;
 
   const sourceLangName = settings.sourceLanguage
-    ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any)
+    ? tLang(LANG_CODE_MAP[settings.sourceLanguage])
     : 'Source';
   const targetLangName = settings.targetLanguage
-    ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any)
+    ? tLang(LANG_CODE_MAP[settings.targetLanguage])
     : 'Target';
 
   const questionLabel = direction === DIRECTION_FORWARD ? sourceLangName : targetLangName;
