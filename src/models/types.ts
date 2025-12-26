@@ -10,6 +10,7 @@ export interface VocabularyPair {
   tags: string[];
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   createdAt: string; // ISO Date
+  ownerId?: string; // Firebase UID for cloud documents
 }
 
 export interface LeitnerState {
@@ -19,6 +20,7 @@ export interface LeitnerState {
   lastReviewed: string; // ISO Date
   nextReview: string; // ISO Date
   history: ReviewResult[];
+  ownerId?: string; // Firebase UID for cloud documents
 }
 
 export interface ReviewResult {

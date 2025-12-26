@@ -4,7 +4,10 @@ import { notFound } from 'next/navigation';
 import { routing, Locale } from '@/i18n/routing';
 import { LanguageOnboarding } from '@/components/onboarding/LanguageOnboarding';
 import { SettingsProvider } from '@/contexts/SettingsContext';
+import { RepositoryProvider } from '@/contexts/RepositoryContext';
 import { Navigation } from '@/components/layout/Navigation';
+import { AuthProvider } from '@/components/auth/AuthProvider';
+import { AuthGuard } from '@/components/auth/AuthGuard';
 import { Toaster } from 'sonner';
 
 export function generateStaticParams() {
@@ -34,12 +37,20 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
-      <SettingsProvider>
-        <LanguageOnboarding />
-        <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">{children}</main>
-        <Navigation />
-        <Toaster position="top-center" richColors />
-      </SettingsProvider>
+      <AuthProvider>
+        <AuthGuard>
+          <SettingsProvider>
+            <RepositoryProvider>
+              <LanguageOnboarding />
+              <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">{children}</main>
+              <Navigation />
+              <Toaster position="top-center" richColors />
+            </RepositoryProvider>
+          </SettingsProvider>
+        </AuthGuard>
+      </AuthProvider>
     </NextIntlClientProvider>
   );
 }
+
+

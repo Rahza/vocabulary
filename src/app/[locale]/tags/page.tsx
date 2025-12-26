@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { TagList } from '@/components/tags/TagList';
 import { TagEditor } from '@/components/tags/TagEditor';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
@@ -17,7 +17,7 @@ export default function TagManagementPage() {
   const [loading, setLoading] = useState(true);
   const [tagToDelete, setTagToDelete] = useState<string | null>(null);
 
-  const repository = useMemo(() => new LocalStorageRepository(), []);
+  const repository = useRepository();
 
   const loadData = useCallback(async () => {
     setLoading(true);

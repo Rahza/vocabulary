@@ -1,8 +1,11 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { UserSettings } from '@/models/types';
 import { useLocale } from 'next-intl';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirebaseDb } from '@/lib/firebase';
 
 const STORAGE_KEY = 'ai_vocab_user_settings';
 
@@ -21,10 +24,10 @@ const defaultSettings: UserSettings = {
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
-export function SettingsProvider({ children }: { children: React.ReactNode }) {
+export const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
   const locale = useLocale() as 'en' | 'de' | 'cs';
+  const { user, loading: authLoading } = useAuth();
 
-  // Initialize settings from localStorage synchronously (client-side only)
   const getInitialSettings = (): UserSettings => {
     if (typeof window === 'undefined') {
       return { ...defaultSettings, language: locale };
@@ -44,45 +47,93 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   };
 
   const [settings, setSettings] = useState<UserSettings>(getInitialSettings);
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Persist settings to localStorage
+  // Load settings from Firestore when user is authenticated
   useEffect(() => {
-    if (!isLoading) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    }
-  }, [settings, isLoading]);
+    const loadCloudSettings = async () => {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
 
-  const updateSettings = (newSettings: Partial<UserSettings>) => {
-    const nextSettings = { ...settings, ...newSettings };
+      try {
+        const firestore = getFirebaseDb();
+        if (!firestore) {
+          setIsLoading(false);
+          return;
+        }
+        const settingsRef = doc(firestore, 'users', user.uid, 'settings', 'current');
+        const snapshot = await getDoc(settingsRef);
 
-    // Validation: Prevent source == target
-    if (
-      nextSettings.sourceLanguage &&
-      nextSettings.targetLanguage &&
-      nextSettings.sourceLanguage === nextSettings.targetLanguage
-    ) {
-      console.warn('Invalid language pair: source and target must be different.');
-      return;
-    }
+        if (snapshot.exists()) {
+          const cloudSettings = snapshot.data() as UserSettings;
+          setSettings((prev) => ({ ...prev, ...cloudSettings }));
+        }
+      } catch (error) {
+        console.error('Failed to load cloud settings', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    if (newSettings.language) {
-      document.cookie = `NEXT_LOCALE=${newSettings.language}; path=/; max-age=31536000; SameSite=Lax`;
+    if (!authLoading) {
+      loadCloudSettings();
     }
-    setSettings((prev) => ({ ...prev, ...newSettings }));
-  };
+  }, [user, authLoading]);
+
+  // Persist settings to localStorage and Firestore
+  useEffect(() => {
+    if (isLoading || authLoading) return;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+
+    // Also persist to Firestore if user is authenticated
+    if (user) {
+      const firestore = getFirebaseDb();
+      if (firestore) {
+        const settingsRef = doc(firestore, 'users', user.uid, 'settings', 'current');
+        setDoc(settingsRef, { ...settings, ownerId: user.uid }).catch((error) => {
+          console.error('Failed to save cloud settings', error);
+        });
+      }
+    }
+  }, [settings, isLoading, authLoading, user]);
+
+  const updateSettings = useCallback(
+    (newSettings: Partial<UserSettings>) => {
+      const nextSettings = { ...settings, ...newSettings };
+
+      // Validation: Prevent source == target
+      if (
+        nextSettings.sourceLanguage &&
+        nextSettings.targetLanguage &&
+        nextSettings.sourceLanguage === nextSettings.targetLanguage
+      ) {
+        console.warn('Invalid language pair: source and target must be different.');
+        return;
+      }
+
+      if (newSettings.language) {
+        document.cookie = `NEXT_LOCALE=${newSettings.language}; path=/; max-age=31536000; SameSite=Lax`;
+      }
+      setSettings((prev) => ({ ...prev, ...newSettings }));
+    },
+    [settings]
+  );
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings, isLoading }}>
       {children}
     </SettingsContext.Provider>
   );
-}
+};
 
-export function useSettings() {
+export const useSettings = () => {
   const context = useContext(SettingsContext);
   if (context === undefined) {
     throw new Error('useSettings must be used within a SettingsProvider');
   }
   return context;
-}
+};
+

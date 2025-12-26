@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { VocabularyPair, LeitnerState } from '@/models/types';
 import { SearchFilters } from '@/components/vocabulary/SearchFilters';
 import { VocabularyList } from '@/components/vocabulary/VocabularyList';
@@ -35,7 +35,7 @@ export default function VocabularyManagementPage() {
   const t = useTranslations('vocabulary');
   const navT = useTranslations('navigation');
   const commonT = useTranslations('common');
-  const repository = useMemo(() => new LocalStorageRepository(), []);
+  const repository = useRepository();
 
   const loadData = useCallback(async () => {
     setLoading(true);

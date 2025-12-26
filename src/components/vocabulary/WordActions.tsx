@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { VocabularyPair } from '@/models/types';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { Button } from '@/components/ui/Button';
 import { RotateCcw, Trash2, MoreVertical, Tag, Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -25,7 +25,7 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-  const repository = new LocalStorageRepository();
+  const repository = useRepository();
 
   const handleReset = async () => {
     await repository.resetProgress(item.id);

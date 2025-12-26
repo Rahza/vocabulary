@@ -11,6 +11,30 @@
     "german": "German",
     "czech": "Czech"
   },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Start your learning journey",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters"
+    },
+    "signOut": "Sign Out"
+  },
   "navigation": {
     "dashboard": "Dashboard",
     "vocabulary": "Collection",
@@ -99,11 +123,26 @@
     "tagInfo": "Tags are automatically created when assigned to vocabulary.",
     "tagDeleteDesc": "Are you sure? #{tag} will be removed from all vocabulary.",
     "boxes": {
-      "1": { "name": "Sprout", "desc": "Brand new in your collection" },
-      "2": { "name": "Seedling", "desc": "First repetitions done" },
-      "3": { "name": "Young Tree", "desc": "Getting stronger in memory" },
-      "4": { "name": "Experienced", "desc": "Long-term memory reached" },
-      "5": { "name": "Master", "desc": "Permanently memorized" }
+      "1": {
+        "name": "Sprout",
+        "desc": "Brand new in your collection"
+      },
+      "2": {
+        "name": "Seedling",
+        "desc": "First repetitions done"
+      },
+      "3": {
+        "name": "Young Tree",
+        "desc": "Getting stronger in memory"
+      },
+      "4": {
+        "name": "Experienced",
+        "desc": "Long-term memory reached"
+      },
+      "5": {
+        "name": "Master",
+        "desc": "Permanently memorized"
+      }
     },
     "bulkActions": {
       "selected": "Selected",

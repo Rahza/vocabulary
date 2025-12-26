@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: AI Vocabulary API
+  version: 1.0.0
+paths:
+  /api/generate:
+    post:
+      summary: Generate vocabulary using AI
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                theme: { type: string }
+                difficulty: { type: string }
+                count: { type: integer }
+                sourceLanguage: { type: string }
+                targetLanguage: { type: string }
+                existingTerms: { type: array, items: { type: string } }
+      responses:
+        '200':
+          description: Successful generation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pairs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VocabularyPair'
+components:
+  schemas:
+    VocabularyPair:
+      type: object
+      properties:
+        source: { type: string }
+        target: { type: string }
+        mnemonic: { type: string }
+        tags: { type: array, items: { type: string } }
+        difficulty: { type: string }
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

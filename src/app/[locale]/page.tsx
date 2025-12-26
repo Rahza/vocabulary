@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { StatsOverview } from '@/components/dashboard/StatsOverview';
 import { TagStats, GlobalStats } from '@/models/types';
 import { Button } from '@/components/ui/Button';
@@ -16,6 +16,7 @@ import { useTranslations } from 'next-intl';
 export default function DashboardPage() {
   const router = useRouter();
   const t = useTranslations('dashboard');
+  const repository = useRepository();
   const [stats, setStats] = useState<TagStats[]>([]);
   const [globalStats, setGlobalStats] = useState<GlobalStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -27,14 +28,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const repo = new LocalStorageRepository();
-      const [tagData, globalData] = await Promise.all([repo.getStats(), repo.getGlobalStats()]);
+      const [tagData, globalData] = await Promise.all([repository.getStats(), repository.getGlobalStats()]);
       setStats(tagData);
       setGlobalStats(globalData);
       setLoading(false);
     };
     loadData();
-  }, []);
+  }, [repository]);
 
   return (
     <motion.div

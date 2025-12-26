@@ -11,6 +11,30 @@
     "german": "Deutsch",
     "czech": "Tschechisch"
   },
+  "auth": {
+    "login": {
+      "title": "Willkommen zurück",
+      "subtitle": "Melden Sie sich an",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "signupLink": "Registrieren"
+    },
+    "signup": {
+      "title": "Konto erstellen",
+      "subtitle": "Starte deine Lernreise",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "submit": "Konto erstellen",
+      "hasAccount": "Bereits ein Konto?",
+      "loginLink": "Anmelden",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "passwordTooShort": "Passwort muss mindestens 6 Zeichen haben"
+    },
+    "signOut": "Abmelden"
+  },
   "navigation": {
     "dashboard": "Start",
     "vocabulary": "Sammlung",
@@ -99,11 +123,26 @@
     "tagInfo": "Tags werden automatisch erstellt, wenn sie Vokabeln zugewiesen werden.",
     "tagDeleteDesc": "Bist du sicher? #{tag} wird von allen Vokabeln entfernt.",
     "boxes": {
-      "1": { "name": "Keimling", "desc": "Ganz neu in der Sammlung" },
-      "2": { "name": "Setzling", "desc": "Erste Wiederholungen geschafft" },
-      "3": { "name": "Jungbaum", "desc": "Festigt sich im Gedächtnis" },
-      "4": { "name": "Erfahren", "desc": "Langzeitgedächtnis erreicht" },
-      "5": { "name": "Meister", "desc": "Dauerhaft gemerkt" }
+      "1": {
+        "name": "Keimling",
+        "desc": "Ganz neu in der Sammlung"
+      },
+      "2": {
+        "name": "Setzling",
+        "desc": "Erste Wiederholungen geschafft"
+      },
+      "3": {
+        "name": "Jungbaum",
+        "desc": "Festigt sich im Gedächtnis"
+      },
+      "4": {
+        "name": "Erfahren",
+        "desc": "Langzeitgedächtnis erreicht"
+      },
+      "5": {
+        "name": "Meister",
+        "desc": "Dauerhaft gemerkt"
+      }
     },
     "bulkActions": {
       "selected": "Ausgewählt",

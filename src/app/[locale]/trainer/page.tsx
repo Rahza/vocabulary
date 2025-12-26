@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { LeitnerService } from '@/services/leitner/LeitnerService';
 import { Flashcard } from '@/components/trainer/Flashcard';
 import { VocabularyPair } from '@/models/types';
@@ -29,7 +29,7 @@ export default function TrainerPage() {
   const [result, setResult] = useState<'correct' | 'incorrect' | 'typo' | null>(null);
   const [sessionCount, setSessionCount] = useState(0);
 
-  const repository = useMemo(() => new LocalStorageRepository(), []);
+  const repository = useRepository();
   const leitnerService = useMemo(() => new LeitnerService(), []);
 
   const loadDueItems = useCallback(async () => {

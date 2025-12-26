@@ -5,7 +5,7 @@ import { useRouter, Link } from '@/i18n/routing';
 import { GeneratorForm } from '@/components/generator/GeneratorForm';
 import { GeneratedList } from '@/components/generator/GeneratedList';
 import { OpenAIService } from '@/services/ai/OpenAIService';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { VocabularyPair } from '@/models/types';
 import { Button } from '@/components/ui/Button';
@@ -26,7 +26,7 @@ export default function GeneratePage() {
   const [view, setView] = useState<'form' | 'results'>('form');
 
   const aiService = useMemo(() => new OpenAIService(), []);
-  const repository = useMemo(() => new LocalStorageRepository(), []);
+  const repository = useRepository();
 
   const handleGenerate = async (theme: string, difficulty: string, count: number) => {
     setIsLoading(true);

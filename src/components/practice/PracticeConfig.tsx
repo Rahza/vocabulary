@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { PracticeMode } from '@/models/types';
@@ -27,15 +27,16 @@ export const PracticeConfig = ({ mode, onStart, onBack }: PracticeConfigProps) =
     { label: '10', value: 10 },
   ];
 
+  const repository = useRepository();
+
   useEffect(() => {
     const loadTags = async () => {
-      const repo = new LocalStorageRepository();
-      const allTags = await repo.getTags();
+      const allTags = await repository.getTags();
       setTags(allTags);
       setLoading(false);
     };
     loadTags();
-  }, []);
+  }, [repository]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>

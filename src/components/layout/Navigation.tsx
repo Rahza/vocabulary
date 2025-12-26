@@ -1,14 +1,18 @@
 'use client';
 
-import { Link, usePathname } from '@/i18n/routing';
-import { LayoutDashboard, BrainCircuit, Dumbbell, Settings, Library } from 'lucide-react';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
+import { LayoutDashboard, BrainCircuit, Dumbbell, Settings, Library, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '@/components/auth/AuthProvider';
 
-export function Navigation() {
+export const Navigation = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const t = useTranslations('navigation');
+  const tAuth = useTranslations('auth');
+  const { user, signOut } = useAuth();
 
   const links = [
     { href: '/', label: t('dashboard'), icon: LayoutDashboard },
@@ -17,6 +21,14 @@ export function Navigation() {
     { href: '/practice', label: t('practice'), icon: Dumbbell },
     { href: '/settings', label: t('settings'), icon: Settings },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+  };
+
+  // Only show navigation when user is logged in
+  if (!user) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 border-t-2 border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-lg pb-safe z-50 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.08)] dark:shadow-none">
@@ -49,7 +61,15 @@ export function Navigation() {
             </Link>
           );
         })}
+        <button
+          onClick={handleSignOut}
+          className="relative flex flex-col items-center justify-center w-full h-full space-y-1 transition-all text-zinc-500 hover:text-red-500 dark:text-zinc-500 dark:hover:text-red-400"
+          aria-label={tAuth('signOut')}
+        >
+          <LogOut size={24} />
+          <span className="text-[10px] font-black uppercase tracking-widest">{tAuth('signOut')}</span>
+        </button>
       </div>
     </nav>
   );
-}
+};

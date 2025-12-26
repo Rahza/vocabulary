@@ -1,12 +1,12 @@
-import OpenAI from 'openai';
 import { VocabularyPair } from '@/models/types';
+import { getFirebaseAuth } from '@/lib/firebase';
 
 export interface IAIService {
   generateVocabulary(
     theme: string,
     difficulty: string,
     count: number,
-    apiKey: string,
+    apiKey: string, // Kept for backward compatibility, but not used
     sourceLanguage: string,
     targetLanguage: string,
     existingTerms?: string[]
@@ -22,6 +22,15 @@ export interface IAIService {
 }
 
 export class OpenAIService implements IAIService {
+  private async getIdToken(): Promise<string> {
+    const auth = getFirebaseAuth();
+    const user = auth?.currentUser;
+    if (!user) {
+      throw new Error('User must be authenticated to generate vocabulary');
+    }
+    return user.getIdToken();
+  }
+
   async generateSingleMnemonic(
     sourceWord: string,
     targetWord: string,
@@ -29,98 +38,66 @@ export class OpenAIService implements IAIService {
     sourceLanguage: string,
     targetLanguage: string
   ): Promise<string> {
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      dangerouslyAllowBrowser: true,
+    // For mnemonic regeneration, we call the mnemonic API endpoint
+    const idToken = await this.getIdToken();
+
+    const response = await fetch('/api/mnemonic', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        sourceWord,
+        targetWord,
+        sourceLanguage,
+        targetLanguage,
+      }),
     });
 
-    const prompt = `
-      Create a helpful mnemonic (memory aid) in ${sourceLanguage.toUpperCase()} to remember the ${targetLanguage.toUpperCase()} word "${targetWord}" given the ${sourceLanguage.toUpperCase()} word "${sourceWord}".
-      The mnemonic should be creative and effective.
-      Return ONLY the mnemonic text, no JSON, no explanations.
-    `;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to generate mnemonic');
+    }
 
-    const completion = await openai.chat.completions.create({
-      messages: [
-        { role: 'system', content: 'You are a helpful language tutor.' },
-        { role: 'user', content: prompt },
-      ],
-      model: 'gpt-4o',
-    });
-
-    const content = completion.choices[0].message.content;
-    if (!content) throw new Error('No content received from AI');
-
-    return content.trim();
+    const data = await response.json();
+    return data.mnemonic;
   }
 
   async generateVocabulary(
     theme: string,
     difficulty: string,
     count: number,
-    apiKey: string,
+    _apiKey: string, // Not used - API key is now server-side
     sourceLanguage: string,
     targetLanguage: string,
     existingTerms: string[] = []
   ): Promise<Omit<VocabularyPair, 'id' | 'createdAt'>[]> {
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      dangerouslyAllowBrowser: true, // We are calling from client-side as per requirements
+    const idToken = await this.getIdToken();
+
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        theme,
+        difficulty,
+        count,
+        sourceLanguage,
+        targetLanguage,
+        existingTerms,
+      }),
     });
 
-    // Request more words to account for potential duplicates being filtered out
-    const requestCount = Math.ceil(count * 1.5);
-
-    const prompt = `
-      Generate ${requestCount} ${sourceLanguage}-${targetLanguage} vocabulary pairs related to the theme "${theme}".
-      Difficulty level: ${difficulty}.
-      For each pair, provide a helpful mnemonic (memory aid) in ${sourceLanguage.toUpperCase()} to remember the ${targetLanguage.toUpperCase()} word given the ${sourceLanguage.toUpperCase()} word.
-      Also assign relevant tags in ${sourceLanguage.toUpperCase()} to each pair (including the theme itself).
-      IMPORTANT: Tags MUST be generic categories (e.g. "Zahlen", "Farben", "Natur") and NOT word-specific or literal (e.g. do NOT use "1" as a tag for the word "eins").
-      
-      Return ONLY a JSON object with the following structure:
-      {
-        "pairs": [
-          {
-            "source": "the ${sourceLanguage} word",
-            "target": "the ${targetLanguage} translation",
-            "mnemonic": "string",
-            "tags": ["string"],
-            "difficulty": "${difficulty}"
-          }
-        ]
-      }
-    `;
-
-    const completion = await openai.chat.completions.create({
-      messages: [
-        { role: 'system', content: 'You are a helpful language tutor.' },
-        { role: 'user', content: prompt },
-      ],
-      model: 'gpt-4o',
-      response_format: { type: 'json_object' },
-    });
-
-    const content = completion.choices[0].message.content;
-    if (!content) throw new Error('No content received from AI');
-
-    try {
-      const parsed = JSON.parse(content);
-      let pairs: Omit<VocabularyPair, 'id' | 'createdAt'>[] = parsed.pairs;
-
-      // Filter duplicates
-      if (existingTerms.length > 0) {
-        pairs = pairs.filter(
-          (p) =>
-            !existingTerms.some((existing) => existing.toLowerCase() === p.source.toLowerCase())
-        );
-      }
-
-      // Trim to requested count
-      return pairs.slice(0, count);
-    } catch {
-      console.error('Failed to parse AI response', content);
-      throw new Error('Failed to parse AI response');
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to generate vocabulary');
     }
+
+    const data = await response.json();
+    return data.vocabulary || [];
   }
 }
+

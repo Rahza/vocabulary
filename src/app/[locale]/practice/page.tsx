@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { Flashcard } from '@/components/trainer/Flashcard';
 import { SessionSummary } from '@/components/practice/SessionSummary';
 import { VocabularyPair } from '@/models/types';
@@ -42,7 +42,7 @@ export default function PracticePage() {
   const [startTime, setStartTime] = useState<number>(0);
   const [endTime, setEndTime] = useState<number>(0);
 
-  const repository = new LocalStorageRepository();
+  const repository = useRepository();
 
   const handleModeSelect = (mode: PracticeMode) => {
     setPracticeMode(mode);

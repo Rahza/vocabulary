@@ -11,6 +11,30 @@
     "german": "Němčina",
     "czech": "Čeština"
   },
+  "auth": {
+    "login": {
+      "title": "Vítejte zpět",
+      "subtitle": "Přihlaste se ke svému účtu",
+      "email": "E-mail",
+      "password": "Heslo",
+      "submit": "Přihlásit se",
+      "noAccount": "Nemáte účet?",
+      "signupLink": "Zaregistrovat se"
+    },
+    "signup": {
+      "title": "Vytvořit účet",
+      "subtitle": "Začněte svou cestu učení",
+      "email": "E-mail",
+      "password": "Heslo",
+      "confirmPassword": "Potvrdit heslo",
+      "submit": "Vytvořit účet",
+      "hasAccount": "Již máte účet?",
+      "loginLink": "Přihlásit se",
+      "passwordMismatch": "Hesla se neshodují",
+      "passwordTooShort": "Heslo musí mít alespoň 6 znaků"
+    },
+    "signOut": "Odhlásit se"
+  },
   "navigation": {
     "dashboard": "Nástěnka",
     "vocabulary": "Sbírka",
@@ -99,11 +123,26 @@
     "tagInfo": "Štítky se vytvářejí automaticky při přiřazení ke slovíčkům.",
     "tagDeleteDesc": "Jste si jisti? Štítek #{tag} bude odstraněn ze všech slovíček.",
     "boxes": {
-      "1": { "name": "Klíček", "desc": "Zcela nové ve vaší sbírce" },
-      "2": { "name": "Sazenice", "desc": "První opakování hotova" },
-      "3": { "name": "Mladý strom", "desc": "Upevňuje se v paměti" },
-      "4": { "name": "Zkušený", "desc": "Dosaženo dlouhodobé paměti" },
-      "5": { "name": "Mistr", "desc": "Trvale zapamatováno" }
+      "1": {
+        "name": "Klíček",
+        "desc": "Zcela nové ve vaší sbírce"
+      },
+      "2": {
+        "name": "Sazenice",
+        "desc": "První opakování hotova"
+      },
+      "3": {
+        "name": "Mladý strom",
+        "desc": "Upevňuje se v paměti"
+      },
+      "4": {
+        "name": "Zkušený",
+        "desc": "Dosaženo dlouhodobé paměti"
+      },
+      "5": {
+        "name": "Mistr",
+        "desc": "Trvale zapamatováno"
+      }
     },
     "bulkActions": {
       "selected": "Vybráno",

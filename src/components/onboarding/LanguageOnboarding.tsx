@@ -9,6 +9,7 @@ import { Heading } from '@/components/ui/Heading';
 import { Globe2, ArrowRightLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
+import { usePathname } from '@/i18n/routing';
 
 const FLAGS: Record<SupportedLanguage, string> = {
   English: '🇬🇧',
@@ -28,13 +29,21 @@ const LANG_CODE_MAP: Record<SupportedLanguage, string> = {
   Italian: 'it',
 };
 
+// Routes where onboarding should not appear
+const AUTH_ROUTES = ['/login', '/signup'];
+
 export const LanguageOnboarding = () => {
   const { settings, updateSettings } = useSettings();
   const t = useTranslations('onboarding');
   const tLang = useTranslations('settings.languages');
+  const pathname = usePathname();
 
   const [source, setSource] = useState<SupportedLanguage | null>(null);
   const [target, setTarget] = useState<SupportedLanguage | null>(null);
+
+  // Skip onboarding on auth pages
+  const isAuthPage = AUTH_ROUTES.some((route) => pathname === route);
+  if (isAuthPage) return null;
 
   if (settings.languagePairSelected) return null;
 

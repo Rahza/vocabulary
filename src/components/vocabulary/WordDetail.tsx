@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { VocabularyWithProgress } from '@/app/[locale]/vocabulary/page';
-import { LocalStorageRepository } from '@/services/storage/LocalStorageRepository';
+import { useRepository } from '@/contexts/RepositoryContext';
 import { OpenAIService } from '@/services/ai/OpenAIService';
 import { useSettings } from '@/contexts/SettingsContext';
 import { Button } from '@/components/ui/Button';
@@ -47,7 +47,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const { settings } = useSettings();
 
-  const repository = new LocalStorageRepository();
+  const repository = useRepository();
   const aiService = new OpenAIService();
 
   const currentBox = BOX_DEFINITIONS[item.maxBox] || BOX_DEFINITIONS[1];
