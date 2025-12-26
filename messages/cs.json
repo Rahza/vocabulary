@@ -25,9 +25,20 @@
     "generate": "Generovat",
     "practice": "Procvičování",
     "progress": "Tvůj pokrok",
+    "totalVocabLabel": "Slovíček celkem",
+    "progressByTheme": "Pokrok podle témat",
+    "noThemes": "Zatím žádná témata. Začněte generovat!",
+    "totalCardsLabel": "Karet",
     "distribution": "Rozdělení",
     "totalVocab": "{count} slovíček celkem",
     "words": "Slova"
+  },
+  "onboarding": {
+    "welcome": "Vítejte!",
+    "subtitle": "Nakonfigurujte si jazykový pár pro začátek.",
+    "sourceLabel": "MLUVÍM... (Zdrojový jazyk)",
+    "targetLabel": "CHCI SE NAUČIT... (Cílový jazyk)",
+    "startSession": "Začít sezení ✨"
   },
   "settings": {
     "title": "Nastavení",
@@ -35,7 +46,7 @@
     "appearance": "Vzhled",
     "language": "Jazyk",
     "apiKey": "OpenAI API klíč",
-    "apiKeyPlaceholder": "sk-...",
+    "apiKeyPlaceholder": "sk-…",
     "apiKeyHint": "Váš klíč je bezpečně uložen v místním úložišti vašeho prohlížeče.",
     "saveSettings": "Uložit nastavení",
     "dangerZone": "Nebezpečná zóna",
@@ -48,7 +59,10 @@
     "languages": {
       "en": "Angličtina",
       "de": "Němčina",
-      "cs": "Čeština"
+      "cs": "Čeština",
+      "es": "Španělština",
+      "fr": "Francouzština",
+      "it": "Italština"
     }
   },
   "vocabulary": {

@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
 import { Badge } from "@/components/ui/Badge";
 import { useTranslations, useFormatter } from "next-intl";
+import { LANG_CODE_MAP } from "@/constants/languages";
 
 interface WordDetailProps {
   item: VocabularyWithProgress;
@@ -26,6 +27,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
   const t = useTranslations("vocabulary");
   const commonT = useTranslations("common");
   const boxT = useTranslations("vocabulary.boxes");
+  const tLang = useTranslations("settings.languages");
   const format = useFormatter();
   
   const [newTag, setNewTag] = useState("");
@@ -54,9 +56,11 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
     setIsRegenerating(true);
     try {
       const newMnemonic = await aiService.generateSingleMnemonic(
-        item.german,
-        item.czech,
-        settings.openaiApiKey
+        item.source,
+        item.target,
+        settings.openaiApiKey,
+        settings.sourceLanguage || "German",
+        settings.targetLanguage || "Czech"
       );
       await repository.updateVocabulary(item.id, { mnemonic: newMnemonic });
       setMnemonic(newMnemonic); // Update local state immediately
@@ -104,18 +108,26 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
     onRefresh();
   };
 
+  const sourceLangName = settings.sourceLanguage 
+    ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any)
+    : "Source";
+
+  const targetLangName = settings.targetLanguage 
+    ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any)
+    : "Target";
+
   return (
     <div className="space-y-8">
       {/* Header Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6 bg-playful-indigo/5 border-playful-indigo/10 shadow-none">
-          <Heading level={4} subtitle={commonT("german")} className="text-playful-indigo">
-            {item.german}
+          <Heading level={4} subtitle={sourceLangName} className="text-playful-indigo">
+            {item.source}
           </Heading>
         </Card>
         <Card className="p-6 bg-playful-green/5 border-playful-green/10 shadow-none">
-          <Heading level={4} subtitle={commonT("czech")} className="text-playful-green">
-            {item.czech}
+          <Heading level={4} subtitle={targetLangName} className="text-playful-green">
+            {item.target}
           </Heading>
         </Card>
       </div>
@@ -244,7 +256,7 @@ export function WordDetail({ item, onRefresh, onClose }: WordDetailProps) {
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
         title={t("deleteWord")}
-        description={t("deleteWordDesc", { word: item.german })}
+        description={t("deleteWordDesc", { word: item.source })}
         confirmText={commonT("delete")}
         variant="destructive"
       />

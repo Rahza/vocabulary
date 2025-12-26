@@ -1,12 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { Flashcard } from './Flashcard';
 import { VocabularyPair } from '@/models/types';
+import { DIRECTION_FORWARD } from '@/constants/languages';
+
+// Mock context
+vi.mock('@/contexts/SettingsContext', () => ({
+  useSettings: () => ({
+    settings: {
+      sourceLanguage: 'German',
+      targetLanguage: 'Czech',
+    }
+  })
+}));
 
 const mockWord: VocabularyPair = {
   id: '123',
-  german: 'Hund',
-  czech: 'Pes',
+  source: 'Hund',
+  target: 'Pes',
   mnemonic: 'A dog pees',
   tags: ['animals'],
   difficulty: 'Beginner',
@@ -25,7 +37,7 @@ describe('Flashcard', () => {
     render(
       <Flashcard 
         word={mockWord} 
-        direction="DE_TO_CZ" 
+        direction={DIRECTION_FORWARD} 
         onSubmit={onSubmit} 
         onNext={onNext} 
         result={null} 
@@ -38,7 +50,7 @@ describe('Flashcard', () => {
     render(
       <Flashcard 
         word={mockWord} 
-        direction="DE_TO_CZ" 
+        direction={DIRECTION_FORWARD} 
         onSubmit={onSubmit} 
         onNext={onNext} 
         result={null} 
@@ -48,12 +60,5 @@ describe('Flashcard', () => {
     fireEvent.change(input, { target: { value: 'Pes' } });
     fireEvent.submit(input);
     expect(onSubmit).toHaveBeenCalledWith('Pes');
-  });
-
-  // Tests for new features (to be implemented)
-  it('should show hint buttons', () => {
-    // These will fail initially until T019 is implemented, but I can write them now
-    // or wait. I will write them now as "todo" or expect them to be there.
-    // The task says "Create test... for new interaction states".
   });
 });

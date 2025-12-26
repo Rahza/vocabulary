@@ -25,9 +25,20 @@
     "generate": "Generate",
     "practice": "Practice",
     "progress": "Your Progress",
+    "totalVocabLabel": "Total Words",
+    "progressByTheme": "Progress by Topic",
+    "noThemes": "No topics yet. Start generating!",
+    "totalCardsLabel": "Cards",
     "distribution": "Distribution",
     "totalVocab": "{count} vocabulary items total",
     "words": "Words"
+  },
+  "onboarding": {
+    "welcome": "Welcome!",
+    "subtitle": "Configure your language pair to start.",
+    "sourceLabel": "I SPEAK... (Source Language)",
+    "targetLabel": "I WANT TO LEARN... (Target Language)",
+    "startSession": "Start Session ✨"
   },
   "settings": {
     "title": "Settings",
@@ -35,7 +46,7 @@
     "appearance": "Appearance",
     "language": "Language",
     "apiKey": "OpenAI API Key",
-    "apiKeyPlaceholder": "sk-...",
+    "apiKeyPlaceholder": "sk-…",
     "apiKeyHint": "Your key is stored safely in your browser's local storage.",
     "saveSettings": "Save Settings",
     "dangerZone": "Danger Zone",
@@ -48,7 +59,10 @@
     "languages": {
       "en": "English",
       "de": "German",
-      "cs": "Czech"
+      "cs": "Czech",
+      "es": "Spanish",
+      "fr": "French",
+      "it": "Italian"
     }
   },
   "vocabulary": {

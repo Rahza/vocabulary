@@ -10,6 +10,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { LanguageOnboarding } from "@/components/onboarding/LanguageOnboarding";
 
 const quicksand = Quicksand({
   variable: "--font-quicksand",
@@ -69,6 +70,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="ai_vocab_theme">
             <SettingsProvider>
+              <LanguageOnboarding />
               <main className="min-h-screen pb-20 p-4 max-w-md mx-auto">
                 {children}
               </main>

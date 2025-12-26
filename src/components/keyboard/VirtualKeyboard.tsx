@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 
+import { DIACRITICS } from "@/constants/languages";
+
 interface VirtualKeyboardProps {
   onKeyPress: (char: string) => void;
+  targetLanguage?: string;
   className?: string;
 }
 
-const CHARS = [
-  "á", "č", "ď", "é", "ě", "í", "ň", "ó", "ř", "š", "ť", "ú", "ů", "ý", "ž"
-];
+export function VirtualKeyboard({ onKeyPress, targetLanguage, className }: VirtualKeyboardProps) {
+  const chars = targetLanguage ? (DIACRITICS[targetLanguage] || []) : [];
 
-export function VirtualKeyboard({ onKeyPress, className }: VirtualKeyboardProps) {
+  if (chars.length === 0) return null;
+
   return (
-    <div className={cn("grid grid-cols-5 gap-3 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-[32px] border-2 border-zinc-100 dark:border-zinc-800", className)}>
-      {CHARS.map((char) => (
+    <div className={cn(
+      "grid gap-3 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-[32px] border-2 border-zinc-100 dark:border-zinc-800",
+      chars.length > 10 ? "grid-cols-8" : "grid-cols-5",
+      className
+    )}>
+      {chars.map((char) => (
         <Keycap key={char} char={char} onClick={() => onKeyPress(char)} />
       ))}
     </div>

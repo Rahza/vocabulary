@@ -29,33 +29,33 @@ export default function GeneratePage() {
   const repository = useMemo(() => new LocalStorageRepository(), []);
 
   const handleGenerate = async (theme: string, difficulty: string, count: number) => {
-    if (!settings.openaiApiKey) {
-      setError(t("apiKeyMissing"));
-      toast.error(t("apiKeyMissing"));
-      return;
-    }
-
     setIsLoading(true);
-    setError(null);
-
+    setGenerated([]);
+    
     try {
-      // Get all existing vocabulary to filter duplicates
       const allVocab = await repository.getAllVocabulary();
-      const existingTerms = allVocab.map(v => v.german);
+      const existingTerms = allVocab.map(v => v.source);
       
-      const result = await aiService.generateVocabulary(theme, difficulty, count, settings.openaiApiKey, existingTerms);
+      const newWords = await aiService.generateVocabulary(
+        theme,
+        difficulty,
+        count,
+        settings.openaiApiKey || "",
+        settings.sourceLanguage || "German",
+        settings.targetLanguage || "Czech",
+        existingTerms
+      );
       
-      if (result && result.length > 0) {
-        setGenerated(result);
-        setView("results");
-        toast.success(t("generating", { count: result.length }));
+      if (newWords.length === 0) {
+        toast.error(t("noNewWords"));
       } else {
-        toast.info(t("noNewWords"));
+        setGenerated(newWords);
+        setView("results");
+        toast.success(t("generating", { count: newWords.length }));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.error(e);
       setError(t("error"));
-      toast.error(t("error"));
     } finally {
       setIsLoading(false);
     }

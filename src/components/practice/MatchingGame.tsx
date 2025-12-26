@@ -7,6 +7,8 @@ import { shuffleArray } from "@/lib/shuffle";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useSettings } from "@/contexts/SettingsContext";
+import { LANG_CODE_MAP } from "@/constants/languages";
 
 interface MatchingGameProps {
   vocabulary: VocabularyPair[];
@@ -21,8 +23,10 @@ export const MatchingGame = ({
   onComplete,
   onExit,
 }: MatchingGameProps) => {
+  const { settings } = useSettings();
   const t = useTranslations("practice");
   const commonT = useTranslations("common");
+  const tLang = useTranslations("settings.languages");
   const [currentRound, setCurrentRound] = useState(1);
   const [leftItems, setLeftItems] = useState<MatchingItem[]>([]);
   const [rightItems, setRightItems] = useState<MatchingItem[]>([]);
@@ -40,14 +44,14 @@ export const MatchingGame = ({
     
     const left: MatchingItem[] = roundPairs.map(p => ({
       id: p.id,
-      text: p.german,
-      language: "german"
+      text: p.source,
+      language: "source"
     }));
     
     const right: MatchingItem[] = roundPairs.map(p => ({
       id: p.id,
-      text: p.czech,
-      language: "czech"
+      text: p.target,
+      language: "target"
     }));
     
     setLeftItems(shuffleArray(left));
@@ -65,7 +69,7 @@ export const MatchingGame = ({
   const handleSelect = (item: MatchingItem) => {
     if (completedIds.has(item.id)) return;
     
-    if (item.language === "german") {
+    if (item.language === "source") {
       setSelectedLeft(item);
     } else {
       setSelectedRight(item);
@@ -82,8 +86,8 @@ export const MatchingGame = ({
       } else {
         // Mismatch
         setMistakes(prev => prev + 1);
-        const leftKey = `german-${selectedLeft.id}`;
-        const rightKey = `czech-${selectedRight.id}`;
+        const leftKey = `source-${selectedLeft.id}`;
+        const rightKey = `target-${selectedRight.id}`;
         setIncorrectKeys(prev => new Set(prev).add(leftKey).add(rightKey));
         
         const timeout = setTimeout(() => {
@@ -114,8 +118,8 @@ export const MatchingGame = ({
   }, [completedIds, currentRound, rounds, startRound, onComplete, mistakes, leftItems.length]);
 
   const renderItem = (item: MatchingItem) => {
-    const isSelected = (selectedLeft?.id === item.id && item.language === "german") || 
-                       (selectedRight?.id === item.id && item.language === "czech");
+    const isSelected = (selectedLeft?.id === item.id && item.language === "source") || 
+                       (selectedRight?.id === item.id && item.language === "target");
     const isCompleted = completedIds.has(item.id);
     const itemKey = `${item.language}-${item.id}`;
     const isIncorrect = incorrectKeys.has(itemKey);
@@ -152,6 +156,14 @@ export const MatchingGame = ({
     );
   };
 
+  const sourceLangName = settings.sourceLanguage 
+    ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any)
+    : commonT("german");
+
+  const targetLangName = settings.targetLanguage 
+    ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any)
+    : commonT("czech");
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center px-2">
@@ -169,11 +181,11 @@ export const MatchingGame = ({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-3">
-          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">{commonT("german")}</h4>
+          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">{sourceLangName}</h4>
           {leftItems.map(renderItem)}
         </div>
         <div className="space-y-3">
-          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">{commonT("czech")}</h4>
+          <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center mb-4">{targetLangName}</h4>
           {rightItems.map(renderItem)}
         </div>
       </div>

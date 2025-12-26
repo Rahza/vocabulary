@@ -1,4 +1,5 @@
 import { VocabularyPair, LeitnerState, TagStats, GlobalStats } from "@/models/types";
+import { LanguageDirection } from "@/constants/languages";
 
 export interface IVocabularyRepository {
   // Vocabulary Operations
@@ -12,10 +13,10 @@ export interface IVocabularyRepository {
   getTags(): Promise<string[]>;
   
   // Leitner Operations
-  getLeitnerState(vocabId: string, direction: 'DE_TO_CZ' | 'CZ_TO_DE'): Promise<LeitnerState | null>;
+  getLeitnerState(vocabId: string, direction: LanguageDirection): Promise<LeitnerState | null>;
   getAllLeitnerStates(): Promise<LeitnerState[]>;
   updateLeitnerState(state: LeitnerState): Promise<void>;
-  getDueReviews(now: Date): Promise<{ vocab: VocabularyPair, direction: 'DE_TO_CZ' | 'CZ_TO_DE' }[]>;
+  getDueReviews(now: Date): Promise<{ vocab: VocabularyPair, direction: LanguageDirection }[]>;
   
   // Stats
   getStats(): Promise<TagStats[]>;

@@ -12,10 +12,11 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { PartyPopper, CalendarClock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
+import { LanguageDirection, DIRECTION_FORWARD } from "@/constants/languages";
 
 interface ReviewItem {
   vocab: VocabularyPair;
-  direction: "DE_TO_CZ" | "CZ_TO_DE";
+  direction: LanguageDirection;
 }
 
 export default function TrainerPage() {
@@ -59,9 +60,9 @@ export default function TrainerPage() {
   const handleAnswer = async (answer: string) => {
     if (!currentItem) return;
 
-    const targetWord = currentItem.direction === "DE_TO_CZ" 
-      ? currentItem.vocab.czech 
-      : currentItem.vocab.german;
+    const targetWord = currentItem.direction === DIRECTION_FORWARD 
+      ? currentItem.vocab.target 
+      : currentItem.vocab.source;
     
     const normalizedAnswer = answer.trim().toLowerCase();
     const normalizedTarget = targetWord.trim().toLowerCase();
@@ -151,9 +152,9 @@ export default function TrainerPage() {
   }
 
   const progress = initialCount > 0 ? (sessionCount / initialCount) * 100 : 0;
-  const correctAnswer = currentItem.direction === "DE_TO_CZ" 
-    ? currentItem.vocab.czech 
-    : currentItem.vocab.german;
+  const correctAnswer = currentItem.direction === DIRECTION_FORWARD 
+    ? currentItem.vocab.target 
+    : currentItem.vocab.source;
 
   return (
     <div className="space-y-10">

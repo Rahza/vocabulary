@@ -12,16 +12,18 @@ import { Lightbulb, Eye, EyeOff, FastForward } from "lucide-react";
 import { useEnterKey } from "@/hooks/use-enter-key";
 import { Card } from "@/components/ui/Card";
 import { useTranslations } from "next-intl";
+import { useSettings } from "@/contexts/SettingsContext";
+import { DIRECTION_FORWARD, LanguageDirection, LANG_CODE_MAP } from "@/constants/languages";
 
 interface FlashcardProps {
   word: VocabularyPair;
-  direction: "DE_TO_CZ" | "CZ_TO_DE";
+  direction: LanguageDirection;
   onSubmit: (answer: string) => void;
   onNext: () => void;
   onSkip?: () => void;
   result: "correct" | "incorrect" | "typo" | null;
   correctAnswer?: string;
-  hideAids?: boolean; // New prop
+  hideAids?: boolean;
 }
 
 export function Flashcard({
@@ -32,15 +34,16 @@ export function Flashcard({
   onSkip,
   result,
   correctAnswer,
-  hideAids = false // Default to false
+  hideAids = false
 }: FlashcardProps) {
+  const { settings } = useSettings();
   const t = useTranslations("trainer");
-  const commonT = useTranslations("common");
+  const tLang = useTranslations("settings.languages");
   const [answer, setAnswer] = useState("");
   const [showMnemonic, setShowMnemonic] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const targetWord = direction === "DE_TO_CZ" ? word.czech : word.german;
+  const targetWord = direction === DIRECTION_FORWARD ? word.target : word.source;
 
   // Keyboard navigation
   useEnterKey(() => {
@@ -84,9 +87,16 @@ export function Flashcard({
     if (onSkip) onSkip();
   };
 
-  const questionWord = direction === "DE_TO_CZ" ? word.german : word.czech;
-  const questionLabel = direction === "DE_TO_CZ" ? commonT("german") : commonT("czech");
-  const answerLabel = direction === "DE_TO_CZ" ? commonT("czech") : commonT("german");
+  const questionWord = direction === DIRECTION_FORWARD ? word.source : word.target;
+  
+  const sourceLangName = settings.sourceLanguage ? tLang(LANG_CODE_MAP[settings.sourceLanguage] as any) : "Source";
+  const targetLangName = settings.targetLanguage ? tLang(LANG_CODE_MAP[settings.targetLanguage] as any) : "Target";
+
+  const questionLabel = direction === DIRECTION_FORWARD ? sourceLangName : targetLangName;
+  const answerLabel = direction === DIRECTION_FORWARD ? targetLangName : sourceLangName;
+  
+  // Virtual Keyboard target language depends on answer language
+  const keyboardLanguage = direction === DIRECTION_FORWARD ? settings.targetLanguage : settings.sourceLanguage;
 
   return (
     <div className="flex flex-col space-y-8 max-w-sm mx-auto">
@@ -226,7 +236,11 @@ export function Flashcard({
 
         <div className="space-y-6">
           {(result === null || result === "typo") && (
-            <VirtualKeyboard onKeyPress={handleKeyPress} className="animate-in fade-in zoom-in duration-300" />
+            <VirtualKeyboard 
+              onKeyPress={handleKeyPress} 
+              targetLanguage={keyboardLanguage}
+              className="animate-in fade-in zoom-in duration-300" 
+            />
           )}
 
           <Button 

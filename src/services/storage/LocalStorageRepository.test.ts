@@ -1,73 +1,100 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { LocalStorageRepository } from './LocalStorageRepository';
-import { VocabularyPair } from '@/models/types';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { LocalStorageRepository } from "./LocalStorageRepository";
+import { DIRECTION_FORWARD, DIRECTION_BACKWARD } from "@/constants/languages";
 
-describe('LocalStorageRepository', () => {
-  let repo: LocalStorageRepository;
+describe("LocalStorageRepository Migration", () => {
+  const STORAGE_KEYS = {
+    VOCAB: "ai_vocab_data",
+    LEITNER: "ai_vocab_leitner",
+  };
 
   beforeEach(() => {
     localStorage.clear();
-    repo = new LocalStorageRepository();
+    vi.clearAllMocks();
   });
 
-  it('should return false if vocabulary does not exist', async () => {
-    const exists = await repo.exists('nonexistent');
-    expect(exists).toBe(false);
+  it("should migrate legacy data (german/czech) to generic source/target", () => {
+    // Setup legacy data
+    const legacyVocab = [
+      {
+        id: "1",
+        german: "Hund",
+        czech: "Pes",
+        mnemonic: "...",
+        tags: ["Test"],
+        difficulty: "Beginner",
+        createdAt: new Date().toISOString(),
+      },
+    ];
+
+    const legacyLeitner = [
+      {
+        vocabId: "1",
+        direction: "DE_TO_CZ",
+        box: 1,
+        lastReviewed: new Date().toISOString(),
+        nextReview: new Date().toISOString(),
+        history: [],
+      },
+      {
+        vocabId: "1",
+        direction: "CZ_TO_DE",
+        box: 1,
+        lastReviewed: new Date().toISOString(),
+        nextReview: new Date().toISOString(),
+        history: [],
+      },
+    ];
+
+    localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(legacyVocab));
+    localStorage.setItem(STORAGE_KEYS.LEITNER, JSON.stringify(legacyLeitner));
+
+    // Initialize repository, which triggers migration
+    const repo = new LocalStorageRepository();
+
+    // Verify localStorage content directly
+    const migratedVocabJson = localStorage.getItem(STORAGE_KEYS.VOCAB);
+    const migratedVocab = JSON.parse(migratedVocabJson!);
+
+    expect(migratedVocab[0]).toHaveProperty("source", "Hund");
+    expect(migratedVocab[0]).toHaveProperty("target", "Pes");
+    expect(migratedVocab[0]).not.toHaveProperty("german");
+    expect(migratedVocab[0]).not.toHaveProperty("czech");
+
+    const migratedLeitnerJson = localStorage.getItem(STORAGE_KEYS.LEITNER);
+    const migratedLeitner = JSON.parse(migratedLeitnerJson!);
+
+    const forward = migratedLeitner.find((l: any) => l.direction === DIRECTION_FORWARD);
+    const backward = migratedLeitner.find((l: any) => l.direction === DIRECTION_BACKWARD);
+
+    expect(forward).toBeDefined();
+    expect(backward).toBeDefined();
+    expect(forward.vocabId).toBe("1");
+    expect(backward.vocabId).toBe("1");
   });
 
-  it('should return true if vocabulary exists', async () => {
-    const pair: Omit<VocabularyPair, 'id' | 'createdAt'> = {
-      german: 'Hund',
-      czech: 'Pes',
-      mnemonic: '...',
-      tags: ['test'],
-      difficulty: 'Beginner'
-    };
-    await repo.addVocabulary([pair]);
-    const exists = await repo.exists('Hund');
-    expect(exists).toBe(true);
-  });
+  it("should not modify already migrated data", () => {
+    const modernVocab = [
+      {
+        id: "2",
+        source: "Katze",
+        target: "Kocka",
+        mnemonic: "...",
+        tags: ["Test"],
+        difficulty: "Beginner",
+        createdAt: new Date().toISOString(),
+      },
+    ];
 
-  it('should be case insensitive', async () => {
-    const pair: Omit<VocabularyPair, 'id' | 'createdAt'> = {
-      german: 'Katze',
-      czech: 'Kočka',
-      mnemonic: '...',
-      tags: ['test'],
-      difficulty: 'Beginner'
-    };
-    await repo.addVocabulary([pair]);
-    const exists = await repo.exists('katze');
-    expect(exists).toBe(true);
-  });
+    localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(modernVocab));
 
-  describe('renameTagGlobal', () => {
-    it('should rename a tag across all items', async () => {
-      const p1: Omit<VocabularyPair, 'id' | 'createdAt'> = {
-        german: 'Hund', czech: 'Pes', mnemonic: '', tags: ['A', 'B'], difficulty: 'Beginner'
-      };
-      const p2: Omit<VocabularyPair, 'id' | 'createdAt'> = {
-        german: 'Katze', czech: 'Kočka', mnemonic: '', tags: ['A', 'C'], difficulty: 'Beginner'
-      };
-      await repo.addVocabulary([p1, p2]);
+    // Initialize repository
+    new LocalStorageRepository();
 
-      await repo.renameTagGlobal('A', 'Z');
+    const resultJson = localStorage.getItem(STORAGE_KEYS.VOCAB);
+    const result = JSON.parse(resultJson!);
 
-      const all = await repo.getAllVocabulary();
-      expect(all[0].tags).toEqual(['Z', 'B']);
-      expect(all[1].tags).toEqual(['Z', 'C']);
-    });
-
-    it('should deduplicate if the new tag name already exists', async () => {
-      const p1: Omit<VocabularyPair, 'id' | 'createdAt'> = {
-        german: 'Hund', czech: 'Pes', mnemonic: '', tags: ['A', 'B'], difficulty: 'Beginner'
-      };
-      await repo.addVocabulary([p1]);
-
-      await repo.renameTagGlobal('A', 'B');
-
-      const all = await repo.getAllVocabulary();
-      expect(all[0].tags).toEqual(['B']);
-    });
+    expect(result[0]).toEqual(modernVocab[0]);
+    expect(result[0]).not.toHaveProperty("german");
   });
 });

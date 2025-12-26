@@ -16,6 +16,7 @@ const defaultSettings: UserSettings = {
   theme: "system",
   dailyGoal: 20,
   language: "en",
+  languagePairSelected: false,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -52,6 +53,18 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   }, [settings, isLoading]);
 
   const updateSettings = (newSettings: Partial<UserSettings>) => {
+    const nextSettings = { ...settings, ...newSettings };
+
+    // Validation: Prevent source == target
+    if (
+      nextSettings.sourceLanguage && 
+      nextSettings.targetLanguage && 
+      nextSettings.sourceLanguage === nextSettings.targetLanguage
+    ) {
+      console.warn("Invalid language pair: source and target must be different.");
+      return;
+    }
+
     if (newSettings.language) {
       document.cookie = `NEXT_LOCALE=${newSettings.language}; path=/; max-age=31536000; SameSite=Lax`;
     }

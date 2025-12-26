@@ -25,9 +25,20 @@
     "generate": "Generieren",
     "practice": "Üben",
     "progress": "Dein Fortschritt",
+    "totalVocabLabel": "Wörter gesamt",
+    "progressByTheme": "Fortschritt nach Themen",
+    "noThemes": "Noch keine Themen. Fang an zu generieren!",
+    "totalCardsLabel": "Karten",
     "distribution": "Verteilung",
     "totalVocab": "{count} Vokabeln gesamt",
     "words": "Wörter"
+  },
+  "onboarding": {
+    "welcome": "Willkommen!",
+    "subtitle": "Konfiguriere dein Lern-Paar für den ersten Start.",
+    "sourceLabel": "ICH SPRECHE... (Ausgangssprache)",
+    "targetLabel": "ICH LERNE... (Zielsprache)",
+    "startSession": "Sitzung starten ✨"
   },
   "settings": {
     "title": "Einstellungen",
@@ -35,7 +46,7 @@
     "appearance": "Erscheinungsbild",
     "language": "Sprache",
     "apiKey": "OpenAI API-Schlüssel",
-    "apiKeyPlaceholder": "sk-...",
+    "apiKeyPlaceholder": "sk-..",
     "apiKeyHint": "Dein Schlüssel wird sicher im lokalen Speicher deines Browsers gespeichert.",
     "saveSettings": "Einstellungen speichern",
     "dangerZone": "Gefahrenzone",
@@ -48,7 +59,10 @@
     "languages": {
       "en": "Englisch",
       "de": "Deutsch",
-      "cs": "Tschechisch"
+      "cs": "Tschechisch",
+      "es": "Spanisch",
+      "fr": "Französisch",
+      "it": "Italienisch"
     }
   },
   "vocabulary": {

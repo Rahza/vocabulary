@@ -7,21 +7,27 @@ export interface IAIService {
     difficulty: string,
     count: number,
     apiKey: string,
+    sourceLanguage: string,
+    targetLanguage: string,
     existingTerms?: string[]
   ): Promise<Omit<VocabularyPair, "id" | "createdAt">[]>;
 
   generateSingleMnemonic(
-    german: string,
-    czech: string,
-    apiKey: string
+    sourceWord: string,
+    targetWord: string,
+    apiKey: string,
+    sourceLanguage: string,
+    targetLanguage: string
   ): Promise<string>;
 }
 
 export class OpenAIService implements IAIService {
   async generateSingleMnemonic(
-    german: string,
-    czech: string,
-    apiKey: string
+    sourceWord: string,
+    targetWord: string,
+    apiKey: string,
+    sourceLanguage: string,
+    targetLanguage: string
   ): Promise<string> {
     const openai = new OpenAI({
       apiKey: apiKey,
@@ -29,14 +35,14 @@ export class OpenAIService implements IAIService {
     });
 
     const prompt = `
-      Create a helpful mnemonic (memory aid) in GERMAN to remember the Czech word "${czech}" given the German word "${german}".
+      Create a helpful mnemonic (memory aid) in ${sourceLanguage.toUpperCase()} to remember the ${targetLanguage.toUpperCase()} word "${targetWord}" given the ${sourceLanguage.toUpperCase()} word "${sourceWord}".
       The mnemonic should be creative and effective.
       Return ONLY the mnemonic text, no JSON, no explanations.
     `;
 
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: "You are a helpful language tutor." }, { role: "user", content: prompt }],
-      model: "gpt-5.2",
+      model: "gpt-4o",
     });
 
     const content = completion.choices[0].message.content;
@@ -50,6 +56,8 @@ export class OpenAIService implements IAIService {
     difficulty: string,
     count: number,
     apiKey: string,
+    sourceLanguage: string,
+    targetLanguage: string,
     existingTerms: string[] = []
   ): Promise<Omit<VocabularyPair, "id" | "createdAt">[]> {
     const openai = new OpenAI({
@@ -61,18 +69,18 @@ export class OpenAIService implements IAIService {
     const requestCount = Math.ceil(count * 1.5);
 
     const prompt = `
-      Generate ${requestCount} German-Czech vocabulary pairs related to the theme "${theme}".
+      Generate ${requestCount} ${sourceLanguage}-${targetLanguage} vocabulary pairs related to the theme "${theme}".
       Difficulty level: ${difficulty}.
-      For each pair, provide a helpful mnemonic (memory aid) in GERMAN to remember the Czech word given the German word.
-      Also assign relevant tags in GERMAN to each pair (including the theme itself).
+      For each pair, provide a helpful mnemonic (memory aid) in ${sourceLanguage.toUpperCase()} to remember the ${targetLanguage.toUpperCase()} word given the ${sourceLanguage.toUpperCase()} word.
+      Also assign relevant tags in ${sourceLanguage.toUpperCase()} to each pair (including the theme itself).
       IMPORTANT: Tags MUST be generic categories (e.g. "Zahlen", "Farben", "Natur") and NOT word-specific or literal (e.g. do NOT use "1" as a tag for the word "eins").
       
       Return ONLY a JSON object with the following structure:
       {
         "pairs": [
           {
-            "german": "string",
-            "czech": "string",
+            "source": "the ${sourceLanguage} word",
+            "target": "the ${targetLanguage} translation",
             "mnemonic": "string",
             "tags": ["string"],
             "difficulty": "${difficulty}"
@@ -83,7 +91,7 @@ export class OpenAIService implements IAIService {
 
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: "You are a helpful language tutor." }, { role: "user", content: prompt }],
-      model: "gpt-5.2",
+      model: "gpt-4o",
       response_format: { type: "json_object" },
     });
 
@@ -96,7 +104,7 @@ export class OpenAIService implements IAIService {
       
       // Filter duplicates
       if (existingTerms.length > 0) {
-        pairs = pairs.filter(p => !existingTerms.some(existing => existing.toLowerCase() === p.german.toLowerCase()));
+        pairs = pairs.filter(p => !existingTerms.some(existing => existing.toLowerCase() === p.source.toLowerCase()));
       }
       
       // Trim to requested count

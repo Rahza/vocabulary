@@ -1,9 +1,11 @@
+import { SupportedLanguage, LanguageDirection } from "@/constants/languages";
+
 export type UUID = string;
 
 export interface VocabularyPair {
   id: UUID;
-  german: string;
-  czech: string;
+  source: string;
+  target: string;
   mnemonic: string;
   tags: string[];
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
@@ -12,7 +14,7 @@ export interface VocabularyPair {
 
 export interface LeitnerState {
   vocabId: UUID;
-  direction: 'DE_TO_CZ' | 'CZ_TO_DE';
+  direction: LanguageDirection;
   box: 1 | 2 | 3 | 4 | 5;
   lastReviewed: string; // ISO Date
   nextReview: string;   // ISO Date
@@ -27,7 +29,10 @@ export interface ReviewResult {
 export interface UserSettings {
   openaiApiKey?: string;
   theme: 'light' | 'dark' | 'system';
-  language: 'en' | 'de' | 'cs';
+  language: 'en' | 'de' | 'cs'; // UI Language (AppLocale)
+  sourceLanguage?: SupportedLanguage;
+  targetLanguage?: SupportedLanguage;
+  languagePairSelected?: boolean;
   dailyGoal: number;
 }
 
@@ -62,5 +67,5 @@ export type PracticeMode = 'classic' | 'connect-pairs';
 export interface MatchingItem {
   id: string; // The vocabulary ID
   text: string;
-  language: 'german' | 'czech';
+  language: 'source' | 'target';
 }

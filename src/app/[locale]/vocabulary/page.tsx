@@ -61,8 +61,8 @@ export default function VocabularyManagementPage() {
   const filteredVocabulary = useMemo(() => {
     return vocabulary.filter((v) => {
       const matchesSearch =
-        v.german.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        v.czech.toLowerCase().includes(searchQuery.toLowerCase());
+        v.source.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.target.toLowerCase().includes(searchQuery.toLowerCase());
       
       const matchesTags =
         selectedTags.length === 0 ||

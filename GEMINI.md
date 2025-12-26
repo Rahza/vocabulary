@@ -23,6 +23,8 @@ Auto-generated from all feature plans. Last updated: 2025-12-25
 - N/A (UI and logic refactor) (021-unify-practice-config)
 - TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, `next-intl`, Tailwind CSS v4, `next-themes` (022-app-i18n-implementation)
 - LocalStorage (via `SettingsContext`) + Cookie (for middleware) (022-app-i18n-implementation)
+- TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, `next-intl`, `next-themes`, Framer Motion, Lucide React, `sonner` (024-lang-selector-refinement)
+- LocalStorage (via `LocalStorageRepository`), Cookie (for middleware) (024-lang-selector-refinement)
 
 - TypeScript 5.x, Node.js 18+ + Next.js 14+ (App Router), React 18, OpenAI SDK, Framer Motion, Lucide React, Tailwind CSS, shadcn/ui (optional components) (001-ai-vocab-trainer)
 
@@ -49,9 +51,9 @@ TypeScript 5.x, Node.js 18+: Follow standard conventions
 - **IX. Modern Coding Style**: Mandatory arrow functions for components and logic.
 
 ## Recent Changes
+- 024-lang-selector-refinement: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, `next-intl`, `next-themes`, Framer Motion, Lucide React, `sonner`
+- 023-dynamic-language-pairs: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, OpenAI SDK, Framer Motion, Lucide Reac
 - 022-app-i18n-implementation: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, `next-intl`, Tailwind CSS v4, `next-themes`
-- 021-unify-practice-config: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide Reac
-- 020-fix-matching-game-bugs: Added TypeScript 5.x, Node.js 18+ + Next.js 16+, React 19, Tailwind CSS v4, Framer Motion, Lucide Reac
 
 
 <!-- MANUAL ADDITIONS START -->

@@ -15,10 +15,11 @@ import { MatchingGame } from "@/components/practice/MatchingGame";
 import { ModeSelector } from "@/components/practice/ModeSelector";
 import { PracticeConfig } from "@/components/practice/PracticeConfig";
 import { useTranslations } from "next-intl";
+import { LanguageDirection, DIRECTION_FORWARD, DIRECTION_BACKWARD } from "@/constants/languages";
 
 interface PracticeItem {
   vocab: VocabularyPair;
-  direction: "DE_TO_CZ" | "CZ_TO_DE";
+  direction: LanguageDirection;
 }
 
 export default function PracticePage() {
@@ -67,7 +68,7 @@ export default function PracticePage() {
       
       const items: PracticeItem[] = limited.map(v => ({
         vocab: v,
-        direction: Math.random() > 0.5 ? "DE_TO_CZ" : "CZ_TO_DE"
+        direction: Math.random() > 0.5 ? DIRECTION_FORWARD : DIRECTION_BACKWARD
       }));
       
       const shuffledItems = smartShuffle(items, (item) => item.vocab.id);
@@ -93,9 +94,9 @@ export default function PracticePage() {
   const handleClassicAnswer = (answer: string) => {
     if (!currentItem) return;
 
-    const targetWord = currentItem.direction === "DE_TO_CZ" 
-      ? currentItem.vocab.czech 
-      : currentItem.vocab.german;
+    const targetWord = currentItem.direction === DIRECTION_FORWARD 
+      ? currentItem.vocab.target 
+      : currentItem.vocab.source;
     
     const normalizedAnswer = answer.trim().toLowerCase();
     const normalizedTarget = targetWord.trim().toLowerCase();
@@ -197,7 +198,7 @@ export default function PracticePage() {
               onNext={handleClassicNext}
               onSkip={handleClassicSkip}
               result={result}
-              correctAnswer={currentItem.direction === "DE_TO_CZ" ? currentItem.vocab.czech : currentItem.vocab.german}
+              correctAnswer={currentItem.direction === DIRECTION_FORWARD ? currentItem.vocab.target : currentItem.vocab.source}
             />
           </motion.div>
         )}

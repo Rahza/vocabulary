@@ -114,7 +114,7 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
         title={t("deleteWord")}
-        description={t("deleteWordDesc", { word: item.german })}
+        description={t("deleteWordDesc", { word: item.source })}
         confirmText={commonT("delete")}
         variant="destructive"
       />

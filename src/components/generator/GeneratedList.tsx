@@ -34,7 +34,7 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
         <AnimatePresence mode="popLayout">
           {items.map((item, index) => (
             <motion.div 
-              key={`${item.german}-${index}`}
+              key={`${item.source}-${index}`}
               layout
               variants={itemReveal}
               exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
@@ -49,9 +49,9 @@ export function GeneratedList({ items, onSave, onDiscard, onDelete }: GeneratedL
               </button>
 
               <div className="flex justify-between items-center mb-3">
-                <span className="text-xl font-black text-playful-indigo">{item.german}</span>
+                <span className="text-xl font-black text-playful-indigo">{item.source}</span>
                 <div className="h-0.5 flex-1 mx-4 bg-zinc-100 dark:bg-zinc-800" />
-                <span className="text-xl font-black text-playful-green">{item.czech}</span>
+                <span className="text-xl font-black text-playful-green">{item.target}</span>
               </div>
               
               {item.mnemonic && (

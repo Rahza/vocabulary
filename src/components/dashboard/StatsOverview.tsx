@@ -8,6 +8,10 @@ import { BOX_DEFINITIONS } from "@/constants/box-definitions";
 
 import { Card } from "@/components/ui/Card";
 
+import { useTranslations } from "next-intl";
+
+
+
 
 
 interface StatsOverviewProps {
@@ -22,7 +26,17 @@ interface StatsOverviewProps {
 
 export function StatsOverview({ stats, globalStats }: StatsOverviewProps) {
 
+
+
+  const t = useTranslations("dashboard");
+
+
+
   const meisterDef = BOX_DEFINITIONS[5];
+
+
+
+
 
 
 
@@ -42,17 +56,19 @@ export function StatsOverview({ stats, globalStats }: StatsOverviewProps) {
 
       <div className="grid grid-cols-2 gap-4">
 
-        <motion.div variants={itemReveal}>
+                <motion.div variants={itemReveal}>
 
-          <Card className="bg-playful-indigo text-white p-6 text-center border-none shadow-playful">
+                  <Card className="bg-playful-indigo text-white p-6 text-center border-none shadow-playful">
 
-            <span className="text-4xl font-black">{globalStats.totalWords}</span>
+                    <span className="text-4xl font-black">{globalStats.totalWords}</span>
 
-            <p className="text-xs font-bold uppercase mt-1 opacity-80">Wörter gesamt</p>
+                    <p className="text-xs font-bold uppercase mt-1 opacity-80">{t("totalVocabLabel")}</p>
 
-          </Card>
+                  </Card>
 
-        </motion.div>
+                </motion.div>
+
+        
 
         <motion.div variants={itemReveal}>
 
@@ -74,35 +90,57 @@ export function StatsOverview({ stats, globalStats }: StatsOverviewProps) {
 
 
 
-      <motion.div variants={itemReveal}>
+            <motion.div variants={itemReveal}>
 
-        <Card className="p-0 overflow-hidden">
 
-          <h3 className="px-6 py-4 font-bold text-lg border-b-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
 
-            Fortschritt nach Themen
+              <Card className="p-0 overflow-hidden">
 
-          </h3>
 
-          <div className="divide-y-2 divide-zinc-50 dark:divide-zinc-800">
 
-            {stats.length === 0 ? (
+                <h3 className="px-6 py-4 font-bold text-lg border-b-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50">
 
-              <div className="p-8 text-sm text-zinc-500 text-center font-medium">Noch keine Themen. Fang an zu generieren!</div>
 
-            ) : stats.map((stat) => (
+
+                  {t("progressByTheme")}
+
+
+
+                </h3>
+
+
+
+                <div className="divide-y-2 divide-zinc-50 dark:divide-zinc-800">
+
+
+
+                  {stats.length === 0 ? (
+
+
+
+                     <div className="p-8 text-sm text-zinc-500 text-center font-medium">{t("noThemes")}</div>
+
+
+
+                  ) : stats.map((stat) => (
+
+
+
+      
 
               <div key={stat.tagName} className="px-6 py-6 space-y-4">
 
                 <div className="flex items-center justify-between">
 
-                  <div>
+                                    <div>
 
-                    <span className="font-bold text-base capitalize">{stat.tagName}</span>
+                                      <span className="font-bold text-base capitalize">{stat.tagName}</span>
 
-                    <span className="text-xs text-zinc-400 block font-semibold">{stat.totalWords} Karten</span>
+                                      <span className="text-xs text-zinc-400 block font-semibold">{stat.totalWords} {t("totalCardsLabel")}</span>
 
-                  </div>
+                                    </div>
+
+                  
 
                   <div className="flex flex-col items-end">
 

@@ -75,11 +75,11 @@ export function VocabularyList({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-black text-playful-indigo truncate">
-                          {item.german}
+                          {item.source}
                         </span>
                         <span className="text-zinc-300 dark:text-zinc-700 font-bold">|</span>
                         <span className="text-lg font-black text-playful-green truncate">
-                          {item.czech}
+                          {item.target}
                         </span>
                       </div>
                       

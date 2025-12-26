@@ -1,5 +1,6 @@
 import { VocabularyPair, LeitnerState, TagStats, GlobalStats } from "@/models/types";
 import { IVocabularyRepository } from "./IVocabularyRepository";
+import { LanguageDirection, DIRECTION_FORWARD, DIRECTION_BACKWARD } from "@/constants/languages";
 
 const STORAGE_KEYS = {
   VOCAB: "ai_vocab_data",
@@ -7,6 +8,51 @@ const STORAGE_KEYS = {
 };
 
 export class LocalStorageRepository implements IVocabularyRepository {
+  constructor() {
+    if (typeof window !== "undefined") {
+      this.migrateData();
+    }
+  }
+
+  private migrateData() {
+    const rawVocab = localStorage.getItem(STORAGE_KEYS.VOCAB);
+    if (!rawVocab) return;
+
+    try {
+      const data = JSON.parse(rawVocab);
+      if (data.length > 0 && "german" in data[0]) {
+        // Migration needed
+        console.log("Migrating legacy data to new format...");
+        
+        const newVocab = data.map((item: any) => ({
+          id: item.id,
+          source: item.german,
+          target: item.czech,
+          mnemonic: item.mnemonic,
+          tags: item.tags,
+          difficulty: item.difficulty,
+          createdAt: item.createdAt,
+        }));
+        
+        localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(newVocab));
+
+        // Migrate Leitner states
+        const rawLeitner = localStorage.getItem(STORAGE_KEYS.LEITNER);
+        if (rawLeitner) {
+          const leitnerData = JSON.parse(rawLeitner);
+          const newLeitner = leitnerData.map((item: any) => ({
+            ...item,
+            direction: item.direction === "DE_TO_CZ" ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
+          }));
+          localStorage.setItem(STORAGE_KEYS.LEITNER, JSON.stringify(newLeitner));
+        }
+        console.log("Migration complete.");
+      }
+    } catch (e) {
+      console.error("Migration failed", e);
+    }
+  }
+
   private getVocabData(): VocabularyPair[] {
     if (typeof window === "undefined") return [];
     const data = localStorage.getItem(STORAGE_KEYS.VOCAB);
@@ -42,7 +88,7 @@ export class LocalStorageRepository implements IVocabularyRepository {
     const newLeitnerStates: LeitnerState[] = [];
     
     newPairs.forEach(p => {
-      (['DE_TO_CZ', 'CZ_TO_DE'] as const).forEach(direction => {
+      ([DIRECTION_FORWARD, DIRECTION_BACKWARD] as const).forEach(direction => {
         newLeitnerStates.push({
           vocabId: p.id,
           direction,
@@ -90,7 +136,7 @@ export class LocalStorageRepository implements IVocabularyRepository {
     return Array.from(tags).sort();
   }
 
-  async getLeitnerState(vocabId: string, direction: "DE_TO_CZ" | "CZ_TO_DE"): Promise<LeitnerState | null> {
+  async getLeitnerState(vocabId: string, direction: LanguageDirection): Promise<LeitnerState | null> {
     const all = this.getLeitnerData();
     return all.find((l) => l.vocabId === vocabId && l.direction === direction) || null;
   }
@@ -111,14 +157,14 @@ export class LocalStorageRepository implements IVocabularyRepository {
     this.saveLeitnerData(all);
   }
 
-  async getDueReviews(now: Date): Promise<{ vocab: VocabularyPair; direction: "DE_TO_CZ" | "CZ_TO_DE" }[]> {
+  async getDueReviews(now: Date): Promise<{ vocab: VocabularyPair; direction: LanguageDirection }[]> {
     const allVocab = this.getVocabData();
     const allLeitner = this.getLeitnerData();
     const nowISO = now.toISOString();
 
     const dueStates = allLeitner.filter(l => l.nextReview <= nowISO);
     
-    const results: { vocab: VocabularyPair; direction: "DE_TO_CZ" | "CZ_TO_DE" }[] = [];
+    const results: { vocab: VocabularyPair; direction: LanguageDirection }[] = [];
     
     for (const state of dueStates) {
       const vocab = allVocab.find(v => v.id === state.vocabId);
@@ -140,16 +186,16 @@ export class LocalStorageRepository implements IVocabularyRepository {
 
     allVocab.forEach(v => {
       const states = allLeitner.filter(l => l.vocabId === v.id);
-      const deToCz = states.find(l => l.direction === 'DE_TO_CZ');
-      const czToDe = states.find(l => l.direction === 'CZ_TO_DE');
+      const forwardState = states.find(l => l.direction === DIRECTION_FORWARD);
+      const backwardState = states.find(l => l.direction === DIRECTION_BACKWARD);
       
-      const deBox = deToCz?.box || 1;
-      const czBox = czToDe?.box || 1;
+      const forwardBox = forwardState?.box || 1;
+      const backwardBox = backwardState?.box || 1;
       
-      const minBox = Math.min(deBox, czBox) as 1 | 2 | 3 | 4 | 5;
+      const minBox = Math.min(forwardBox, backwardBox) as 1 | 2 | 3 | 4 | 5;
       boxDistribution[minBox]++;
 
-      if (deBox === 5 && czBox === 5) {
+      if (forwardBox === 5 && backwardBox === 5) {
         masteredCount++;
       }
     });
@@ -168,32 +214,24 @@ export class LocalStorageRepository implements IVocabularyRepository {
     
     return tags.map(tag => {
       const vocabForTag = allVocab.filter(v => v.tags.includes(tag));
-      // const ids = new Set(vocabForTag.map(v => v.id));
       
       const totalWords = vocabForTag.length;
-      // In stats, we usually count "items to learn". Since each word has 2 directions, 
-      // we could count "learning items" (words * 2) or just words. 
-      // Let's count words, and consider "mastered" if BOTH directions are Box 5?
-      // Or simplify: just sum up the states.
-      // Let's stick to simple "Word" based stats for now, or maybe direction based?
-      // The interface says "masteredWords". Let's say a word is mastered if both directions are Box 5.
-      
       let masteredCount = 0;
       let learningCount = 0; // Box 1-4 (any direction)
       const boxDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       
       vocabForTag.forEach(v => {
         const states = allLeitner.filter(l => l.vocabId === v.id);
-        const deToCz = states.find(l => l.direction === 'DE_TO_CZ');
-        const czToDe = states.find(l => l.direction === 'CZ_TO_DE');
+        const forwardState = states.find(l => l.direction === DIRECTION_FORWARD);
+        const backwardState = states.find(l => l.direction === DIRECTION_BACKWARD);
         
-        const deBox = deToCz?.box || 1;
-        const czBox = czToDe?.box || 1;
+        const forwardBox = forwardState?.box || 1;
+        const backwardBox = backwardState?.box || 1;
         
-        const minBox = Math.min(deBox, czBox) as 1 | 2 | 3 | 4 | 5;
+        const minBox = Math.min(forwardBox, backwardBox) as 1 | 2 | 3 | 4 | 5;
         boxDistribution[minBox]++;
 
-        if (deBox === 5 && czBox === 5) {
+        if (forwardBox === 5 && backwardBox === 5) {
           masteredCount++;
         } else {
           learningCount++;
@@ -213,7 +251,8 @@ export class LocalStorageRepository implements IVocabularyRepository {
   async exists(term: string): Promise<boolean> {
     const all = this.getVocabData();
     const normalizedTerm = term.trim().toLowerCase();
-    return all.some(v => v.german.trim().toLowerCase() === normalizedTerm);
+    // Default check on source language (previously German)
+    return all.some(v => v.source.trim().toLowerCase() === normalizedTerm);
   }
 
   async resetProgress(id: string): Promise<void> {
