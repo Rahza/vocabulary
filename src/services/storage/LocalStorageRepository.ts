@@ -7,71 +7,7 @@ const STORAGE_KEYS = {
   LEITNER: 'ai_vocab_leitner',
 };
 
-interface LegacyVocabItem {
-  id: string;
-  german: string;
-  czech: string;
-  mnemonic?: string;
-  tags: string[];
-  difficulty: string;
-  createdAt: string;
-}
-
-interface LegacyLeitnerItem {
-  vocabId: string;
-  direction: 'DE_TO_CZ' | 'CZ_TO_DE';
-  box: number;
-  lastReviewed: string;
-  nextReview: string;
-  history: unknown[];
-}
-
 export class LocalStorageRepository implements IVocabularyRepository {
-  constructor() {
-    if (typeof window !== 'undefined') {
-      this.migrateData();
-    }
-  }
-
-  private migrateData() {
-    const rawVocab = localStorage.getItem(STORAGE_KEYS.VOCAB);
-    if (!rawVocab) return;
-
-    try {
-      const data = JSON.parse(rawVocab) as LegacyVocabItem[];
-      if (data.length > 0 && 'german' in data[0]) {
-        // Migration needed
-        console.log('Migrating legacy data to new format...');
-
-        const newVocab = data.map((item) => ({
-          id: item.id,
-          source: item.german,
-          target: item.czech,
-          mnemonic: item.mnemonic,
-          tags: item.tags,
-          difficulty: item.difficulty,
-          createdAt: item.createdAt,
-        }));
-
-        localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(newVocab));
-
-        // Migrate Leitner states
-        const rawLeitner = localStorage.getItem(STORAGE_KEYS.LEITNER);
-        if (rawLeitner) {
-          const leitnerData = JSON.parse(rawLeitner) as LegacyLeitnerItem[];
-          const newLeitner = leitnerData.map((item) => ({
-            ...item,
-            direction: item.direction === 'DE_TO_CZ' ? DIRECTION_FORWARD : DIRECTION_BACKWARD,
-          }));
-          localStorage.setItem(STORAGE_KEYS.LEITNER, JSON.stringify(newLeitner));
-        }
-        console.log('Migration complete.');
-      }
-    } catch (e) {
-      console.error('Migration failed', e);
-    }
-  }
-
   private getVocabData(): VocabularyPair[] {
     if (typeof window === 'undefined') return [];
     const data = localStorage.getItem(STORAGE_KEYS.VOCAB);
