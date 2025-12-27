@@ -59,7 +59,6 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
 
   // Initialize round on mount - data fetch pattern
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     startRound();
   }, [startRound]);
 
@@ -74,8 +73,6 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
   };
 
   // Game state machine: Match checking - responds to selection changes
-  // This effect legitimately modifies state in response to user selections
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (selectedLeft && selectedRight) {
       if (selectedLeft.id === selectedRight.id) {
@@ -100,7 +97,6 @@ export const MatchingGame = ({ vocabulary, rounds, onComplete, onExit }: Matchin
       }
     }
   }, [selectedLeft, selectedRight]);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Round completion - game state transition
   useEffect(() => {

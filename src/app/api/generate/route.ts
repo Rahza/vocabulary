@@ -152,12 +152,9 @@ IMPORTANT:
         );
 
         return NextResponse.json({ vocabulary: filteredVocab }, { status: 200 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Generate API error:', error);
-        if (error.response) {
-            console.error('OpenAI API Status:', error.response.status);
-            console.error('OpenAI API Data:', error.response.data);
-        }
-        return NextResponse.json({ error: 'Failed to generate vocabulary', details: error.message }, { status: 500 });
+        const errMessage = error instanceof Error ? error.message : 'Unknown error';
+        return NextResponse.json({ error: 'Failed to generate vocabulary', details: errMessage }, { status: 500 });
     }
 };

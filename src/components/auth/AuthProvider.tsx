@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const auth = getFirebaseAuth();
         if (!auth) {
             // Edge case: configured but auth couldn't be obtained
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setLoading(false);
             return;
         }

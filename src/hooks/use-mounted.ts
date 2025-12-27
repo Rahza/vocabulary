@@ -15,7 +15,6 @@ export const useMounted = (): boolean => {
     useEffect(() => {
         // This is the standard React pattern for hydration safety.
         // It's intentional to trigger a re-render after mount.
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 
