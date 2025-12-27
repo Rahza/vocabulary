@@ -32,22 +32,33 @@ const getFirebaseAdmin = (): App => {
     }
 
     // Production mode - require full credentials
+    // Production mode
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
-    if (!projectId || !clientEmail || !privateKey) {
-        throw new Error(
-            'Firebase Admin SDK requires FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY environment variables'
-        );
+    // If we have explicit credentials, use them (useful for non-GCP environments)
+    if (projectId && clientEmail && privateKey) {
+        adminApp = initializeApp({
+            credential: cert({
+                projectId,
+                clientEmail,
+                privateKey,
+            }),
+        });
+        return adminApp;
     }
 
-    adminApp = initializeApp({
-        credential: cert({
-            projectId,
-            clientEmail,
-            privateKey,
-        }),
-    });
+    // Fallback to Application Default Credentials (works automatically in Firebase Functions/Cloud Run)
+    // and inferred project ID
+    try {
+        adminApp = initializeApp();
+        return adminApp;
+    } catch (error) {
+        console.error('Failed to initialize Firebase Admin with default credentials:', error);
+        throw new Error(
+            'Firebase Admin SDK initialization failed. Missing FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY, and Application Default Credentials could not be loaded.'
+        );
+    }
 
     return adminApp;
 };
