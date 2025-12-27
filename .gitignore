@@ -33,3 +33,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 coverage/
+
+# Firebase
+/emulator-data
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

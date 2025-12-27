@@ -17,8 +17,8 @@
 
 **Purpose**: Initial infrastructure and utilities
 
-- [X] T001 [P] Implement pair shuffling utility in `src/lib/shuffle.ts`
-- [X] T002 Define `PracticeMode` and matching-related types in `src/models/types.ts`
+- [x] T001 [P] Implement pair shuffling utility in `src/lib/shuffle.ts`
+- [x] T002 Define `PracticeMode` and matching-related types in `src/models/types.ts`
 
 ---
 
@@ -28,8 +28,8 @@
 
 **⚠️ CRITICAL**: No user story work can begin until the page supports mode switching
 
-- [X] T003 Refactor `src/app/practice/page.tsx` to include a state-driven view switcher (Selection, Classic, ConnectPairs)
-- [X] T004 Create skeletal `MatchingGame` component in `src/components/practice/MatchingGame.tsx`
+- [x] T003 Refactor `src/app/practice/page.tsx` to include a state-driven view switcher (Selection, Classic, ConnectPairs)
+- [x] T004 Create skeletal `MatchingGame` component in `src/components/practice/MatchingGame.tsx`
 
 **Checkpoint**: Foundation ready - both modes can be hosted independently.
 
@@ -43,9 +43,9 @@
 
 ### Implementation for User Story 1
 
-- [X] T005 [P] [US1] Create `ModeSelector` component in `src/components/practice/ModeSelector.tsx`
-- [X] T006 [US1] Integrate `ModeSelector` into `src/app/practice/page.tsx` selection state
-- [X] T007 [US1] Ensure "Classic" selection correctly launches existing practice flow
+- [x] T005 [P] [US1] Create `ModeSelector` component in `src/components/practice/ModeSelector.tsx`
+- [x] T006 [US1] Integrate `ModeSelector` into `src/app/practice/page.tsx` selection state
+- [x] T007 [US1] Ensure "Classic" selection correctly launches existing practice flow
 
 **Checkpoint**: User Story 1 complete - Users can now choose the new mode path.
 
@@ -59,9 +59,9 @@
 
 ### Implementation for User Story 2
 
-- [X] T008 [P] [US2] Update `TagSelector` or create specialized configuration component in `src/components/practice/ConnectPairsConfig.tsx`
-- [X] T009 [US2] Implement multi-tag selection logic and question count input
-- [X] T010 [US2] Pass configuration state to the `MatchingGame` component via `src/app/practice/page.tsx`
+- [x] T008 [P] [US2] Update `TagSelector` or create specialized configuration component in `src/components/practice/ConnectPairsConfig.tsx`
+- [x] T009 [US2] Implement multi-tag selection logic and question count input
+- [x] T010 [US2] Pass configuration state to the `MatchingGame` component via `src/app/practice/page.tsx`
 
 **Checkpoint**: User Story 2 complete - Sessions are now fully configurable.
 
@@ -75,13 +75,13 @@
 
 ### Implementation for User Story 3
 
-- [X] T011 [P] [US3] Implement randomized column generation (5 pairs) in `src/components/practice/MatchingGame.tsx`
-- [X] T012 [US3] Implement tap-selection logic for left and right columns
-- [X] T013 [US3] Implement matching validation logic (German text matches Czech text)
-- [X] T014 [US3] Add Framer Motion shake animation for incorrect matches in `src/components/practice/MatchingGame.tsx`
-- [X] T015 [US3] Add Framer Motion success animations and removal for matched pairs
-- [X] T016 [US3] Implement round transition logic (move to next "question" when 5 pairs matched)
-- [X] T017 [US3] Ensure zero Leitner progress updates upon session completion
+- [x] T011 [P] [US3] Implement randomized column generation (5 pairs) in `src/components/practice/MatchingGame.tsx`
+- [x] T012 [US3] Implement tap-selection logic for left and right columns
+- [x] T013 [US3] Implement matching validation logic (German text matches Czech text)
+- [x] T014 [US3] Add Framer Motion shake animation for incorrect matches in `src/components/practice/MatchingGame.tsx`
+- [x] T015 [US3] Add Framer Motion success animations and removal for matched pairs
+- [x] T016 [US3] Implement round transition logic (move to next "question" when 5 pairs matched)
+- [x] T017 [US3] Ensure zero Leitner progress updates upon session completion
 
 **Checkpoint**: User Story 3 complete - The "Connect Pairs" mode is fully functional.
 
@@ -91,10 +91,10 @@
 
 **Purpose**: Final UI refinements and build validation
 
-- [X] T018 [P] Apply playful design system (shadows, radii) to matching cards in `src/components/practice/MatchingGame.tsx`
-- [X] T019 [P] Add progress indicator for matching rounds (e.g., "Round 2/10")
-- [X] T020 Run full visual regression check using `specs/019-connect-pairs-practice/quickstart.md` scenarios
-- [X] T021 Run `npm run build` to ensure no production issues
+- [x] T018 [P] Apply playful design system (shadows, radii) to matching cards in `src/components/practice/MatchingGame.tsx`
+- [x] T019 [P] Add progress indicator for matching rounds (e.g., "Round 2/10")
+- [x] T020 Run full visual regression check using `specs/019-connect-pairs-practice/quickstart.md` scenarios
+- [x] T021 Run `npm run build` to ensure no production issues
 
 ---
 

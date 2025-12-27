@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "The tag manager is still unusable. On small screens, just display one tag per row. In the overview, the total count for words is not correct."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Responsive Tag Manager (Priority: P1)
 
@@ -43,7 +43,7 @@ As a learner, I want the total word count in the overview to be accurate so that
 - **Empty collection**: Dashboard should show 0 instead of a blank or error state.
 - **Deleted tags**: Ensure the count correctly updates immediately after a tag or word is deleted.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -56,7 +56,7 @@ As a learner, I want the total word count in the overview to be accurate so that
 
 - **VocabularyStats**: Metadata structure updated to reflect accurate collection size.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { itemReveal } from "@/lib/animations";
-
-import { BOX_DEFINITIONS } from "@/constants/box-definitions";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { itemReveal } from '@/lib/animations';
+import { BOX_DEFINITIONS } from '@/constants/box-definitions';
+import { useTranslations } from 'next-intl';
 
 interface ProgressDistributionProps {
   distribution: {
@@ -17,22 +17,28 @@ interface ProgressDistributionProps {
 }
 
 export function ProgressDistribution({ distribution }: ProgressDistributionProps) {
+  const t = useTranslations('dashboard');
+  const boxT = useTranslations('vocabulary.boxes');
   const total = Object.values(distribution).reduce((a, b) => a + b, 0);
 
   const boxes = [1, 2, 3, 4, 5];
   const colors = [
-    "bg-zinc-200 dark:bg-zinc-800",
-    "bg-playful-yellow/40",
-    "bg-playful-yellow/70",
-    "bg-playful-yellow",
-    "bg-playful-green"
+    'bg-zinc-200 dark:bg-zinc-800',
+    'bg-playful-yellow/40',
+    'bg-playful-yellow/70',
+    'bg-playful-yellow',
+    'bg-playful-green',
   ];
 
   return (
     <motion.div variants={itemReveal} className="space-y-4">
       <div className="flex justify-between items-end mb-2">
-        <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Verteilung</h3>
-        <span className="text-xs font-bold text-zinc-600 dark:text-zinc-500">{total} Vokabeln gesamt</span>
+        <h3 className="text-sm font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+          {t('distribution')}
+        </h3>
+        <span className="text-xs font-bold text-zinc-600 dark:text-zinc-500">
+          {t('totalVocab', { count: total })}
+        </span>
       </div>
 
       <div className="flex items-end gap-2 h-32">
@@ -50,13 +56,19 @@ export function ProgressDistribution({ distribution }: ProgressDistributionProps
                   className={`w-full rounded-t-xl min-h-[4px] ${colors[i]} transition-colors group-hover:brightness-110`}
                 />
                 <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-[10px] px-3 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 shadow-xl border border-white/10">
-                  <p className="font-black mb-0.5">{def.icon} {def.name}</p>
-                  <p className="opacity-70">{count} Wörter</p>
+                  <p className="font-black mb-0.5">
+                    {def.icon} {boxT(`${box}.name`)}
+                  </p>
+                  <p className="opacity-70">
+                    {count} {t('words')}
+                  </p>
                 </div>
               </div>
               <span className="text-[10px] font-black text-zinc-400 flex flex-col items-center">
                 <span className="text-sm mb-0.5">{def.icon}</span>
-                <span className="hidden sm:block uppercase opacity-60 scale-[0.8]">{def.name}</span>
+                <span className="hidden sm:block uppercase opacity-60 scale-[0.8]">
+                  {boxT(`${box}.name`)}
+                </span>
               </span>
             </div>
           );

@@ -1,6 +1,6 @@
 // contracts/service-interfaces.ts
 
-import { VocabularyPair, LeitnerState, UserSettings, TagStats } from '../data-model';
+import { VocabularyPair, LeitnerState, TagStats } from '../data-model';
 
 /**
  * Service Contract for Data Persistence
@@ -12,15 +12,20 @@ export interface IVocabularyRepository {
   getAllVocabulary(): Promise<VocabularyPair[]>;
   getVocabularyById(id: string): Promise<VocabularyPair | null>;
   deleteVocabulary(id: string): Promise<void>;
-  
+
   // Tag Operations
   getTags(): Promise<string[]>;
-  
+
   // Leitner Operations
-  getLeitnerState(vocabId: string, direction: 'DE_TO_CZ' | 'CZ_TO_DE'): Promise<LeitnerState | null>;
+  getLeitnerState(
+    vocabId: string,
+    direction: 'DE_TO_CZ' | 'CZ_TO_DE'
+  ): Promise<LeitnerState | null>;
   updateLeitnerState(state: LeitnerState): Promise<void>;
-  getDueReviews(now: Date): Promise<{ vocab: VocabularyPair, direction: 'DE_TO_CZ' | 'CZ_TO_DE' }[]>;
-  
+  getDueReviews(
+    now: Date
+  ): Promise<{ vocab: VocabularyPair; direction: 'DE_TO_CZ' | 'CZ_TO_DE' }[]>;
+
   // Stats
   getStats(): Promise<TagStats[]>;
 }
@@ -30,8 +35,8 @@ export interface IVocabularyRepository {
  */
 export interface IAIService {
   generateVocabulary(
-    theme: string, 
-    difficulty: string, 
+    theme: string,
+    difficulty: string,
     count: number,
     apiKey: string
   ): Promise<Omit<VocabularyPair, 'id' | 'createdAt'>[]>;

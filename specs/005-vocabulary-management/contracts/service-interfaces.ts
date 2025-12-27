@@ -1,4 +1,4 @@
-import { VocabularyPair, LeitnerState } from "@/models/types";
+import { VocabularyPair } from '@/models/types';
 
 export interface IVocabularyManagement {
   /**

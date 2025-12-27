@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Build an AI asssited application to learn vocabulary for German (source) <> Czech (target). Let the user prompt an AI model to generate new vocabulary pairs (enter a theme, difficulty and number of vocabulary to generate). Also generate a mnemonic for each pair. There is a vocabulary trainer, based on the Leitner method (spaced repetition). Make sure that vocabulary is learned and repeated in both directions. The user needs to type the word. Provide a diacritics keyboard. Apart from the "progressing mode", also provide a practice mode that can be used arbitrarily often without influencing placement of vocabulary. It should provide short, bite size sessions (not all vocabulary at once). Automatically tag and group vocabulary (one word can have multiple tags/groups). Let the user view current progress and statistics (overall and based on tags/groups). Let the user practice specific groups."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - AI Vocabulary Generation (Priority: P1)
 
@@ -73,7 +73,7 @@ As a learner, I want to view my overall and group-specific progress, so that I c
 - How does the system handle words with multiple valid translations? (Should ideally accept any valid standard translation or the specific one generated).
 - What happens if a generated word is a duplicate of an existing one? (Should merge or skip to avoid redundancy).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -101,7 +101,7 @@ As a learner, I want to view my overall and group-specific progress, so that I c
 - **LeitnerState**: VocabularyID, CurrentBox (1-5), NextReviewDate, LastReviewedAt, Direction (DE->CZ or CZ->DE).
 - **PracticeSession**: ID, Date, Mode (Progress/Practice), Score, Duration.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "After adding new vocabulary using the wizard, there is still only an empty page visible (heading \"Generator - Neue Karten erstellen\" and nothing below it). Finally investigate and fix this bug for good."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Reliable Generator Reset (Priority: P1)
 
@@ -22,7 +22,6 @@ As a learner, after I have successfully generated and saved new vocabulary words
 
 ---
 
-
 ### User Story 2 - Resilient State Transitions (Priority: P1)
 
 As a user, I want the UI to gracefully handle the transition between generating, viewing results, and resetting, so that no matter the outcome (error, empty results, or successful save), I always have a way forward.
@@ -37,14 +36,13 @@ As a user, I want the UI to gracefully handle the transition between generating,
 
 ---
 
-
 ### Edge Cases
 
 - **Saving 0 items**: If the user deletes all suggestions from the list manually, verify that clicking "Save" still returns to the form correctly.
 - **Fast navigation**: Verify that navigating away and back to the generator resets the state correctly.
 - **Concurrent requests**: Ensure state doesn't get "stuck" if multiple clicks happen rapidly.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -54,7 +52,7 @@ As a user, I want the UI to gracefully handle the transition between generating,
 - **FR-004**: System MUST ensure that `generated.length === 0` always results in the form being displayed if not in a loading or error state.
 - **FR-005**: All UI transitions in the generator MUST be managed via a robust state machine or explicit state flags to prevent "dead-end" empty states.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

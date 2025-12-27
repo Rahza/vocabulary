@@ -17,7 +17,7 @@
 
 **Purpose**: Core infrastructure updates to support session parameters
 
-- [X] T001 Update `src/app/practice/page.tsx` to store `activeSessionTags` (string[]) to handle multi-tag session restarts
+- [x] T001 Update `src/app/practice/page.tsx` to store `activeSessionTags` (string[]) to handle multi-tag session restarts
 
 ---
 
@@ -29,9 +29,9 @@
 
 ### Implementation for User Story 1
 
-- [X] T002 [US1] Update `src/components/practice/MatchingGame.tsx` to remove the opacity-0 animation for `isCompleted` items
-- [X] T003 [US1] Add `bg-playful-green/20` and `pointer-events-none` styling to completed items in `src/components/practice/MatchingGame.tsx`
-- [X] T004 [US1] Ensure `opacity-50` is applied to completed items in `src/components/practice/MatchingGame.tsx`
+- [x] T002 [US1] Update `src/components/practice/MatchingGame.tsx` to remove the opacity-0 animation for `isCompleted` items
+- [x] T003 [US1] Add `bg-playful-green/20` and `pointer-events-none` styling to completed items in `src/components/practice/MatchingGame.tsx`
+- [x] T004 [US1] Ensure `opacity-50` is applied to completed items in `src/components/practice/MatchingGame.tsx`
 
 **Checkpoint**: User Story 1 complete - Matched pairs now persist visually.
 
@@ -45,8 +45,8 @@
 
 ### Implementation for User Story 2
 
-- [X] T005 [US2] Refactor `src/components/practice/MatchingGame.tsx` to strictly add only `selectedLeft.id` and `selectedRight.id` to `incorrectIds` state
-- [X] T006 [US2] Verify timeout logic in `src/components/practice/MatchingGame.tsx` clears error state correctly for the two items
+- [x] T005 [US2] Refactor `src/components/practice/MatchingGame.tsx` to strictly add only `selectedLeft.id` and `selectedRight.id` to `incorrectIds` state
+- [x] T006 [US2] Verify timeout logic in `src/components/practice/MatchingGame.tsx` clears error state correctly for the two items
 
 **Checkpoint**: User Story 2 complete - Error feedback is focused and accurate.
 
@@ -72,9 +72,9 @@
 
 **Purpose**: Final audit and quality check
 
-- [X] T010 Audit contrast of "faded" matched items in both Light and Dark mode in `src/components/practice/MatchingGame.tsx`
-- [X] T011 Run final visual audit of matching game animations
-- [X] T012 Run production build verification with `npm run build`
+- [x] T010 Audit contrast of "faded" matched items in both Light and Dark mode in `src/components/practice/MatchingGame.tsx`
+- [x] T011 Run final visual audit of matching game animations
+- [x] T012 Run production build verification with `npm run build`
 
 ---
 

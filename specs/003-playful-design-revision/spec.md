@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Revise the design to make it much more interesting and playful. Give at an interesting, modern, playful, colorful look with a strong attention to detail."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Vibrant Visual Identity (Priority: P1)
 
@@ -56,24 +56,24 @@ As a user, I want the small details like icons, diacritics buttons, and progress
 - **Performance**: High-quality animations must remain smooth (60fps) even on lower-end mobile devices.
 - **Dark Mode**: The "playful and colorful" look must translate well to a dark theme without losing its character.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
 - **FR-001**: System MUST implement a new "Playful Design System" including:
-    - Primary palette: Vibrant Indigo, Sunny Yellow, Mint Green, and Coral Red.
-    - Typography: Modern, rounded sans-serif (e.g., Quicksand or similar).
-    - Shapes: Minimum border-radius of 16px for all container elements.
+  - Primary palette: Vibrant Indigo, Sunny Yellow, Mint Green, and Coral Red.
+  - Typography: Modern, rounded sans-serif (e.g., Quicksand or similar).
+  - Shapes: Minimum border-radius of 16px for all container elements.
 - **FR-002**: System MUST add micro-interactions using Framer Motion:
-    - Bouncing hover effects for primary action buttons.
-    - Smooth card-flip or slide-in transitions for flashcards.
-    - Progress bar "filling" animations.
+  - Bouncing hover effects for primary action buttons.
+  - Smooth card-flip or slide-in transitions for flashcards.
+  - Progress bar "filling" animations.
 - **FR-003**: System MUST update the virtual keyboard:
-    - Individual keys styled as rounded squares with distinct shadows.
-    - Active/Pressed states that visually depress the key.
+  - Individual keys styled as rounded squares with distinct shadows.
+  - Active/Pressed states that visually depress the key.
 - **FR-004**: System MUST enhance the Dashboard:
-    - Replace standard list items with colorful "bubbles" or "cards".
-    - Add illustrative icons for each section (Generate, Train, Practice).
+  - Replace standard list items with colorful "bubbles" or "cards".
+  - Add illustrative icons for each section (Generate, Train, Practice).
 - **FR-005**: System MUST ensure that all animations respects user's "Reduced Motion" OS settings.
 
 ### Assumptions
@@ -85,7 +85,7 @@ As a user, I want the small details like icons, diacritics buttons, and progress
 
 - **ThemeConfig**: PrimaryColors, SecondaryColors, Radius, AnimationDuration.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Wand2 } from "lucide-react";
-import { motion } from "framer-motion";
-import { itemReveal } from "@/lib/animations";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Wand2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { itemReveal } from '@/lib/animations';
+import { useTranslations } from 'next-intl';
 
 interface GeneratorFormProps {
   onGenerate: (theme: string, difficulty: string, count: number) => void;
@@ -13,8 +14,9 @@ interface GeneratorFormProps {
 }
 
 export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
-  const [theme, setTheme] = useState("");
-  const [difficulty, setDifficulty] = useState("Beginner");
+  const t = useTranslations('generator.form');
+  const [theme, setTheme] = useState('');
+  const [difficulty, setDifficulty] = useState('Beginner');
   const [count, setCount] = useState(5);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,20 +25,23 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
   };
 
   return (
-    <motion.form 
+    <motion.form
       variants={itemReveal}
       initial="hidden"
       animate="visible"
-      onSubmit={handleSubmit} 
+      onSubmit={handleSubmit}
       className="space-y-6 p-6 border-2 border-zinc-100 dark:border-zinc-800 rounded-playful bg-white dark:bg-zinc-900 shadow-xl shadow-zinc-200/50 dark:shadow-none"
     >
       <div className="space-y-2">
-        <label htmlFor="theme" className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1">
-          Thema / Kategorie
+        <label
+          htmlFor="theme"
+          className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1"
+        >
+          {t('themeLabel')}
         </label>
         <Input
           id="theme"
-          placeholder="z.B. Weltraum, Kochen, Emotionen..."
+          placeholder={t('themePlaceholder')}
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
           required
@@ -46,8 +51,11 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label htmlFor="difficulty" className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1">
-            Schwierigkeit
+          <label
+            htmlFor="difficulty"
+            className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1"
+          >
+            {t('difficultyLabel')}
           </label>
           <select
             id="difficulty"
@@ -55,15 +63,18 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
           >
-            <option value="Beginner">🌱 Anfänger</option>
-            <option value="Intermediate">🌿 Fortgeschritten</option>
-            <option value="Advanced">🌳 Experte</option>
+            <option value="Beginner">{t('difficulties.Beginner')}</option>
+            <option value="Intermediate">{t('difficulties.Intermediate')}</option>
+            <option value="Advanced">{t('difficulties.Advanced')}</option>
           </select>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="count" className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1">
-            Wie viele?
+          <label
+            htmlFor="count"
+            className="text-sm font-black uppercase tracking-widest text-zinc-400 ml-1"
+          >
+            {t('countLabel')}
           </label>
           <Input
             id="count"
@@ -78,9 +89,9 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
         </div>
       </div>
 
-      <Button 
-        type="submit" 
-        disabled={isLoading} 
+      <Button
+        type="submit"
+        disabled={isLoading}
         variant="playful"
         className="w-full h-16 text-lg bg-playful-indigo shadow-playful-indigo/30 border-b-4 border-indigo-800"
       >
@@ -88,15 +99,15 @@ export function GeneratorForm({ onGenerate, isLoading }: GeneratorFormProps) {
           <span className="flex items-center gap-2">
             <motion.span
               animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+              transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
             >
               🪄
             </motion.span>
-            Erzeuge Magie...
+            {t('loading')}
           </span>
         ) : (
           <>
-            <Wand2 className="mr-2 h-6 w-6" /> Vokabeln generieren
+            <Wand2 className="mr-2 h-6 w-6" /> {t('submit')}
           </>
         )}
       </Button>

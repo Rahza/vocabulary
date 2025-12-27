@@ -1,0 +1,249 @@
+{
+  "common": {
+    "back": "Zurück",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "loading": "Lade...",
+    "confirm": "Bestätigen",
+    "reset": "Reset",
+    "german": "Deutsch",
+    "czech": "Tschechisch"
+  },
+  "auth": {
+    "login": {
+      "title": "Willkommen zurück",
+      "subtitle": "Melden Sie sich an",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "signupLink": "Registrieren"
+    },
+    "signup": {
+      "title": "Konto erstellen",
+      "subtitle": "Starte deine Lernreise",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "submit": "Konto erstellen",
+      "hasAccount": "Bereits ein Konto?",
+      "loginLink": "Anmelden",
+      "passwordMismatch": "Passwörter stimmen nicht überein",
+      "passwordTooShort": "Passwort muss mindestens 6 Zeichen haben"
+    },
+    "signOut": "Abmelden"
+  },
+  "navigation": {
+    "dashboard": "Start",
+    "vocabulary": "Sammlung",
+    "trainer": "Lernen",
+    "practice": "Üben",
+    "settings": "Optionen"
+  },
+  "dashboard": {
+    "title": "Ahoj!",
+    "subtitle": "Bereit zum Lernen?",
+    "dailyTraining": "Tägliches Training",
+    "generate": "Generieren",
+    "practice": "Üben",
+    "progress": "Dein Fortschritt",
+    "totalVocabLabel": "Wörter gesamt",
+    "progressByTheme": "Fortschritt nach Themen",
+    "noThemes": "Noch keine Themen. Fang an zu generieren!",
+    "totalCardsLabel": "Karten",
+    "distribution": "Verteilung",
+    "totalVocab": "{count} Vokabeln gesamt",
+    "words": "Wörter"
+  },
+  "onboarding": {
+    "welcome": "Willkommen!",
+    "subtitle": "Konfiguriere dein Lern-Paar für den ersten Start.",
+    "sourceLabel": "ICH SPRECHE... (Ausgangssprache)",
+    "targetLabel": "ICH LERNE... (Zielsprache)",
+    "startSession": "Sitzung starten ✨"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "appPreferences": "App-Einstellungen",
+    "appearance": "Erscheinungsbild",
+    "language": "Sprache",
+    "apiKey": "OpenAI API-Schlüssel",
+    "apiKeyPlaceholder": "sk-..",
+    "apiKeyHint": "Dein Schlüssel wird sicher im lokalen Speicher deines Browsers gespeichert.",
+    "saveSettings": "Einstellungen speichern",
+    "dangerZone": "Gefahrenzone",
+    "resetData": "Alle Daten zurücksetzen",
+    "resetConfirmTitle": "Alle Daten löschen?",
+    "resetConfirmDesc": "Bist du sicher? Dies wird deinen gesamten Fortschritt und alle Vokabeln unwiderruflich löschen.",
+    "resetConfirmButton": "Alles löschen",
+    "settingsSaved": "Einstellungen gespeichert!",
+    "dataReset": "Alle Daten wurden zurückgesetzt.",
+    "languages": {
+      "en": "Englisch",
+      "de": "Deutsch",
+      "cs": "Tschechisch",
+      "es": "Spanisch",
+      "fr": "Französisch",
+      "it": "Italienisch"
+    }
+  },
+  "vocabulary": {
+    "title": "Sammlung",
+    "subtitle": "{count} Vokabeln insgesamt",
+    "searchPlaceholder": "Suchen...",
+    "tags": "Tags",
+    "box": "Box",
+    "resetFilters": "Alle Filter zurücksetzen",
+    "noVocabFound": "Keine Vokabeln gefunden",
+    "noVocabDesc": "Versuche es mit einem anderen Suchbegriff oder ändere die Filter.",
+    "deleteTitle": "Vokabeln löschen?",
+    "deleteDesc": "Bist du sicher? Es werden {count} Vokabeln unwiderruflich gelöscht.",
+    "deleteSuccess": "{count} Vokabeln gelöscht",
+    "addTagSuccess": "Tag #{tag} zu {count} Vokabeln hinzugefügt",
+    "removeTagSuccess": "Tag #{tag} von {count} Vokabeln entfernt",
+    "detailTitle": "Vokabel-Details",
+    "noTags": "Keine Tags",
+    "newTagPlaceholder": "Neuer Tag...",
+    "status": "Status",
+    "createdAt": "Erstellt am",
+    "mnemonic": "Eselsbrücke",
+    "regenerate": "Neu generieren",
+    "resetProgress": "Fortschritt zurücksetzen",
+    "resetProgressDesc": "Das Wort wird wieder in Box 1 verschoben.",
+    "deleteWord": "Löschen",
+    "deleteWordDesc": "Bist du sicher? \"{word}\" wird gelöscht.",
+    "deleteWordSuccess": "Vokabel gelöscht",
+    "regenerateSuccess": "Eselsbrücke erneuert!",
+    "regenerateError": "Fehler beim Generieren der Eselsbrücke.",
+    "resetSuccess": "Fortschritt zurückgesetzt",
+    "tagExists": "Tag existiert bereits",
+    "noMnemonic": "Keine Eselsbrücke vorhanden.",
+    "tagInfo": "Tags werden automatisch erstellt, wenn sie Vokabeln zugewiesen werden.",
+    "tagDeleteDesc": "Bist du sicher? #{tag} wird von allen Vokabeln entfernt.",
+    "boxes": {
+      "1": {
+        "name": "Keimling",
+        "desc": "Ganz neu in der Sammlung"
+      },
+      "2": {
+        "name": "Setzling",
+        "desc": "Erste Wiederholungen geschafft"
+      },
+      "3": {
+        "name": "Jungbaum",
+        "desc": "Festigt sich im Gedächtnis"
+      },
+      "4": {
+        "name": "Erfahren",
+        "desc": "Langzeitgedächtnis erreicht"
+      },
+      "5": {
+        "name": "Meister",
+        "desc": "Dauerhaft gemerkt"
+      }
+    },
+    "bulkActions": {
+      "selected": "Ausgewählt",
+      "clearSelection": "Auswahl aufheben",
+      "addTag": "Tag +",
+      "removeTag": "Tag -",
+      "delete": "Löschen",
+      "addTagTitle": "Tag zu Auswahl hinzufügen",
+      "removeTagTitle": "Tag von Auswahl entfernen"
+    }
+  },
+  "trainer": {
+    "loading": "Lade Wiederholungen...",
+    "allDone": "Alles erledigt! 🎉",
+    "allDoneDesc": "{count} Wiederholungen erfolgreich abgeschlossen. Dein Gedächtnis wird immer stärker!",
+    "toDashboard": "Zum Dashboard",
+    "noDue": "Keine Vokabeln fällig",
+    "noDueDesc": "Für heute bist du fertig! Schau später wieder vorbei oder füge neue Wörter hinzu.",
+    "generateNew": "Neue Wörter generieren",
+    "progress": "Fortschritt",
+    "card": "Karte",
+    "correctWas": "Richtig war:",
+    "typoFeedback": "Fast richtig! Prüf mal die Schreibweise.",
+    "checkAnswer": "Prüfen",
+    "gotItNext": "Verstanden, weiter! →",
+    "hint": "Tipp",
+    "skip": "Überspringen",
+    "errorLoading": "Fehler beim Laden",
+    "errorLoadingDesc": "Es gab ein Problem beim Verbinden mit der Datenbank. Bitte prüfe deine Verbindung oder versuche es erneut.",
+    "retry": "Nochmal"
+  },
+  "practice": {
+    "title": "Üben",
+    "selectMethod": "Lernmethode wählen",
+    "thematicTraining": "Themen-Training",
+    "classicTitle": "Klassisch",
+    "classicDesc": "Vokabeln einzeln abfragen mit Tastatur-Eingabe.",
+    "matchingTitle": "Paare finden",
+    "matchingDesc": "Wörter beider Sprachen in einer Liste einander zuordnen.",
+    "sessionLength": "Sitzungslänge",
+    "chooseTopic": "Themen wählen",
+    "roundInfo": "Pro Runde werden {count} Paare gematcht.",
+    "startSession": "Sitzung starten",
+    "round": "Runde",
+    "end": "Beenden",
+    "accuracy": "Genauigkeit",
+    "duration": "Dauer",
+    "summaryTitle": "Gut gemacht!",
+    "sessionEnded": "Sitzung beendet",
+    "summaryDesc": "Du hast {score} von {total} Wörtern richtig erkannt!",
+    "playAgain": "Nochmal!",
+    "noTagsFound": "Keine Themen gefunden. Generiere zuerst ein paar Vokabeln!",
+    "reset": "Reset"
+  },
+  "tags": {
+    "title": "Tags verwalten",
+    "subtitle": "Kategorien global organisieren",
+    "info": "Tags werden automatisch erstellt, wenn sie Vokabeln zugewiesen werden.",
+    "deleteTitle": "Tag global löschen?",
+    "deleteDesc": "Bist du sicher? #{tag} wird von allen Vokabeln entfernt.",
+    "deleteSuccess": "Tag #{tag} gelöscht",
+    "renameSuccess": "Tag #{oldName} zu #{newName} umbenannt",
+    "noTags": "Keine Tags vorhanden",
+    "noTagsDesc": "Erstelle deinen ersten Tag, um deine Vokabeln zu organisieren.",
+    "editor": {
+      "title": "Neuer Tag",
+      "placeholder": "z.B. Urlaub, Essen...",
+      "create": "Tag erstellen"
+    }
+  },
+  "generator": {
+    "title": "Generator",
+    "subtitle": "Neue Karten erstellen",
+    "noApiKey": "Du benötigst einen OpenAI API-Schlüssel, um den magischen Generator zu nutzen.",
+    "openSettings": "Einstellungen öffnen",
+    "apiKeyMissing": "OpenAI API-Schlüssel fehlt. Bitte in den Einstellungen hinzufügen.",
+    "generating": "Abrakadabra! {count} Wörter generiert!",
+    "noNewWords": "Keine neuen Wörter gefunden. Probiere ein anderes Thema!",
+    "error": "Die Magie hat versagt. Prüfe deinen API-Schlüssel und die Verbindung.",
+    "saveSuccess": "Vokabeln zu deinem Zauberbuch hinzugefügt!",
+    "discardConfirm": "Wörter verwerfen?",
+    "discardDesc": "Bist du sicher? Diese generierten Wörter werden für immer verschwinden.",
+    "discardAction": "Ja, verwerfen",
+    "discarded": "Generierte Wörter verworfen",
+    "form": {
+      "themeLabel": "Was möchtest du lernen?",
+      "themePlaceholder": "z.B. Reisen, Restaurant, Business...",
+      "difficultyLabel": "Schwierigkeit",
+      "countLabel": "Wie viele",
+      "submit": "Magie wirken",
+      "loading": "Erzeuge Magie...",
+      "difficulties": {
+        "Beginner": "🌱 Anfänger",
+        "Intermediate": "🌿 Fortgeschritten",
+        "Advanced": "🌳 Experte"
+      }
+    },
+    "results": {
+      "title": "Erfolg!",
+      "save": "Behalten!",
+      "discard": "Verwerfen"
+    }
+  }
+}

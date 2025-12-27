@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import { VocabularyPair } from "@/models/types";
-import { WordActions } from "./WordActions";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
-import { itemReveal } from "@/lib/animations";
-import { SelectionToggle } from "@/components/ui/SelectionToggle";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Search } from "lucide-react";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import React from 'react';
+import { VocabularyPair } from '@/models/types';
+import { WordActions } from './WordActions';
+import { motion, AnimatePresence } from 'framer-motion';
+import { itemReveal } from '@/lib/animations';
+import { SelectionToggle } from '@/components/ui/SelectionToggle';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { Search } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
+import { useTranslations } from 'next-intl';
 
 interface VocabularyListProps {
   items: VocabularyPair[];
@@ -29,16 +29,22 @@ export function VocabularyList({
   onOpenDetail,
   onResetFilters,
 }: VocabularyListProps) {
+  const t = useTranslations('vocabulary');
+
   if (items.length === 0) {
     return (
       <EmptyState
-        title="Keine Vokabeln gefunden"
-        description="Versuche es mit einem anderen Suchbegriff oder ändere die Filter."
+        title={t('noVocabFound')}
+        description={t('noVocabDesc')}
         icon={Search}
-        action={onResetFilters ? {
-          label: "Filter zurücksetzen",
-          onClick: onResetFilters
-        } : undefined}
+        action={
+          onResetFilters
+            ? {
+                label: t('resetFilters'),
+                onClick: onResetFilters,
+              }
+            : undefined
+        }
       />
     );
   }
@@ -59,7 +65,7 @@ export function VocabularyList({
             >
               <Card
                 onClick={() => onOpenDetail(item)}
-                variant={isSelected ? "playful" : "default"}
+                variant={isSelected ? 'playful' : 'default'}
                 hoverable
               >
                 <div className="flex items-center justify-between gap-3">
@@ -72,14 +78,14 @@ export function VocabularyList({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-black text-playful-indigo truncate">
-                          {item.german}
+                          {item.source}
                         </span>
                         <span className="text-zinc-300 dark:text-zinc-700 font-bold">|</span>
                         <span className="text-lg font-black text-playful-green truncate">
-                          {item.czech}
+                          {item.target}
                         </span>
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-1 mt-1">
                         {item.tags.slice(0, 3).map((tag) => (
                           <Badge key={tag} variant="default" size="sm">

@@ -1,15 +1,14 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
-const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || '';
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: isGitHubPages ? `/${repoName}` : '',
-  assetPrefix: isGitHubPages ? `/${repoName}/` : '',
   images: {
     unoptimized: true,
   },
+  serverExternalPackages: ['firebase-admin'],
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
+

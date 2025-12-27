@@ -1,0 +1,249 @@
+{
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "reset": "Reset",
+    "german": "German",
+    "czech": "Czech"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Start your learning journey",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters"
+    },
+    "signOut": "Sign Out"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "vocabulary": "Collection",
+    "trainer": "Trainer",
+    "practice": "Practice",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Ahoj!",
+    "subtitle": "Ready to learn?",
+    "dailyTraining": "Daily Training",
+    "generate": "Generate",
+    "practice": "Practice",
+    "progress": "Your Progress",
+    "totalVocabLabel": "Total Words",
+    "progressByTheme": "Progress by Topic",
+    "noThemes": "No topics yet. Start generating!",
+    "totalCardsLabel": "Cards",
+    "distribution": "Distribution",
+    "totalVocab": "{count} vocabulary items total",
+    "words": "Words"
+  },
+  "onboarding": {
+    "welcome": "Welcome!",
+    "subtitle": "Configure your language pair to start.",
+    "sourceLabel": "I SPEAK... (Source Language)",
+    "targetLabel": "I WANT TO LEARN... (Target Language)",
+    "startSession": "Start Session ✨"
+  },
+  "settings": {
+    "title": "Settings",
+    "appPreferences": "App Preferences",
+    "appearance": "Appearance",
+    "language": "Language",
+    "apiKey": "OpenAI API Key",
+    "apiKeyPlaceholder": "sk-…",
+    "apiKeyHint": "Your key is stored safely in your browser's local storage.",
+    "saveSettings": "Save Settings",
+    "dangerZone": "Danger Zone",
+    "resetData": "Reset All Data",
+    "resetConfirmTitle": "Reset all data?",
+    "resetConfirmDesc": "Are you sure? This will permanently delete all your progress and vocabulary items.",
+    "resetConfirmButton": "Delete Everything",
+    "settingsSaved": "Settings saved!",
+    "dataReset": "All data has been reset.",
+    "languages": {
+      "en": "English",
+      "de": "German",
+      "cs": "Czech",
+      "es": "Spanish",
+      "fr": "French",
+      "it": "Italian"
+    }
+  },
+  "vocabulary": {
+    "title": "Collection",
+    "subtitle": "{count} vocabulary items total",
+    "searchPlaceholder": "Search...",
+    "tags": "Tags",
+    "box": "Box",
+    "resetFilters": "Reset all filters",
+    "noVocabFound": "No vocabulary found",
+    "noVocabDesc": "Try a different search term or change the filters.",
+    "deleteTitle": "Delete vocabulary?",
+    "deleteDesc": "Are you sure? {count} vocabulary items will be permanently deleted.",
+    "deleteSuccess": "{count} vocabulary items deleted",
+    "addTagSuccess": "Tag #{tag} added to {count} vocabulary items",
+    "removeTagSuccess": "Tag #{tag} removed from {count} vocabulary items",
+    "detailTitle": "Vocabulary Details",
+    "noTags": "No tags",
+    "newTagPlaceholder": "New tag...",
+    "status": "Status",
+    "createdAt": "Created at",
+    "mnemonic": "Mnemonic",
+    "regenerate": "Regenerate",
+    "resetProgress": "Reset progress",
+    "resetProgressDesc": "The word will be moved back to Box 1.",
+    "deleteWord": "Delete",
+    "deleteWordDesc": "Are you sure? \"{word}\" will be deleted.",
+    "deleteWordSuccess": "Vocabulary deleted",
+    "regenerateSuccess": "Mnemonic regenerated!",
+    "regenerateError": "Error generating mnemonic.",
+    "resetSuccess": "Progress reset",
+    "tagExists": "Tag already exists",
+    "noMnemonic": "No mnemonic available.",
+    "tagInfo": "Tags are automatically created when assigned to vocabulary.",
+    "tagDeleteDesc": "Are you sure? #{tag} will be removed from all vocabulary.",
+    "boxes": {
+      "1": {
+        "name": "Sprout",
+        "desc": "Brand new in your collection"
+      },
+      "2": {
+        "name": "Seedling",
+        "desc": "First repetitions done"
+      },
+      "3": {
+        "name": "Young Tree",
+        "desc": "Getting stronger in memory"
+      },
+      "4": {
+        "name": "Experienced",
+        "desc": "Long-term memory reached"
+      },
+      "5": {
+        "name": "Master",
+        "desc": "Permanently memorized"
+      }
+    },
+    "bulkActions": {
+      "selected": "Selected",
+      "clearSelection": "Clear selection",
+      "addTag": "Tag +",
+      "removeTag": "Tag -",
+      "delete": "Delete",
+      "addTagTitle": "Add tag to selection",
+      "removeTagTitle": "Remove tag from selection"
+    }
+  },
+  "trainer": {
+    "loading": "Loading reviews...",
+    "allDone": "All done! 🎉",
+    "allDoneDesc": "{count} reviews successfully completed. Your memory is getting stronger!",
+    "toDashboard": "To Dashboard",
+    "noDue": "No vocabulary due",
+    "noDueDesc": "You're done for today! Check back later or add new words.",
+    "generateNew": "Generate new words",
+    "progress": "Progress",
+    "card": "Card",
+    "correctWas": "Correct was:",
+    "typoFeedback": "Almost correct! Check the spelling.",
+    "checkAnswer": "Check Answer",
+    "gotItNext": "Got it, next! →",
+    "hint": "Hint",
+    "skip": "Skip",
+    "errorLoading": "Failed to load words",
+    "errorLoadingDesc": "There was an error connecting to the database. Please check your connection or retry.",
+    "retry": "Retry"
+  },
+  "practice": {
+    "title": "Practice",
+    "selectMethod": "Choose learning method",
+    "thematicTraining": "Thematic Training",
+    "classicTitle": "Classic",
+    "classicDesc": "Individual vocabulary review with keyboard input.",
+    "matchingTitle": "Find Pairs",
+    "matchingDesc": "Match words from both languages in a list.",
+    "sessionLength": "Session Length",
+    "chooseTopic": "Choose Topic",
+    "roundInfo": "{count} pairs are matched per round.",
+    "startSession": "Start Session",
+    "round": "Round",
+    "end": "End",
+    "accuracy": "Accuracy",
+    "duration": "Duration",
+    "summaryTitle": "Well done!",
+    "sessionEnded": "Session ended",
+    "summaryDesc": "You correctly recognized {score} out of {total} words!",
+    "playAgain": "Again!",
+    "noTagsFound": "No topics found. Generate some vocabulary first!",
+    "reset": "Reset"
+  },
+  "tags": {
+    "title": "Manage Tags",
+    "subtitle": "Organize categories globally",
+    "info": "Tags are automatically created when assigned to vocabulary.",
+    "deleteTitle": "Delete tag globally?",
+    "deleteDesc": "Are you sure? #{tag} will be removed from all vocabulary.",
+    "deleteSuccess": "Tag #{tag} deleted",
+    "renameSuccess": "Tag #{oldName} renamed to #{newName}",
+    "noTags": "No tags found",
+    "noTagsDesc": "Create your first tag to organize your vocabulary.",
+    "editor": {
+      "title": "New Tag",
+      "placeholder": "e.g. Vacation, Food...",
+      "create": "Create Tag"
+    }
+  },
+  "generator": {
+    "title": "Generator",
+    "subtitle": "Create new cards",
+    "noApiKey": "You need an OpenAI API key to use the magic generator.",
+    "openSettings": "Open Settings",
+    "apiKeyMissing": "OpenAI API key missing. Please add it in settings.",
+    "generating": "Abracadabra! {count} words generated!",
+    "noNewWords": "No new words found. Try a different topic!",
+    "error": "The magic has failed. Check your API key and connection.",
+    "saveSuccess": "Vocabulary added to your spellbook!",
+    "discardConfirm": "Discard generated words?",
+    "discardDesc": "Are you sure? These words will disappear forever.",
+    "discardAction": "Yes, discard",
+    "discarded": "Generated words discarded",
+    "form": {
+      "themeLabel": "What do you want to learn?",
+      "themePlaceholder": "e.g. Travel, Restaurant, Business...",
+      "difficultyLabel": "Difficulty",
+      "countLabel": "How many",
+      "submit": "Generate Magic",
+      "loading": "Creating Magic...",
+      "difficulties": {
+        "Beginner": "🌱 Beginner",
+        "Intermediate": "🌿 Intermediate",
+        "Advanced": "🌳 Expert"
+      }
+    },
+    "results": {
+      "title": "Success!",
+      "save": "Keep!",
+      "discard": "Discard"
+    }
+  }
+}

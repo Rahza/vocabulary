@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Fix the following bugs: Remove the German Umlaute from the virtual keyboard and fix the Czech ones, some are missing. In all modes (progress and practice), shuffle the words, to make sure that for the same word in both directions, at least two other words are in between. Remove the alert() and replace them with a suitable JS design component."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Correct Virtual Keyboard (Priority: P1)
 
@@ -56,7 +56,7 @@ As a user, I want to see notifications (like "Vocabulary saved") as non-intrusiv
 - **Shuffling**: What if there are only 1 or 2 words in the list? The "2 words between" constraint is impossible. System should handle this without infinite loop (e.g. just alternate).
 - **Keyboard**: Are uppercase chars needed? Usually context implies lowercase for diacritics buttons, relying on shift key for base letter or long-press. We will assume lowercase buttons are sufficient as per standard mobile helpers.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -75,7 +75,7 @@ As a user, I want to see notifications (like "Vocabulary saved") as non-intrusiv
 
 - **Toast**: ID, Message, Type (Success, Error, Info), Duration.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -16,14 +16,15 @@ This feature focuses on a complete visual overhaul of the Light Mode. The curren
 **Target Platform**: Web
 **Project Type**: Single project
 **Performance Goals**: Zero impact on bundle size or runtime performance.  
-**Constraints**: 
+**Constraints**:
+
 - No hardcoded hex codes in component files.
 - Absolute isolation of light mode changes.
 - Must pass WCAG AA contrast standards.
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **I. Engineering Excellence**: Pass. Utilizing CSS variables and scoped classes is best practice for theme management.
 - **II. Maintainability and Extensibility**: Pass. Centralizing theme definitions in `globals.css` simplifies future tweaks.
@@ -68,7 +69,7 @@ src/
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

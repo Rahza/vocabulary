@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Create a vocabulary to view, search and filter (by tags, progress, freetext) vocabulary. Allow the user to individually reset the progress of a word, to delete it, and to manage its tags (add, remove tags). Also add a tag manager to add/remove tags. Build a functionality to easily bulk assign/remove tags from vocabulary"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Browse and Filter Vocabulary (Priority: P1)
 
@@ -73,7 +73,7 @@ As a power user, I want to select multiple words at once and add or remove tags 
 - **Bulk actions with empty selection**: The bulk action buttons should be disabled or prompt the user to select items first.
 - **Duplicate tags**: Prevent creating two tags with the same name (case-insensitive).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -86,12 +86,12 @@ As a power user, I want to select multiple words at once and add or remove tags 
 - **FR-007**: System MUST allow selecting multiple vocabulary items and applying "Add Tag" or "Remove Tag" actions to the entire selection.
 - **FR-008**: System MUST prevent the creation of duplicate tag names.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **VocabularyItem**: Represents a learning unit. Contains the foreign term, native translation, mnemonic, tags list, and progress metadata (e.g., current box in Leitner system).
 - **Tag**: Represents a category. Has a unique name.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

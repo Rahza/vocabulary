@@ -1,21 +1,15 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { VocabularyPair } from "@/models/types";
-import { LocalStorageRepository } from "@/services/storage/LocalStorageRepository";
-import { Button } from "@/components/ui/Button";
-import {
-  RotateCcw,
-  Trash2,
-  MoreVertical,
-  Tag,
-  Plus,
-  X,
-} from "lucide-react";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/Input";
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import React, { useState } from 'react';
+import { VocabularyPair } from '@/models/types';
+import { useRepository } from '@/contexts/RepositoryContext';
+import { Button } from '@/components/ui/Button';
+import { RotateCcw, Trash2, MoreVertical, Tag, Plus, X } from 'lucide-react';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/Input';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { useTranslations } from 'next-intl';
 
 interface WordActionsProps {
   item: VocabularyPair;
@@ -23,39 +17,41 @@ interface WordActionsProps {
 }
 
 export function WordActions({ item, onRefresh }: WordActionsProps) {
+  const t = useTranslations('vocabulary');
+  const commonT = useTranslations('common');
   const [isOpen, setIsOpen] = useState(false);
   const [isEditingTags, setIsEditingTags] = useState(false);
-  const [newTag, setNewTag] = useState("");
+  const [newTag, setNewTag] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-  const repository = new LocalStorageRepository();
+  const repository = useRepository();
 
   const handleReset = async () => {
     await repository.resetProgress(item.id);
-    toast.success("Fortschritt zurückgesetzt");
+    toast.success(t('resetSuccess'));
     setIsOpen(false);
     onRefresh();
   };
 
   const handleDelete = async () => {
     await repository.deleteVocabulary(item.id);
-    toast.success("Vokabel gelöscht");
+    toast.success(t('deleteWordSuccess'));
     onRefresh();
   };
 
   const handleAddTag = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTag.trim()) return;
-    
+
     if (item.tags.includes(newTag.trim())) {
-      toast.error("Tag existiert bereits");
+      toast.error(t('tagExists'));
       return;
     }
 
     const updatedTags = [...item.tags, newTag.trim()];
     await repository.updateVocabulary(item.id, { tags: updatedTags });
-    setNewTag("");
+    setNewTag('');
     onRefresh();
   };
 
@@ -71,16 +67,16 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
         <button
           onClick={() => setIsEditingTags(!isEditingTags)}
           className={cn(
-            "p-2 rounded-xl transition-all",
+            'p-2 rounded-xl transition-all',
             isEditingTags
-              ? "bg-playful-indigo text-white shadow-lg"
-              : "text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              ? 'bg-playful-indigo text-white shadow-lg'
+              : 'text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
           )}
-          title="Tags bearbeiten"
+          title={commonT('edit')}
         >
           <Tag size={18} />
         </button>
-        
+
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-all"
@@ -95,13 +91,13 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
             onClick={() => setShowResetConfirm(true)}
             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-zinc-600 dark:text-zinc-300 hover:bg-playful-yellow/10 hover:text-playful-yellow transition-all"
           >
-            <RotateCcw size={16} /> Fortschritt zurücksetzen
+            <RotateCcw size={16} /> {t('resetProgress')}
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-playful-red hover:bg-playful-red/10 transition-all border-t-2 border-zinc-50 dark:border-zinc-800"
           >
-            <Trash2 size={16} /> Löschen
+            <Trash2 size={16} /> {commonT('delete')}
           </button>
         </div>
       )}
@@ -110,9 +106,9 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
         isOpen={showDeleteConfirm}
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleDelete}
-        title="Vokabel löschen?"
-        description={`Bist du sicher? "${item.german}" wird unwiderruflich aus deiner Sammlung entfernt.`}
-        confirmText="Löschen"
+        title={t('deleteWord')}
+        description={t('deleteWordDesc', { word: item.source })}
+        confirmText={commonT('delete')}
         variant="destructive"
       />
 
@@ -120,9 +116,9 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
         isOpen={showResetConfirm}
         onClose={() => setShowResetConfirm(false)}
         onConfirm={handleReset}
-        title="Fortschritt zurücksetzen?"
-        description={`Der Lernfortschritt für "${item.german}" wird auf Box 1 zurückgesetzt.`}
-        confirmText="Reset"
+        title={t('resetProgress')}
+        description={t('resetProgressDesc')}
+        confirmText={commonT('reset')}
         variant="playful"
       />
 
@@ -130,9 +126,12 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
         <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-zinc-900 border-2 border-zinc-100 dark:border-zinc-800 rounded-3xl shadow-2xl z-10 p-4 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="flex justify-between items-center mb-3">
             <h4 className="text-xs font-black uppercase tracking-widest text-zinc-400">
-              Tags bearbeiten
+              {commonT('edit')}
             </h4>
-            <button onClick={() => setIsEditingTags(false)} className="text-zinc-400 hover:text-zinc-600">
+            <button
+              onClick={() => setIsEditingTags(false)}
+              className="text-zinc-400 hover:text-zinc-600"
+            >
               <X size={14} />
             </button>
           </div>
@@ -156,7 +155,7 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
 
           <form onSubmit={handleAddTag} className="flex gap-2">
             <Input
-              placeholder="Neuer Tag..."
+              placeholder={t('newTagPlaceholder')}
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               className="h-10 text-xs rounded-xl"

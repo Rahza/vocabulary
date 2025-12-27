@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 interface CardProps {
   children: React.ReactNode;
-  variant?: "default" | "playful" | "outline";
+  variant?: 'default' | 'playful' | 'outline';
   hoverable?: boolean;
   className?: string;
   onClick?: () => void;
@@ -14,33 +14,35 @@ interface CardProps {
 
 export const Card = ({
   children,
-  variant = "default",
+  variant = 'default',
   hoverable = false,
   className,
   onClick,
 }: CardProps) => {
   const variants = {
-    default: "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-soft dark:shadow-none",
-    playful: "bg-white dark:bg-zinc-900 border-playful-indigo shadow-lg shadow-playful-indigo/10 ring-4 ring-playful-indigo/5",
-    outline: "bg-transparent border-zinc-200 dark:border-zinc-800",
+    default:
+      'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-soft dark:shadow-none',
+    playful:
+      'bg-white dark:bg-zinc-900 border-playful-indigo shadow-lg shadow-playful-indigo/10 ring-4 ring-playful-indigo/5',
+    outline: 'bg-transparent border-zinc-200 dark:border-zinc-800',
   };
 
-  const Component = onClick ? motion.div : "div";
+  const isInteractive = onClick || hoverable;
 
   return (
-    <Component
+    <motion.div
       onClick={onClick}
-      whileHover={onClick || hoverable ? { scale: 0.98 } : undefined}
-      whileTap={onClick || hoverable ? { scale: 0.96 } : undefined}
+      whileHover={isInteractive ? { scale: 0.98 } : undefined}
+      whileTap={isInteractive ? { scale: 0.96 } : undefined}
       className={cn(
-        "p-3 border-2 rounded-[24px] transition-all relative",
+        'p-3 border-2 rounded-[24px] transition-all relative',
         variants[variant],
-        onClick && "cursor-pointer",
-        hoverable && "hover:border-zinc-200 dark:hover:border-zinc-700",
+        onClick && 'cursor-pointer',
+        hoverable && 'hover:border-zinc-200 dark:hover:border-zinc-700',
         className
       )}
     >
       {children}
-    </Component>
+    </motion.div>
   );
 };

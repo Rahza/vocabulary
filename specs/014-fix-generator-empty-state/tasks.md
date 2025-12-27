@@ -10,7 +10,7 @@
 
 ## Implementation Strategy
 
-We will first modify the `GeneratedList` component to remain visible (even if empty) during transitions, which is the root cause of the flicker. Then, we will refactor the state management in the `GeneratePage` to ensure that data is only cleared *after* the view has transitioned back to the form. This ensures visual continuity.
+We will first modify the `GeneratedList` component to remain visible (even if empty) during transitions, which is the root cause of the flicker. Then, we will refactor the state management in the `GeneratePage` to ensure that data is only cleared _after_ the view has transitioned back to the form. This ensures visual continuity.
 
 ---
 

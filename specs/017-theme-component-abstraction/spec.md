@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "Make sure that all components properly support dark and light mode. Abstract components if possible. Make sure that the app consistently uses these components."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Theme Consistency for End-Users (Priority: P1)
 
@@ -43,7 +43,7 @@ As a developer, I want to use a set of abstracted, theme-aware components so tha
 - What happens if a specific component requires a "fixed" color regardless of theme (e.g., brand colors)?
 - Ensuring high contrast ratios (WCAG) across all components in both modes.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -53,11 +53,11 @@ As a developer, I want to use a set of abstracted, theme-aware components so tha
 - **FR-004**: System MUST ensure that the application consistently uses these abstracted components across all feature pages.
 - **FR-005**: Themed components MUST maintain accessibility standards (contrast ratios) in both modes.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **ThemeableComponent**: A reusable UI component that accepts standard props and adapts its styling based on the active theme.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

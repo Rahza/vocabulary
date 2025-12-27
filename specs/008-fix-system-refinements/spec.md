@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "I can't find the Tag management page. When regenerating the mnemonic, the UI doesn't update (need to manually close and re-open the word). Update the word generation prompt to only generate generic tags, not too specific ones (the number \"eins\" gets the tag \"1\" now, for example, we don't want that). In the trainer, the shuffling is not working properly (I get first the German and then the Czech word in a sequence - there should be at least 2 other words in between the same word). After discarding the generated word suggestions, the generator displays just a blank screen. And instead of using the OS alert box for confirming discarding words, instead use a component. The progress in the top right in the trainer is also not displayed correctly."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Consistent Trainer Shuffling (Priority: P1)
 
@@ -21,7 +21,6 @@ As a learner, I want the trainer to show me a varied sequence of words so that I
 
 ---
 
-
 ### User Story 2 - Smooth Mnemonic Regeneration (Priority: P1)
 
 As a learner, I want to see my new mnemonic immediately after I click "Regenerate" so that I know the magic worked and I can use the new aid.
@@ -35,7 +34,6 @@ As a learner, I want to see my new mnemonic immediately after I click "Regenerat
 1. **Given** a word's detail drawer is open, **When** I trigger a mnemonic refresh, **Then** the UI displays the new mnemonic as soon as it is received from the AI.
 
 ---
-
 
 ### User Story 3 - Robust Generator Navigation (Priority: P1)
 
@@ -51,7 +49,6 @@ As a user, I want the generator to stay functional even if I decide to discard t
 
 ---
 
-
 ### User Story 4 - Discovery of Tag Management (Priority: P2)
 
 As an organized user, I want to easily find the page where I can manage my tags globally so that I can keep my collection clean.
@@ -66,14 +63,13 @@ As an organized user, I want to easily find the page where I can manage my tags 
 
 ---
 
-
 ### Edge Cases
 
 - **Small vocabulary sets**: If there are fewer than 3 words in a session, the "distancing" shuffling rule should gracefully fall back to the maximum possible distance.
 - **AI generating bad tags**: The prompt needs to be specific enough to prevent "literal" tags (like "1" or "word-itself").
 - **Discarding during loading**: Discard action should be handled correctly even if the generation hasn't finished (if possible) or the button should be disabled.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -90,7 +86,7 @@ As an organized user, I want to easily find the page where I can manage my tags 
 - **VocabularyPair**: Mnemonic field and Tags array are refined.
 - **ReviewQueue**: Shuffling logic determines the sequence.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

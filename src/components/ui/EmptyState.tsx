@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
-import { Button } from "./Button";
-import { itemReveal } from "@/lib/animations";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { LucideIcon } from 'lucide-react';
+import { Button } from './Button';
+import { itemReveal } from '@/lib/animations';
 
 interface EmptyStateProps {
   title: string;
@@ -37,9 +37,7 @@ export const EmptyState = ({ title, description, icon: Icon, action }: EmptyStat
 
       <div className="space-y-2 max-w-xs">
         <h3 className="text-2xl font-black tracking-tight">{title}</h3>
-        <p className="text-zinc-500 dark:text-zinc-400 font-bold leading-relaxed">
-          {description}
-        </p>
+        <p className="text-zinc-500 dark:text-zinc-400 font-bold leading-relaxed">{description}</p>
       </div>
 
       {action && (

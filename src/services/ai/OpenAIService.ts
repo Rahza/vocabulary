@@ -1,109 +1,103 @@
-import OpenAI from "openai";
-import { VocabularyPair } from "@/models/types";
+import { VocabularyPair } from '@/models/types';
+import { getFirebaseAuth } from '@/lib/firebase';
 
 export interface IAIService {
   generateVocabulary(
     theme: string,
     difficulty: string,
     count: number,
-    apiKey: string,
+    sourceLanguage: string,
+    targetLanguage: string,
     existingTerms?: string[]
-  ): Promise<Omit<VocabularyPair, "id" | "createdAt">[]>;
+  ): Promise<Omit<VocabularyPair, 'id' | 'createdAt'>[]>;
 
   generateSingleMnemonic(
-    german: string,
-    czech: string,
-    apiKey: string
+    sourceWord: string,
+    targetWord: string,
+    sourceLanguage: string,
+    targetLanguage: string
   ): Promise<string>;
 }
 
 export class OpenAIService implements IAIService {
+  private async getIdToken(): Promise<string> {
+    const auth = getFirebaseAuth();
+    const user = auth?.currentUser;
+    if (!user) {
+      throw new Error('User must be authenticated to generate vocabulary');
+    }
+    return user.getIdToken();
+  }
+
   async generateSingleMnemonic(
-    german: string,
-    czech: string,
-    apiKey: string
+    sourceWord: string,
+    targetWord: string,
+    sourceLanguage: string,
+    targetLanguage: string
   ): Promise<string> {
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      dangerouslyAllowBrowser: true,
+    const idToken = await this.getIdToken();
+
+    const response = await fetch('/api/mnemonic', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        sourceWord,
+        targetWord,
+        sourceLanguage,
+        targetLanguage,
+      }),
     });
 
-    const prompt = `
-      Create a helpful mnemonic (memory aid) in GERMAN to remember the Czech word "${czech}" given the German word "${german}".
-      The mnemonic should be creative and effective.
-      Return ONLY the mnemonic text, no JSON, no explanations.
-    `;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to generate mnemonic');
+    }
 
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", content: "You are a helpful language tutor." }, { role: "user", content: prompt }],
-      model: "gpt-5.2",
-    });
-
-    const content = completion.choices[0].message.content;
-    if (!content) throw new Error("No content received from AI");
-
-    return content.trim();
+    const data = await response.json();
+    return data.mnemonic;
   }
 
   async generateVocabulary(
     theme: string,
     difficulty: string,
     count: number,
-    apiKey: string,
+    sourceLanguage: string,
+    targetLanguage: string,
     existingTerms: string[] = []
-  ): Promise<Omit<VocabularyPair, "id" | "createdAt">[]> {
-    const openai = new OpenAI({
-      apiKey: apiKey,
-      dangerouslyAllowBrowser: true, // We are calling from client-side as per requirements
+  ): Promise<Omit<VocabularyPair, 'id' | 'createdAt'>[]> {
+    const idToken = await this.getIdToken();
+
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        theme,
+        difficulty,
+        count,
+        sourceLanguage,
+        targetLanguage,
+        existingTerms,
+      }),
     });
 
-    // Request more words to account for potential duplicates being filtered out
-    const requestCount = Math.ceil(count * 1.5);
-
-    const prompt = `
-      Generate ${requestCount} German-Czech vocabulary pairs related to the theme "${theme}".
-      Difficulty level: ${difficulty}.
-      For each pair, provide a helpful mnemonic (memory aid) in GERMAN to remember the Czech word given the German word.
-      Also assign relevant tags in GERMAN to each pair (including the theme itself).
-      IMPORTANT: Tags MUST be generic categories (e.g. "Zahlen", "Farben", "Natur") and NOT word-specific or literal (e.g. do NOT use "1" as a tag for the word "eins").
-      
-      Return ONLY a JSON object with the following structure:
-      {
-        "pairs": [
-          {
-            "german": "string",
-            "czech": "string",
-            "mnemonic": "string",
-            "tags": ["string"],
-            "difficulty": "${difficulty}"
-          }
-        ]
+    if (!response.ok) {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        throw new Error(error.error || error.details || 'Failed to generate vocabulary');
+      } else {
+        const text = await response.text();
+        throw new Error(`Server Error (${response.status}): ${text.substring(0, 100)}`);
       }
-    `;
-
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", content: "You are a helpful language tutor." }, { role: "user", content: prompt }],
-      model: "gpt-5.2",
-      response_format: { type: "json_object" },
-    });
-
-    const content = completion.choices[0].message.content;
-    if (!content) throw new Error("No content received from AI");
-
-    try {
-      const parsed = JSON.parse(content);
-      let pairs: Omit<VocabularyPair, "id" | "createdAt">[] = parsed.pairs;
-      
-      // Filter duplicates
-      if (existingTerms.length > 0) {
-        pairs = pairs.filter(p => !existingTerms.some(existing => existing.toLowerCase() === p.german.toLowerCase()));
-      }
-      
-      // Trim to requested count
-      return pairs.slice(0, count);
-    } catch {
-      console.error("Failed to parse AI response", content);
-      throw new Error("Failed to parse AI response");
     }
+
+    const data = await response.json();
+    return data.vocabulary || [];
   }
 }
