@@ -54,9 +54,7 @@ const mockWords: Record<string, { source: string; target: string }[]> = {
 const generateMockVocabulary = (
     theme: string,
     difficulty: string,
-    count: number,
-    _sourceLanguage: string,
-    _targetLanguage: string
+    count: number
 ): GeneratedVocabulary[] => {
     const themeKey = theme.toLowerCase();
     const words = mockWords[themeKey] || mockWords.default;
@@ -91,7 +89,7 @@ export const POST = async (request: NextRequest) => {
         const openaiApiKey = process.env.OPENAI_API_KEY;
         if (!openaiApiKey) {
             console.log('📚 OPENAI_API_KEY not configured - returning mock vocabulary');
-            const mockVocabulary = generateMockVocabulary(theme, difficulty, count, sourceLanguage, targetLanguage);
+            const mockVocabulary = generateMockVocabulary(theme, difficulty, count);
             return NextResponse.json({ vocabulary: mockVocabulary }, { status: 200 });
         }
 

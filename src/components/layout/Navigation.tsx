@@ -1,6 +1,6 @@
 'use client';
 
-import { Link, usePathname, useRouter } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/routing';
 import { LayoutDashboard, BrainCircuit, Dumbbell, Settings, Library } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';

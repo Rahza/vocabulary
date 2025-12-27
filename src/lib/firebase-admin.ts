@@ -60,7 +60,7 @@ const getFirebaseAdmin = (): App => {
         );
     }
 
-    return adminApp;
+
 };
 
 export const adminAuth: Auth = {
