@@ -87,8 +87,14 @@ export class OpenAIService implements IAIService {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to generate vocabulary');
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        throw new Error(error.error || error.details || 'Failed to generate vocabulary');
+      } else {
+        const text = await response.text();
+        throw new Error(`Server Error (${response.status}): ${text.substring(0, 100)}`);
+      }
     }
 
     const data = await response.json();
