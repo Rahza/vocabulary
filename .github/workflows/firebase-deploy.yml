@@ -20,3 +20,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_VOCABULARY_A21F3 }}'
           channelId: live
           projectId: vocabulary-a21f3
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
