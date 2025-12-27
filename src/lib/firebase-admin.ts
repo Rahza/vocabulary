@@ -1,6 +1,7 @@
-import { initializeApp, getApps, cert, App } from 'firebase-admin/app';
-import { getAuth, Auth } from 'firebase-admin/auth';
-import { getFirestore, Firestore } from 'firebase-admin/firestore';
+import admin from 'firebase-admin';
+import type { App } from 'firebase-admin/app';
+import type { Auth } from 'firebase-admin/auth';
+import type { Firestore } from 'firebase-admin/firestore';
 
 let adminApp: App | null = null;
 
@@ -12,8 +13,8 @@ const getFirebaseAdmin = (): App => {
         return adminApp;
     }
 
-    if (getApps().length > 0) {
-        adminApp = getApps()[0];
+    if (admin.apps.length > 0 && admin.apps[0]) {
+        adminApp = admin.apps[0];
         return adminApp;
     }
 
@@ -25,7 +26,7 @@ const getFirebaseAdmin = (): App => {
         process.env.FIREBASE_AUTH_EMULATOR_HOST = 'localhost:9099';
         process.env.FIRESTORE_EMULATOR_HOST = 'localhost:8080';
 
-        adminApp = initializeApp({
+        adminApp = admin.initializeApp({
             projectId: projectId || 'demo-project',
         });
         return adminApp;
@@ -38,8 +39,8 @@ const getFirebaseAdmin = (): App => {
 
     // If we have explicit credentials, use them (useful for non-GCP environments)
     if (projectId && clientEmail && privateKey) {
-        adminApp = initializeApp({
-            credential: cert({
+        adminApp = admin.initializeApp({
+            credential: admin.credential.cert({
                 projectId,
                 clientEmail,
                 privateKey,
@@ -51,7 +52,7 @@ const getFirebaseAdmin = (): App => {
     // Fallback to Application Default Credentials (works automatically in Firebase Functions/Cloud Run)
     // and inferred project ID
     try {
-        adminApp = initializeApp();
+        adminApp = admin.initializeApp();
         return adminApp;
     } catch (error) {
         console.error('Failed to initialize Firebase Admin with default credentials:', error);
@@ -66,13 +67,13 @@ const getFirebaseAdmin = (): App => {
 export const adminAuth: Auth = {
     verifyIdToken: async (token: string) => {
         const app = getFirebaseAdmin();
-        return getAuth(app).verifyIdToken(token);
+        return admin.auth(app).verifyIdToken(token);
     },
 } as Auth;
 
 export const adminDb: Firestore = {
     collection: (path: string) => {
         const app = getFirebaseAdmin();
-        return getFirestore(app).collection(path);
+        return admin.firestore(app).collection(path);
     },
 } as Firestore;
