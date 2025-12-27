@@ -5,21 +5,31 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { containerReveal, itemReveal } from '@/lib/animations';
-import { Trash2, Palette, Languages } from 'lucide-react';
+import { Trash2, Palette, Languages, LogOut } from 'lucide-react';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { ThemeSelector } from '@/components/settings/ThemeSelector';
 import { LanguageSelector } from '@/components/settings/LanguageSelector';
 import { Heading } from '@/components/ui/Heading';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { useRouter } from '@/i18n/routing';
 
 export default function SettingsPage() {
   const t = useTranslations('settings');
+  const tAuth = useTranslations('auth');
+  const { signOut } = useAuth();
+  const router = useRouter();
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const handleConfirmReset = () => {
     localStorage.clear();
     toast.success(t('dataReset'));
     window.location.reload();
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
   };
 
   return (
@@ -51,18 +61,34 @@ export default function SettingsPage() {
 
       <motion.div
         variants={itemReveal}
-        className="pt-10 border-t-2 border-dashed border-zinc-100 dark:border-zinc-800"
+        className="pt-10 border-t-2 border-dashed border-zinc-100 dark:border-zinc-800 space-y-6"
       >
-        <Heading level={2} icon={Trash2} subtitle="" className="text-playful-red mb-4 ml-1">
-          {t('dangerZone')}
-        </Heading>
-        <Button
-          variant="destructive"
-          onClick={() => setShowResetConfirm(true)}
-          className="w-full h-14 rounded-3xl border-b-4 font-black"
-        >
-          {t('resetData')}
-        </Button>
+        <div className="space-y-4">
+          <Heading level={2} icon={LogOut} subtitle="" className="text-zinc-500 ml-1">
+            {tAuth('signOut')}
+          </Heading>
+          <Button
+            variant="outline"
+            onClick={handleSignOut}
+            className="w-full h-14 rounded-3xl border-2 font-black gap-2"
+          >
+            <LogOut size={20} />
+            {tAuth('signOut')}
+          </Button>
+        </div>
+
+        <div className="space-y-4">
+          <Heading level={2} icon={Trash2} subtitle="" className="text-playful-red mb-4 ml-1">
+            {t('dangerZone')}
+          </Heading>
+          <Button
+            variant="destructive"
+            onClick={() => setShowResetConfirm(true)}
+            className="w-full h-14 rounded-3xl border-b-4 font-black"
+          >
+            {t('resetData')}
+          </Button>
+        </div>
       </motion.div>
 
       <ConfirmDialog

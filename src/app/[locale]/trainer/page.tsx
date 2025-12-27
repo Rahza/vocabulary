@@ -9,10 +9,11 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { smartShuffle } from '@/lib/shuffle';
 import { getLevenshteinDistance } from '@/lib/string';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PartyPopper, CalendarClock } from 'lucide-react';
+import { PartyPopper, CalendarClock, RefreshCcw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
 import { LanguageDirection, DIRECTION_FORWARD } from '@/constants/languages';
+import { Button } from '@/components/ui/Button';
 
 interface ReviewItem {
   vocab: VocabularyPair;
@@ -26,6 +27,7 @@ export default function TrainerPage() {
   const [initialCount, setInitialCount] = useState(0);
   const [currentItem, setCurrentItem] = useState<ReviewItem | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<'correct' | 'incorrect' | 'typo' | null>(null);
   const [sessionCount, setSessionCount] = useState(0);
 
@@ -34,22 +36,30 @@ export default function TrainerPage() {
 
   const loadDueItems = useCallback(async () => {
     setLoading(true);
-    const due = await repository.getDueReviews(new Date());
+    setError(null);
+    try {
+      const due = await repository.getDueReviews(new Date());
+      console.log(`Found ${due.length} due items`);
 
-    const items: ReviewItem[] = due.map((d) => ({
-      vocab: d.vocab,
-      direction: d.direction,
-    }));
+      const items: ReviewItem[] = due.map((d) => ({
+        vocab: d.vocab,
+        direction: d.direction,
+      }));
 
-    const shuffled = smartShuffle(items, (item) => item.vocab.id);
+      const shuffled = smartShuffle(items, (item) => item.vocab.id);
 
-    setQueue(shuffled);
-    setInitialCount(shuffled.length);
-    if (shuffled.length > 0) {
-      setCurrentItem(shuffled[0]);
+      setQueue(shuffled);
+      setInitialCount(shuffled.length);
+      if (shuffled.length > 0) {
+        setCurrentItem(shuffled[0]);
+      }
+    } catch (error) {
+      console.error('Failed to load due items:', error);
+      setError(t('errorLoading'));
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  }, [repository]);
+  }, [repository, t]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -132,6 +142,24 @@ export default function TrainerPage() {
     return (
       <div className="p-12 text-center font-black uppercase tracking-widest text-zinc-400 animate-pulse">
         {t('loading')}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-12 text-center space-y-6">
+        <div className="w-20 h-20 bg-playful-red/10 rounded-[32px] flex items-center justify-center text-playful-red mx-auto mb-6">
+          <CalendarClock size={40} strokeWidth={1.5} />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-black">{error}</h2>
+          <p className="text-zinc-500 font-bold">{t('errorLoadingDesc')}</p>
+        </div>
+        <Button onClick={loadDueItems} variant="playful" className="h-14 px-8 rounded-3xl border-b-4 font-black gap-2">
+          <RefreshCcw size={20} />
+          {t('retry')}
+        </Button>
       </div>
     );
   }

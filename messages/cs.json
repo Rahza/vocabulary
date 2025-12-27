@@ -169,7 +169,10 @@
     "checkAnswer": "Zkontrolovat odpověď",
     "gotItNext": "Rozumím, další! →",
     "hint": "Nápověda",
-    "skip": "Přeskočit"
+    "skip": "Přeskočit",
+    "errorLoading": "Nepodařilo se načíst slova",
+    "errorLoadingDesc": "Při připojování k databázi došlo k chybě. Zkontrolujte prosím připojení nebo to zkuste znovu.",
+    "retry": "Zkusit znovu"
   },
   "practice": {
     "title": "Procvičování",
@@ -228,7 +231,7 @@
       "themeLabel": "Co se chceš naučit?",
       "themePlaceholder": "např. Cestování, Restaurace, Obchod...",
       "difficultyLabel": "Obtížnost",
-      "countLabel": "Počet slov",
+      "countLabel": "Kolik",
       "submit": "Vyčarovat",
       "loading": "Čaruji...",
       "difficulties": {

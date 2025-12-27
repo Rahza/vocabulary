@@ -169,7 +169,10 @@
     "checkAnswer": "Check Answer",
     "gotItNext": "Got it, next! →",
     "hint": "Hint",
-    "skip": "Skip"
+    "skip": "Skip",
+    "errorLoading": "Failed to load words",
+    "errorLoadingDesc": "There was an error connecting to the database. Please check your connection or retry.",
+    "retry": "Retry"
   },
   "practice": {
     "title": "Practice",
@@ -228,7 +231,7 @@
       "themeLabel": "What do you want to learn?",
       "themePlaceholder": "e.g. Travel, Restaurant, Business...",
       "difficultyLabel": "Difficulty",
-      "countLabel": "Number of words",
+      "countLabel": "How many",
       "submit": "Generate Magic",
       "loading": "Creating Magic...",
       "difficulties": {

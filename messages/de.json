@@ -110,7 +110,7 @@
     "createdAt": "Erstellt am",
     "mnemonic": "Eselsbrücke",
     "regenerate": "Neu generieren",
-    "resetProgress": "Reset progress",
+    "resetProgress": "Fortschritt zurücksetzen",
     "resetProgressDesc": "Das Wort wird wieder in Box 1 verschoben.",
     "deleteWord": "Löschen",
     "deleteWordDesc": "Bist du sicher? \"{word}\" wird gelöscht.",
@@ -169,7 +169,10 @@
     "checkAnswer": "Prüfen",
     "gotItNext": "Verstanden, weiter! →",
     "hint": "Tipp",
-    "skip": "Skip"
+    "skip": "Überspringen",
+    "errorLoading": "Fehler beim Laden",
+    "errorLoadingDesc": "Es gab ein Problem beim Verbinden mit der Datenbank. Bitte prüfe deine Verbindung oder versuche es erneut.",
+    "retry": "Nochmal"
   },
   "practice": {
     "title": "Üben",
@@ -228,7 +231,7 @@
       "themeLabel": "Was möchtest du lernen?",
       "themePlaceholder": "z.B. Reisen, Restaurant, Business...",
       "difficultyLabel": "Schwierigkeit",
-      "countLabel": "Anzahl der Wörter",
+      "countLabel": "Wie viele",
       "submit": "Magie wirken",
       "loading": "Erzeuge Magie...",
       "difficulties": {

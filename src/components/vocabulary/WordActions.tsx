@@ -72,7 +72,7 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
               ? 'bg-playful-indigo text-white shadow-lg'
               : 'text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
           )}
-          title={t('edit')}
+          title={commonT('edit')}
         >
           <Tag size={18} />
         </button>
@@ -126,7 +126,7 @@ export function WordActions({ item, onRefresh }: WordActionsProps) {
         <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-zinc-900 border-2 border-zinc-100 dark:border-zinc-800 rounded-3xl shadow-2xl z-10 p-4 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="flex justify-between items-center mb-3">
             <h4 className="text-xs font-black uppercase tracking-widest text-zinc-400">
-              {t('edit')}
+              {commonT('edit')}
             </h4>
             <button
               onClick={() => setIsEditingTags(false)}

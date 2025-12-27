@@ -64,10 +64,13 @@ export const getFirebaseAuth = (): Auth | null => {
         const appInstance = getApp();
         if (appInstance) {
             authInstance = getAuth(appInstance);
+            // Ensure dbInstance is initialized for emulator connection
+            if (!dbInstance) {
+                dbInstance = getFirestore(appInstance);
+            }
             // Connect to emulators if configured
             if (useEmulators && !emulatorsConnected) {
-                const db = getFirestore(appInstance);
-                connectEmulators(authInstance, db);
+                connectEmulators(authInstance, dbInstance);
             }
         }
     }
@@ -79,7 +82,7 @@ export const getFirebaseDb = (): Firestore | null => {
         const appInstance = getApp();
         if (appInstance) {
             dbInstance = getFirestore(appInstance);
-            // Connect to emulators if configured
+            // If auth is already initialized, connect emulators
             if (useEmulators && !emulatorsConnected && authInstance) {
                 connectEmulators(authInstance, dbInstance);
             }
