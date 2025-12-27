@@ -96,28 +96,36 @@ export const POST = async (request: NextRequest) => {
         // Initialize OpenAI client
         const openai = new OpenAI({ apiKey: openaiApiKey });
 
-        const systemPrompt = `You are a language learning assistant that generates vocabulary pairs for ${sourceLanguage} to ${targetLanguage} learners.
-Generate exactly ${count} unique vocabulary pairs related to the theme "${theme}" at difficulty level "${difficulty}".
+        // Request more words to account for potential duplicates being filtered out
+        const requestCount = Math.ceil(count * 1.5);
 
-For each word, provide:
-1. source: The word in ${sourceLanguage}
-2. target: The translation in ${targetLanguage}
-3. mnemonic: A creative memory aid that helps remember the translation (in ${sourceLanguage})
-4. tags: An array with the theme as the first tag
-5. difficulty: "${difficulty}"
+        const prompt = `
+Generate ${requestCount} ${sourceLanguage}-${targetLanguage} vocabulary pairs related to the theme "${theme}".
+Difficulty level: ${difficulty}.
+For each pair, provide a helpful mnemonic (memory aid) in ${sourceLanguage} to remember the ${targetLanguage} word given the ${sourceLanguage} word.
+Also assign relevant tags in ${sourceLanguage} to each pair (including a generic description of the theme itself).
+IMPORTANT: Tags MUST be generic categories (e.g. "Zahlen", "Farben", "Natur") and NOT word-specific or literal.
+${existingTerms.length > 0 ? `Do NOT include any of these existing terms: ${existingTerms.join(', ')}` : ''}
 
-IMPORTANT: 
-- Do NOT include any of these existing terms: ${existingTerms.join(', ') || 'none'}
-- Generate ONLY new, unique vocabulary pairs
-- Return valid JSON array only, no markdown formatting`;
-
-        const userPrompt = `Generate ${count} ${difficulty} level vocabulary pairs for the theme "${theme}" in ${sourceLanguage} to ${targetLanguage}.`;
+Return ONLY a JSON object with the following structure:
+{
+  "pairs": [
+    {
+      "source": "word in ${sourceLanguage}",
+      "target": "word in ${targetLanguage}",
+      "mnemonic": "memory aid in ${sourceLanguage}",
+      "tags": ["${theme}", "other relevant tags"],
+      "difficulty": "${difficulty}"
+    }
+  ]
+}
+`;
 
         const completion = await openai.chat.completions.create({
             model: 'gpt-5.2',
             messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: userPrompt },
+                { role: 'system', content: 'You are a helpful language tutor.' },
+                { role: 'user', content: prompt },
             ],
             temperature: 0.8,
             response_format: { type: 'json_object' },
@@ -129,29 +137,37 @@ IMPORTANT:
         }
 
         // Parse the response
-        const parsed = JSON.parse(content);
-        const vocabulary: GeneratedVocabulary[] = parsed.vocabulary || parsed.words || parsed;
+        let pairs: GeneratedVocabulary[];
+        try {
+            const parsed = JSON.parse(content);
+            pairs = parsed.pairs || parsed.vocabulary || parsed.words || [];
+        } catch {
+            console.error('Failed to parse AI response:', content);
+            return NextResponse.json({ error: 'Failed to parse AI response' }, { status: 500 });
+        }
 
-        // Validate and normalize the response
-        const normalizedVocab = (Array.isArray(vocabulary) ? vocabulary : [vocabulary]).map(
-            (item) => ({
-                source: item.source || '',
-                target: item.target || '',
-                mnemonic: item.mnemonic || '',
-                tags: Array.isArray(item.tags) ? item.tags : [theme],
-                difficulty: item.difficulty || difficulty,
-            })
-        );
+        // Ensure we have an array
+        if (!Array.isArray(pairs)) {
+            pairs = [pairs];
+        }
 
-        // Filter out any items matching existing terms
-        const filteredVocab = normalizedVocab.filter(
-            (item) =>
-                item.source &&
-                item.target &&
-                !existingTerms.some((term) => term.toLowerCase() === item.source.toLowerCase())
-        );
+        // Filter out duplicates from existing terms
+        if (existingTerms.length > 0) {
+            pairs = pairs.filter(
+                (p) => !existingTerms.some((existing) => existing.toLowerCase() === p.source.toLowerCase())
+            );
+        }
 
-        return NextResponse.json({ vocabulary: filteredVocab }, { status: 200 });
+        // Trim to requested count and normalize
+        const vocabulary = pairs.slice(0, count).map((item) => ({
+            source: item.source || '',
+            target: item.target || '',
+            mnemonic: item.mnemonic || '',
+            tags: Array.isArray(item.tags) ? item.tags : [theme],
+            difficulty: item.difficulty || difficulty,
+        }));
+
+        return NextResponse.json({ vocabulary }, { status: 200 });
     } catch (error: unknown) {
         console.error('Generate API error:', error);
         const errMessage = error instanceof Error ? error.message : 'Unknown error';
